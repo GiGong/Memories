@@ -4,6 +4,10 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:Memories">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/ProgramProperty.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
