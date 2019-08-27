@@ -83,6 +83,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BookPage.cs" />
     <Compile Include="Views\BookPageView.xaml.cs">
       <DependentUpon>BookPageView.xaml</DependentUpon>
     </Compile>
@@ -164,7 +166,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
