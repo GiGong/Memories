@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Memories.Enums;
+using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -11,6 +12,7 @@ namespace Memories.ViewModels
         private string _bookTitle;
         private string _writer;
         private string _filePath;
+        private PaperSize _selectedPaperSize;
 
         private DelegateCommand _selectFilePathCommand;
 
@@ -28,6 +30,12 @@ namespace Memories.ViewModels
         {
             get { return _writer; }
             set { SetProperty(ref _writer, value); }
+        }
+
+        public PaperSize SelectedPaperSize
+        {
+            get { return _selectedPaperSize; }
+            set { SetProperty(ref _selectedPaperSize, value); }
         }
 
         public string FilePath
