@@ -83,6 +83,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Enums\PaperSize.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookPage.cs" />
