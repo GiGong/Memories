@@ -3,10 +3,34 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Memories.Views"
+        xmlns:view="clr-namespace:Memories.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:converters="clr-namespace:Memories.Converters"
         mc:Ignorable="d"
-        Title="NewBookWindow" Height="450" Width="800">
+        prism:ViewModelLocator.AutoWireViewModel="True"
+        Title="{StaticResource Program_Name}" Height="500" Width="700"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:IntToVisibilityConverter x:Key="intToVisibilityConverter"/>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Grid.Row="0" Fill="WhiteSmoke"/>
+        <Label Content="{Binding Title}" Margin="50,30,300,30" VerticalContentAlignment="Center"/>
+
+        <Grid Margin="50,50,50,75" Grid.Row="1">
+            <view:InputBookInfoView Visibility="{Binding Path=InfoPage,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToVisibilityConverter}, ConverterParameter=1}"/>
+            <ListView ItemsSource="{Binding Layouts}" Visibility="{Binding Path=InfoPage,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToVisibilityConverter}, ConverterParameter=2}"/>
+        </Grid>
+
+        <Grid Margin="0,0,50,25" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="20" VerticalAlignment="Bottom">
+            <Button Content="이전" Command="{Binding PreviousCommand}" HorizontalAlignment="Left"  Width="75"/>
+            <Button Content="다음" Command="{Binding NextCommand}" HorizontalAlignment="Left" Margin="90,0,0,0" Width="75"/>
+            <Button Content="취소" Command="{Binding CancelCommand}" HorizontalAlignment="Right" Margin="0,0,90,0" Width="75"/>
+            <Button Content="확인" Command="{Binding CheckCommand}" HorizontalAlignment="Right" Width="75"/>
+        </Grid>
     </Grid>
 </Window>
