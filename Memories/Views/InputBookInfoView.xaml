@@ -39,14 +39,7 @@
         <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding Writer, Mode=TwoWay}"/>
 
         <Label Content="책 크기" Grid.Row="4"/>
-        <ComboBox Grid.Column="2" Grid.Row="4" SelectedIndex="0" SelectedItem="{Binding SelectedPaperSize, Mode=OneTime}">
-            <ComboBox.ItemsSource>
-                <CompositeCollection>
-                    <ComboBoxItem Visibility="Collapsed">선택해주세요.</ComboBoxItem>
-                    <CollectionContainer Collection="{Binding Source={StaticResource dataFromPaperSize}}" />
-                </CompositeCollection>
-            </ComboBox.ItemsSource>
-        </ComboBox>
+        <ComboBox Grid.Column="2" Grid.Row="4" ItemsSource="{Binding Source={StaticResource dataFromPaperSize}}" SelectedItem="{Binding SelectedPaperSize}"/>
 
         <Label Content="파일 경로" Grid.Row="6"/>
         <Grid Grid.Column="2" Grid.Row="6">
