@@ -91,6 +91,7 @@
     <Compile Include="ViewModels\BookViewVM.cs" />
     <Compile Include="ViewModels\EditBookWindowVM.cs" />
     <Compile Include="ViewModels\InputBookInfoViewVM.cs" />
+    <Compile Include="ViewModels\LayoutSelectViewVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
     <Compile Include="ViewModels\NewBookWindowVM.cs" />
     <Compile Include="Views\BookPageView.xaml.cs">
@@ -104,6 +105,9 @@
     </Compile>
     <Compile Include="Views\InputBookInfoView.xaml.cs">
       <DependentUpon>InputBookInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LayoutSelectView.xaml.cs">
+      <DependentUpon>LayoutSelectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\NewBookWindow.xaml.cs">
       <DependentUpon>NewBookWindow.xaml</DependentUpon>
@@ -125,6 +129,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\InputBookInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LayoutSelectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
