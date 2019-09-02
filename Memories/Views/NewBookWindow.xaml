@@ -8,6 +8,7 @@
         xmlns:converters="clr-namespace:Memories.Converters"
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
+        Name="thisWindow"
         Title="{StaticResource Program_Name}" Height="500" Width="700"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -29,7 +30,7 @@
         <Grid Margin="0,0,50,25" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="20" VerticalAlignment="Bottom">
             <Button Content="이전" Command="{Binding PreviousCommand}" HorizontalAlignment="Left"  Width="75"/>
             <Button Content="다음" Command="{Binding NextCommand}" HorizontalAlignment="Left" Margin="90,0,0,0" Width="75"/>
-            <Button Content="취소" Command="{Binding CancelCommand}" HorizontalAlignment="Right" Margin="0,0,90,0" Width="75"/>
+            <Button Content="취소" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=thisWindow}" HorizontalAlignment="Right" Margin="0,0,90,0" Width="75"/>
             <Button Content="확인" Command="{Binding CheckCommand}" HorizontalAlignment="Right" Width="75"/>
         </Grid>
     </Grid>
