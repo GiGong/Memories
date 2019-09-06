@@ -3,10 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Memories.Views"
+        xmlns:view="clr-namespace:Memories.Views"
+        xmlns:prism="http://prismlibrary.com/"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         mc:Ignorable="d"
         Title="EditBookWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/> <!-- Row for Menu-->
+            <RowDefinition Height="50"/> <!-- Row for Simple Menu Icon-->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         
+        <Menu Grid.Row="0"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button Content="Open" Command="{Binding OpenCommand}"/>
+            <Button Content="Save" Command="{Binding SaveCommand}"/>
+            <Button Content="SaveAs" Command="{Binding SaveAsCommand}"/>
+        </StackPanel>
+        
+        
+        <view:BookView Grid.Row="2" Margin="50"/>
     </Grid>
 </Window>
