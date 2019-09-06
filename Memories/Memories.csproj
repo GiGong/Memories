@@ -83,8 +83,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Converters\IntToVisibilityConverter.cs" />
     <Compile Include="Enums\PaperSize.cs" />
+    <Compile Include="Extensions\EnumBindingSourceExtension.cs" />
     <Compile Include="Models\Book.cs" />
     <Compile Include="Models\BookPage.cs" />
     <Compile Include="ViewModels\BookPageViewVM.cs" />
