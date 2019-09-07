@@ -11,9 +11,6 @@
         Name="thisWindow"
         Title="{StaticResource Program_Name}" Height="500" Width="700"
         ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <converters:IntToVisibilityConverter x:Key="intToVisibilityConverter"/>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
@@ -23,8 +20,8 @@
         <Label Content="{Binding Title}" Margin="50,30,300,30" VerticalContentAlignment="Center"/>
 
         <Grid Margin="50,50,50,75" Grid.Row="1">
-            <view:InputBookInfoView Visibility="{Binding Path=InfoPage,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToVisibilityConverter}, ConverterParameter=1}"/>
-            <view:LayoutSelectView Visibility="{Binding Path=InfoPage,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource intToVisibilityConverter}, ConverterParameter=2}"/>
+            <view:InputBookInfoView/>
+            <view:LayoutSelectView Visibility="Hidden"/>
         </Grid>
 
         <Grid Margin="0,0,50,25" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="20" VerticalAlignment="Bottom">
