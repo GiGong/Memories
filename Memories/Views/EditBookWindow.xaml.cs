@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,12 @@ namespace Memories.Views
     /// </summary>
     public partial class EditBookWindow : Window
     {
-        public EditBookWindow()
+        public EditBookWindow(IRegionManager regionManager)
         {
             InitializeComponent();
+
+            regionManager.RegisterViewWithRegion("BookLeftRegion", typeof(BookPageView));
+            regionManager.RegisterViewWithRegion("BookRightRegion", typeof(BookPageView));
         }
     }
 }
