@@ -116,8 +116,8 @@
     <Compile Include="Views\BookView.xaml.cs">
       <DependentUpon>BookView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EditBookWindow.xaml.cs">
-      <DependentUpon>EditBookWindow.xaml</DependentUpon>
+    <Compile Include="Views\EditBookView.xaml.cs">
+      <DependentUpon>EditBookView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\InputBookInfoView.xaml.cs">
       <DependentUpon>InputBookInfoView.xaml</DependentUpon>
@@ -144,7 +144,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EditBookWindow.xaml">
+    <Page Include="Views\EditBookView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
