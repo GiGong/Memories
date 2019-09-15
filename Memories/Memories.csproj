@@ -106,7 +106,7 @@
     <Compile Include="Models\BookPage.cs" />
     <Compile Include="ViewModels\BookPageViewVM.cs" />
     <Compile Include="ViewModels\BookViewVM.cs" />
-    <Compile Include="ViewModels\EditBookWindowVM.cs" />
+    <Compile Include="ViewModels\EditBookViewVM.cs" />
     <Compile Include="ViewModels\InputBookInfoViewVM.cs" />
     <Compile Include="ViewModels\LayoutSelectViewVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
