@@ -99,6 +99,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="Core\DialogViewModelBase.cs" />
     <Compile Include="Enums\PaperSize.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />
     <Compile Include="Models\Book.cs" />
