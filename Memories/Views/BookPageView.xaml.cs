@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Memories.Models;
+using Memories.ViewModels;
+using Prism.Common;
+using Prism.Regions;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Memories.Views
 {
@@ -23,6 +14,14 @@ namespace Memories.Views
         public BookPageView()
         {
             InitializeComponent();
+            RegionContext.GetObservableContext(this).PropertyChanged += BookPageView_PropertyChanged;
+        }
+
+        private void BookPageView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var context = (ObservableObject<object>)sender;
+            var nowPage = (BookPage)context.Value;
+            (DataContext as BookPageViewVM).NowPage = nowPage;
         }
     }
 }
