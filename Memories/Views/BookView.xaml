@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="Memories.Views.BookView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:view="clr-namespace:Memories.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
@@ -14,8 +13,8 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <view:BookPageView Grid.Column="0" DataContext="{Binding LeftPage}"/>
-        <view:BookPageView Grid.Column="1" DataContext="{Binding RightPage}"/>
+        <ContentControl Grid.Column="0" prism:RegionManager.RegionName="BookLeftRegion" prism:RegionManager.RegionContext="{Binding LeftPage}"/>
+        <ContentControl Grid.Column="1" prism:RegionManager.RegionName="BookRightRegion" prism:RegionManager.RegionContext="{Binding RightPage}"/>
 
         <Grid Width="150" Height="25" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12">
             <Button Content="←" Command="{Binding PageBackCommand}" Width="25" HorizontalAlignment="Left"/>
