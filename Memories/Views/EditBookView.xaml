@@ -3,8 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:view="clr-namespace:Memories.Views"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="450" Width="800">
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            
+        </Style>
+    </prism:Dialog.WindowStyle>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/> <!-- Row for Menu-->
@@ -20,6 +24,6 @@
         </StackPanel>
         
         
-        <view:BookView Grid.Row="2" Margin="50"/>
+        <ContentControl Grid.Row="2" Margin="50" prism:RegionManager.RegionName="BookRegion"/>
     </Grid>
 </UserControl>

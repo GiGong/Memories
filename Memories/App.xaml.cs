@@ -1,4 +1,5 @@
-﻿using Memories.Views;
+﻿using Memories.ViewModels;
+using Memories.Views;
 using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Unity;
@@ -20,7 +21,7 @@ namespace Memories
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterDialog<EditBookView, EditBookViewVM>();
         }
 
         /// <summary>
