@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="Memories.Modules.NewBook.Views.NewBookView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:core="clr-namespace:Memories.Core;assembly=Memories.Core"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Height="500" Width="700">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Grid.Row="0" Fill="WhiteSmoke"/>
+        <Label Content="{Binding Title}" Margin="50,30,300,30" VerticalContentAlignment="Center"/>
+
+        <ContentControl Margin="50,50,50,75" Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.MakeBookRegion}"/>
+
+        <Grid Margin="0,0,50,25" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="20" VerticalAlignment="Bottom">
+            <Button Content="이전" Command="{Binding PreviousCommand}" HorizontalAlignment="Left"  Width="75"/>
+            <Button Content="다음" Command="{Binding NextCommand}" HorizontalAlignment="Left" Margin="90,0,0,0" Width="75"/>
+            <Button Content="취소" Command="{Binding CancelCommand}" HorizontalAlignment="Right" Margin="0,0,90,0" Width="75"/>
+            <Button Content="확인" Command="{Binding CheckCommand}" HorizontalAlignment="Right" Width="75"/>
+        </Grid>
+    </Grid>
+</UserControl>

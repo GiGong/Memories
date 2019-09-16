@@ -98,62 +98,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
-    <Compile Include="Core\DialogViewModelBase.cs" />
-    <Compile Include="Enums\PaperSize.cs" />
-    <Compile Include="Extensions\EnumBindingSourceExtension.cs" />
-    <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\BookPage.cs" />
-    <Compile Include="ViewModels\BookPageViewVM.cs" />
-    <Compile Include="ViewModels\BookViewVM.cs" />
-    <Compile Include="ViewModels\EditBookViewVM.cs" />
-    <Compile Include="ViewModels\InputBookInfoViewVM.cs" />
-    <Compile Include="ViewModels\LayoutSelectViewVM.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
-    <Compile Include="ViewModels\NewBookWindowVM.cs" />
-    <Compile Include="Views\BookPageView.xaml.cs">
-      <DependentUpon>BookPageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BookView.xaml.cs">
-      <DependentUpon>BookView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditBookView.xaml.cs">
-      <DependentUpon>EditBookView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\InputBookInfoView.xaml.cs">
-      <DependentUpon>InputBookInfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LayoutSelectView.xaml.cs">
-      <DependentUpon>LayoutSelectView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\NewBookWindow.xaml.cs">
-      <DependentUpon>NewBookWindow.xaml</DependentUpon>
+    <Compile Include="ViewModels\StartViewVM.cs" />
+    <Compile Include="Views\StartView.xaml.cs">
+      <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
     <Page Include="Resources\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\ProgramProperty.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BookPageView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BookView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EditBookView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\InputBookInfoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LayoutSelectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -169,7 +123,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\NewBookWindow.xaml">
+    <Page Include="Views\StartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,9 +156,21 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Interfaces\" />
     <Folder Include="Resources\Theme\" />
-    <Folder Include="Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Memories.Core\Memories.Core.csproj">
+      <Project>{33D87DDF-93CE-4FE9-A6FA-963477183DFA}</Project>
+      <Name>Memories.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Memories.Modules.EditBook\Memories.Modules.EditBook.csproj">
+      <Project>{8b369745-ffd1-4d23-bdfb-5aae62d67e4f}</Project>
+      <Name>Memories.Modules.EditBook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Memories.Modules.NewBook\Memories.Modules.NewBook.csproj">
+      <Project>{1CBC5EF5-E43A-4496-8EDB-A9298C18BBDE}</Project>
+      <Name>Memories.Modules.NewBook</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

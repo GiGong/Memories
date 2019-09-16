@@ -1,17 +1,11 @@
 ﻿<Window x:Class="Memories.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:core="clr-namespace:Memories.Core;assembly=Memories.Core"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="{StaticResource Program_Name}"
         ResizeMode="NoResize"
         Height="450" Width="800">
-    <Grid>
-        <!-- recent list -->
-        <ListView HorizontalAlignment="Left" Width="250"/>
-
-        <Image Margin="500,100,0,0" HorizontalAlignment="Left" Width="100" Height="100" VerticalAlignment="Top"/>
-        <Button Content="새 책 만들기" Command="{Binding NewBookCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,255,0,0"/>
-        <Button Content="책 불러오기" Command="{Binding LoadBookCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,290,0,0"/>
-    </Grid>
+    <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 </Window>

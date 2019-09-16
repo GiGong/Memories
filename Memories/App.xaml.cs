@@ -1,6 +1,9 @@
-﻿using Memories.ViewModels;
+﻿using Memories.Modules.EditBook;
+using Memories.Modules.NewBook;
+using Memories.ViewModels;
 using Memories.Views;
 using Prism.Ioc;
+using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using System;
@@ -21,7 +24,13 @@ namespace Memories
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterDialog<EditBookView, EditBookViewVM>();
+
+        }
+
+        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+        {
+            moduleCatalog.AddModule<NewBookModule>();
+            moduleCatalog.AddModule<EditBookModule>();
         }
 
         /// <summary>
