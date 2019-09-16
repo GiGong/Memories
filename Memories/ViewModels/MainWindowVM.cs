@@ -1,5 +1,6 @@
 ﻿using Memories.Views;
 using Prism.Commands;
+using Prism.Services.Dialogs;
 
 namespace Memories.ViewModels
 {
@@ -9,6 +10,8 @@ namespace Memories.ViewModels
 
         private DelegateCommand _newBookCommand;
         private DelegateCommand _loadBookCommand;
+
+        IDialogService _dialogService;
 
         #endregion
 
@@ -22,16 +25,21 @@ namespace Memories.ViewModels
 
         #endregion Command
 
+        public MainWindowVM(IDialogService dialogService)
+        {
+            _dialogService = dialogService;
+        }
+
         #region Method
 
         private void NewBook()
         {
-            new NewBookWindow().Show();
+
         }
 
         void LoadBook()
         {
-
+            _dialogService.Show("EditBookView", null, null);
         }
 
         #endregion Method
