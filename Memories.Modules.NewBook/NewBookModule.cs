@@ -18,7 +18,7 @@ namespace Memories.Modules.NewBook
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.MakeBookRegion, typeof(InputBookInfoView));
+            _regionManager.RegisterViewWithRegion(RegionNames.NewBookRegion, typeof(InputBookInfoView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

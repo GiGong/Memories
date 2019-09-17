@@ -20,7 +20,7 @@
         <Rectangle Grid.Row="0" Fill="WhiteSmoke"/>
         <Label Content="{Binding Title}" Margin="50,30,300,30" VerticalContentAlignment="Center"/>
 
-        <ContentControl Margin="50,50,50,75" Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.MakeBookRegion}"/>
+        <ContentControl Margin="50,50,50,75" Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.NewBookRegion}"/>
 
         <Grid Margin="0,0,50,25" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="20" VerticalAlignment="Bottom">
             <Button Content="이전" Command="{Binding PreviousCommand}" HorizontalAlignment="Left"  Width="75"/>
