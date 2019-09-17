@@ -1,6 +1,6 @@
 ﻿using Memories.Modules.EditBook;
 using Memories.Modules.NewBook;
-using Memories.ViewModels;
+using Memories.Modules.Start;
 using Memories.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -29,6 +29,7 @@ namespace Memories
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
+            moduleCatalog.AddModule<StartModule>();
             moduleCatalog.AddModule<NewBookModule>();
             moduleCatalog.AddModule<EditBookModule>();
         }

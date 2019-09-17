@@ -1,14 +1,9 @@
-﻿using Memories.Core;
-using Memories.Views;
-using Prism.Regions;
-
-namespace Memories.ViewModels
+﻿namespace Memories.ViewModels
 {
     public class MainWindowVM
     {
-        public MainWindowVM(IRegionManager regionManager)
+        public MainWindowVM()
         {
-            regionManager.RegisterViewWithRegion(RegionNames.ContentRegion, typeof(StartView));
         }
     }
 }

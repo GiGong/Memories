@@ -2,7 +2,7 @@
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 
-namespace Memories.ViewModels
+namespace Memories.Modules.Start.ViewModels
 {
     public class StartViewVM : BindableBase
     {

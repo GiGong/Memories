@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 
-namespace Memories.Views
+namespace Memories.Modules.Start.Views
 {
     /// <summary>
-    /// Interaction logic for PrismUserControl1
+    /// Interaction logic for StartView
     /// </summary>
     public partial class StartView : UserControl
     {

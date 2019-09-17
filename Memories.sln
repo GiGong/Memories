@@ -13,7 +13,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memories.Modules.NewBook", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memories.Modules.EditBook", "Memories.Modules.EditBook\Memories.Modules.EditBook.csproj", "{8B369745-FFD1-4D23-BDFB-5AAE62D67E4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memories.Business", "Memories.Business\Memories.Business.csproj", "{03369DBC-8CF3-42DA-B9FA-64CF57F67C6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memories.Business", "Memories.Business\Memories.Business.csproj", "{03369DBC-8CF3-42DA-B9FA-64CF57F67C6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memories.Modules.Start", "Memories.Modules.Start\Memories.Modules.Start.csproj", "{C094532E-28B2-4A55-807A-701516E28DC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{03369DBC-8CF3-42DA-B9FA-64CF57F67C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03369DBC-8CF3-42DA-B9FA-64CF57F67C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03369DBC-8CF3-42DA-B9FA-64CF57F67C6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C094532E-28B2-4A55-807A-701516E28DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C094532E-28B2-4A55-807A-701516E28DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C094532E-28B2-4A55-807A-701516E28DC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C094532E-28B2-4A55-807A-701516E28DC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1CBC5EF5-E43A-4496-8EDB-A9298C18BBDE} = {7FA1F74A-D23D-466A-AE73-2651846DC68A}
 		{8B369745-FFD1-4D23-BDFB-5AAE62D67E4F} = {7FA1F74A-D23D-466A-AE73-2651846DC68A}
+		{C094532E-28B2-4A55-807A-701516E28DC3} = {7FA1F74A-D23D-466A-AE73-2651846DC68A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03C5D03C-E322-454B-A77B-5EA97AC45CE4}
