@@ -1,11 +1,17 @@
 ﻿using Memories.Core;
 using Prism.Commands;
-using System.Windows;
+using Prism.Mvvm;
+using Prism.Regions;
+using Prism.Services.Dialogs;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Memories.Modules.NewBook.ViewModels
 {
     public class NewBookViewVM : DialogViewModelBase
     {
+        internal const int NUM_OF_VIEWS = 2;
+
         #region Field
 
         private DelegateCommand _previousCommand;
@@ -17,16 +23,27 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Property
 
-
+        /// <summary>
+        /// Region Manager for New DialogWindow
+        /// if don't use this, then RequestNavigate doesn't activate
+        /// </summary>
+        public IRegionManager RegionManager { get; set; }
+        private NewBookNavigateParameter _parameter;
+        public NewBookNavigateParameter Parameter
+        {
+            get { return _parameter; }
+            set { SetProperty(ref _parameter, value); }
+        }
 
         #endregion Property
 
         #region Command
+
         public DelegateCommand PreviousCommand =>
-            _previousCommand ?? (_previousCommand = new DelegateCommand(Previous, CanPrevious));
+            _previousCommand ?? (_previousCommand = new DelegateCommand(Previous, CanPrevious).ObservesProperty(()=>Parameter.NowPage));
 
         public DelegateCommand NextCommand =>
-            _nextCommand ?? (_nextCommand = new DelegateCommand(Next, CanNext));
+            _nextCommand ?? (_nextCommand = new DelegateCommand(Next, CanNext).ObservesProperty(()=>Parameter.NowPage));
 
         public DelegateCommand CancelCommand =>
             _cancelCommand ?? (_cancelCommand = new DelegateCommand(Cancel));
@@ -38,46 +55,95 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Constructor
 
+        public NewBookViewVM()
+        {
+            Parameter = new NewBookNavigateParameter() { NowPage = 0 };
+            Parameter.IsCompleted.CollectionChanged += IsCompleted_CollectionChanged;
+        }
+
         #endregion Constructor
 
         #region Method
 
-        // Temporarily method for debug
-        void Previous()
+        public override void OnDialogOpened(IDialogParameters parameters)
         {
+            var param = new NavigationParameters();
+            param.Add("Parameter", Parameter);
+            RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView", param);
 
+            // this code load null in navigated viewmodel
+            //RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView", new NavigationParameters($"NowPage={Parameter}"));
         }
 
-        bool CanPrevious()
+        private void IsCompleted_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            return true;
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
+            {
+                CheckCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        void Previous()
+        {
+            RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView");
+        }
+
+        private bool CanPrevious()
+        {
+            return Parameter.NowPage > 0;
         }
 
         void Next()
         {
-
+            RegionManager.RequestNavigate(RegionNames.NewBookRegion, "LayoutSelectView");
         }
 
-        bool CanNext()
+        private bool CanNext()
         {
-            return true;
+            return Parameter.NowPage < NUM_OF_VIEWS - 1;
         }
 
         void Cancel()
         {
-            
+            RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
         }
 
         void Check()
         {
-            // Make Book with Information
+            // TODO Make Book with Information
+
+            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters()));
         }
 
         bool CanCheck()
         {
-            return false;
+            foreach (var item in Parameter.IsCompleted)
+            {
+                if (item == false)
+                {
+                    return false;   
+                }
+            }
+            return true;
         }
 
         #endregion Method
+    }
+
+    public class NewBookNavigateParameter : BindableBase
+    {
+        private int _nowPage;
+        public int NowPage
+        {
+            get { return _nowPage; }
+            set { SetProperty(ref _nowPage, value); }
+        }
+
+        private ObservableCollection<bool> _isCompleted = new ObservableCollection<bool>(Enumerable.Repeat(false, NewBookViewVM.NUM_OF_VIEWS));
+        public ObservableCollection<bool> IsCompleted
+        {
+            get { return _isCompleted; }
+            set { SetProperty(ref _isCompleted, value); }
+        }
     }
 }

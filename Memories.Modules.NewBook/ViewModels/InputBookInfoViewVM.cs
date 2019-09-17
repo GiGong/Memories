@@ -1,12 +1,14 @@
 ﻿using Memories.Core.Enums;
 using Microsoft.Win32;
 using Prism.Commands;
-using Prism.Mvvm;
+using Prism.Regions;
 
 namespace Memories.Modules.NewBook.ViewModels
 {
-    public class InputBookInfoViewVM : BindableBase
+    public class InputBookInfoViewVM : NewBookViewModelBase
     {
+        public const int VIEW_INDEX = 0;
+
         #region Field
 
         private string _bookTitle;
@@ -15,12 +17,13 @@ namespace Memories.Modules.NewBook.ViewModels
         private PaperSize _selectedPaperSize;
 
         private DelegateCommand _selectFilePathCommand;
+        private NewBookNavigateParameter _naviParam;
 
         #endregion Field
 
         #region Property
 
-        public string Booktitle
+        public string BookTitle
         {
             get { return _bookTitle; }
             set { SetProperty(ref _bookTitle, value); }
@@ -53,6 +56,15 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #endregion Command
 
+        #region Constructor
+
+        public InputBookInfoViewVM()
+        {
+            PropertyChanged += InputBookInfo_PropertyChanged;
+        }
+
+        #endregion Constructor
+
         #region Method
 
         private void SelectFilePath()
@@ -63,6 +75,42 @@ namespace Memories.Modules.NewBook.ViewModels
             {
                 FilePath = saveFileDialog.FileName;
             }
+        }
+
+        private void InputBookInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedPaperSize")
+            {
+                _naviParam.IsCompleted[LayoutSelectViewVM.VIEW_INDEX] = false;
+            }
+
+            if (AllCompleted())
+            {
+                _naviParam.IsCompleted[VIEW_INDEX] = true;
+            }
+            else
+            {
+                _naviParam.IsCompleted[VIEW_INDEX] = false;
+            }
+        }
+
+        private bool AllCompleted()
+        {
+            return !(string.IsNullOrWhiteSpace(BookTitle)
+                || string.IsNullOrWhiteSpace(Writer)
+                || string.IsNullOrWhiteSpace(FilePath));
+        }
+
+        public override void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            navigationContext.Parameters.Add("PaperSize", SelectedPaperSize);
+            navigationContext.Parameters.Add("Parameter", _naviParam);
+        }
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigateParameter;
+            _naviParam.NowPage = VIEW_INDEX;
         }
 
         #endregion Method

@@ -4,6 +4,6 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <ListView ItemsSource="{Binding Layouts}"/>
+        <ListView ItemsSource="{Binding Layouts}" SelectionMode="Single" SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}"/>
     </Grid>
 </UserControl>
