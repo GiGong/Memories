@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:core="clr-namespace:Memories.Core;assembly=Memories.Core"
              xmlns:prism="http://prismlibrary.com/"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Width="800" Height="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -14,14 +15,17 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <ContentControl Grid.Column="0" prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftPageRegion}" prism:RegionManager.RegionContext="{Binding LeftPage}"/>
-        <ContentControl Grid.Column="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.RightPageRegion}" prism:RegionManager.RegionContext="{Binding RightPage}"/>
-
+        <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1">
+        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftPageRegion}" prism:RegionManager.RegionContext="{Binding LeftPage}"/>
+        </Border>
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+        <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.RightPageRegion}" prism:RegionManager.RegionContext="{Binding RightPage}"/>
+        </Border>
         <Grid Width="150" Height="25" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,12">
             <Button Content="←" Command="{Binding PageBackCommand}" Width="25" HorizontalAlignment="Left"/>
-            <TextBlock Text="{Binding NowPage}" Width="25" Margin="45,0,80,0"/>
+            <TextBlock Text="{Binding NowPage, FallbackValue=5}" Width="25" Margin="45,0,80,0"/>
             <TextBlock Text="/" Width="5"/>
-            <TextBlock Text="{Binding TotalPage}" Width="25" Margin="80,0,45,0"/>
+            <TextBlock Text="{Binding TotalPage, FallbackValue=27}" Width="25" Margin="80,0,45,0"/>
             <Button Content="→" Command="{Binding PageForwardCommand}" Width="25" HorizontalAlignment="Right" />
 
         </Grid>
