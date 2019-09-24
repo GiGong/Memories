@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Memories.Core.Converters
+namespace Memories.Business.Converters
 {
     public class EnumDescriptionTypeConverter : EnumConverter
     {

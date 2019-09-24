@@ -1,7 +1,7 @@
 ﻿using Memories.Core.Converters;
 using System.ComponentModel;
 
-namespace Memories.Core.Enums
+namespace Memories.Business.Enums
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum PaperSize

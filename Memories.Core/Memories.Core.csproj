@@ -64,11 +64,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\EnumDescriptionTypeConverter.cs" />
     <Compile Include="DialogViewModelBase.cs" />
-    <Compile Include="Enums\PaperSize.cs" />
-    <Compile Include="Models\Book.cs" />
-    <Compile Include="Models\BookPage.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
