@@ -25,6 +25,6 @@
         </StackPanel>
         
         
-        <ContentControl Grid.Row="2" Margin="50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}"/>
+        <ContentControl Grid.Row="2" Margin="50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
     </Grid>
 </UserControl>
