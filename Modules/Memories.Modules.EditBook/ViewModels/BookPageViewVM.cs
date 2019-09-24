@@ -1,4 +1,4 @@
-﻿using Memories.Core.Models;
+﻿using Memories.Business.Models;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Windows;

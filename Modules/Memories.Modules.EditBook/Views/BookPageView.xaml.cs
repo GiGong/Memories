@@ -1,4 +1,4 @@
-﻿using Memories.Core.Models;
+﻿using Memories.Business.Models;
 using Memories.Modules.EditBook.ViewModels;
 using Prism.Common;
 using Prism.Regions;

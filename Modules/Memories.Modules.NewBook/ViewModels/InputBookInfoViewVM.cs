@@ -1,4 +1,4 @@
-﻿using Memories.Core.Enums;
+﻿using Memories.Business.Enums;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Regions;

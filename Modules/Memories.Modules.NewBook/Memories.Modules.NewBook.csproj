@@ -9,11 +9,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Memories.Modules.NewBook</RootNamespace>
     <AssemblyName>Memories.Modules.NewBook</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -104,7 +105,11 @@
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1367" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Memories.Core\Memories.Core.csproj">
+    <ProjectReference Include="..\..\Memories.Business\Memories.Business.csproj">
+      <Project>{03369dbc-8cf3-42da-b9fa-64cf57f67c6b}</Project>
+      <Name>Memories.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Memories.Core\Memories.Core.csproj">
       <Project>{33d87ddf-93ce-4fe9-a6fa-963477183dfa}</Project>
       <Name>Memories.Core</Name>
     </ProjectReference>

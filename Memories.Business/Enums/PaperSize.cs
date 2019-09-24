@@ -1,4 +1,4 @@
-﻿using Memories.Core.Converters;
+﻿using Memories.Business.Converters;
 using System.ComponentModel;
 
 namespace Memories.Business.Enums

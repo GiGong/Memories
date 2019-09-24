@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ext="clr-namespace:Memories.Core.Extensions;assembly=Memories.Core"
-             xmlns:enums="clr-namespace:Memories.Core.Enums;assembly=Memories.Core"
+             xmlns:enums="clr-namespace:Memories.Business.Enums;assembly=Memories.Business"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.RowDefinitions>
