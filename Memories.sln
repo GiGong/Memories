@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Memories.Business", "Memori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memories.Modules.Start", "Memories.Modules.Start\Memories.Modules.Start.csproj", "{C094532E-28B2-4A55-807A-701516E28DC3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memories.Services", "Memories.Services\Memories.Services.csproj", "{54D70EE3-7075-465F-A5DD-736DC52C2626}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memories.Services.Interfaces", "Memories.Services.Interfaces\Memories.Services.Interfaces.csproj", "{FB763B9E-0A63-4887-847D-7A343C4FCAF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +51,14 @@ Global
 		{C094532E-28B2-4A55-807A-701516E28DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C094532E-28B2-4A55-807A-701516E28DC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C094532E-28B2-4A55-807A-701516E28DC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54D70EE3-7075-465F-A5DD-736DC52C2626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54D70EE3-7075-465F-A5DD-736DC52C2626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54D70EE3-7075-465F-A5DD-736DC52C2626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54D70EE3-7075-465F-A5DD-736DC52C2626}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB763B9E-0A63-4887-847D-7A343C4FCAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB763B9E-0A63-4887-847D-7A343C4FCAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB763B9E-0A63-4887-847D-7A343C4FCAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB763B9E-0A63-4887-847D-7A343C4FCAF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
