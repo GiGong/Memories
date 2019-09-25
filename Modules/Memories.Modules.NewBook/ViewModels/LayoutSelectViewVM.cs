@@ -12,14 +12,14 @@ namespace Memories.Modules.NewBook.ViewModels
 
         private NewBookNavigateParameter _naviParam;
 
-        private ObservableCollection<int> _layouts;
+        private ObservableCollection<object> _layouts;
         private int? _selectedIndex;
 
         #endregion Field
 
         #region Property
 
-        public ObservableCollection<int> Layouts
+        public ObservableCollection<object> Layouts
         {
             get { return _layouts; }
             set { SetProperty(ref _layouts, value); }
@@ -31,7 +31,14 @@ namespace Memories.Modules.NewBook.ViewModels
             set
             {
                 SetProperty(ref _selectedIndex, value);
-                _naviParam.IsCompleted[VIEW_INDEX] = value == null || value == -1 ? false : true;
+                if (value == null || value == -1)
+                {
+                    _naviParam.IsCompleted[VIEW_INDEX] = false;
+                }
+                else
+                {
+                    _naviParam.IsCompleted[VIEW_INDEX] = true;
+                }
             }
         }
 
@@ -53,13 +60,13 @@ namespace Memories.Modules.NewBook.ViewModels
             switch (paperSize)
             {
                 case PaperSize.A3:
-                    Layouts = new ObservableCollection<int>() { 3, 1 };
+                    Layouts = new ObservableCollection<object>() { 3, 1 };
                     break;
                 case PaperSize.A4:
-                    Layouts = new ObservableCollection<int>() { 4 };
+                    Layouts = new ObservableCollection<object>() { 4 };
                     break;
                 default:
-                    Layouts = new ObservableCollection<int>();
+                    Layouts = new ObservableCollection<object>();
                     break;
             }
         } 

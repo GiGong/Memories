@@ -46,6 +46,8 @@ namespace Memories.Business.Models
 
         #region Constructor
 
+        public Book() { }
+
         public Book(string title, string writer, PaperSize paperSize, string path)
         {
             Title = title;

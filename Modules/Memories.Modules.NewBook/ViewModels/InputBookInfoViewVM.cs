@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Enums;
+using Memories.Services.Interfaces;
 using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Regions;
@@ -18,6 +19,8 @@ namespace Memories.Modules.NewBook.ViewModels
 
         private DelegateCommand _selectFilePathCommand;
         private NewBookNavigateParameter _naviParam;
+
+        private readonly IFileService _fileService;
 
         #endregion Field
 
@@ -58,9 +61,10 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Constructor
 
-        public InputBookInfoViewVM()
+        public InputBookInfoViewVM(IFileService fileService)
         {
             PropertyChanged += InputBookInfo_PropertyChanged;
+            _fileService = fileService;
         }
 
         #endregion Constructor
@@ -69,12 +73,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
         private void SelectFilePath()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                FilePath = saveFileDialog.FileName;
-            }
+            FilePath = _fileService.GetSaveFilePath() ?? FilePath;
         }
 
         private void InputBookInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -87,6 +86,11 @@ namespace Memories.Modules.NewBook.ViewModels
             if (AllCompleted())
             {
                 _naviParam.IsCompleted[VIEW_INDEX] = true;
+
+                _naviParam.InputBook.Title = BookTitle;
+                _naviParam.InputBook.Writer = Writer;
+                _naviParam.InputBook.PaperSize = SelectedPaperSize;
+                _naviParam.InputBook.Path = FilePath;
             }
             else
             {

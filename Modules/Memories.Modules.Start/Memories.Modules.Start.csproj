@@ -90,11 +90,5 @@
     </PackageReference>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1367" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Memories.Core\Memories.Core.csproj">
-      <Project>{33D87DDF-93CE-4FE9-A6FA-963477183DFA}</Project>
-      <Name>Memories.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

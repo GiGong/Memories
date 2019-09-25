@@ -34,7 +34,13 @@ namespace Memories.Modules.Start.ViewModels
 
         private void NewBook()
         {
-            _dialogService.ShowDialog("NewBookView", null, null);
+            _dialogService.ShowDialog("NewBookView", null, (result) =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    _dialogService.Show("EditBookView", result.Parameters, null);
+                }
+            });
         }
 
         void LoadBook()

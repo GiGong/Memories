@@ -1,9 +1,9 @@
-﻿using Memories.Core;
-using Memories.Modules.NewBook.ViewModels;
+﻿using Memories.Modules.NewBook.ViewModels;
 using Memories.Modules.NewBook.Views;
+using Memories.Services;
+using Memories.Services.Interfaces;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
 
 namespace Memories.Modules.NewBook
 {
@@ -19,6 +19,9 @@ namespace Memories.Modules.NewBook
             containerRegistry.RegisterDialog<NewBookView, NewBookViewVM>();
             containerRegistry.RegisterForNavigation<InputBookInfoView, InputBookInfoViewVM>();
             containerRegistry.RegisterForNavigation<LayoutSelectView, LayoutSelectViewVM>();
+
+            containerRegistry.RegisterSingleton<IBookService, BookService>();
+            containerRegistry.RegisterSingleton<IFileService, FileService>();
         }
     }
 }

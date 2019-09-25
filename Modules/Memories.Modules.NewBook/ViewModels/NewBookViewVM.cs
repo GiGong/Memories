@@ -1,4 +1,6 @@
-﻿using Memories.Core;
+﻿using Memories.Business.Models;
+using Memories.Core;
+using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -14,10 +16,14 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Field
 
+        private readonly IBookService _bookService;
+
         private DelegateCommand _previousCommand;
         private DelegateCommand _nextCommand;
         private DelegateCommand _cancelCommand;
         private DelegateCommand _checkCommand;
+
+        private NewBookNavigateParameter _parameter;
 
         #endregion Field
 
@@ -28,7 +34,6 @@ namespace Memories.Modules.NewBook.ViewModels
         /// if don't use this, then RequestNavigate doesn't activate
         /// </summary>
         public IRegionManager RegionManager { get; set; }
-        private NewBookNavigateParameter _parameter;
         public NewBookNavigateParameter Parameter
         {
             get { return _parameter; }
@@ -40,10 +45,10 @@ namespace Memories.Modules.NewBook.ViewModels
         #region Command
 
         public DelegateCommand PreviousCommand =>
-            _previousCommand ?? (_previousCommand = new DelegateCommand(Previous, CanPrevious).ObservesProperty(()=>Parameter.NowPage));
+            _previousCommand ?? (_previousCommand = new DelegateCommand(Previous, CanPrevious).ObservesProperty(() => Parameter.NowPage));
 
         public DelegateCommand NextCommand =>
-            _nextCommand ?? (_nextCommand = new DelegateCommand(Next, CanNext).ObservesProperty(()=>Parameter.NowPage));
+            _nextCommand ?? (_nextCommand = new DelegateCommand(Next, CanNext).ObservesProperty(() => Parameter.NowPage));
 
         public DelegateCommand CancelCommand =>
             _cancelCommand ?? (_cancelCommand = new DelegateCommand(Cancel));
@@ -55,9 +60,11 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Constructor
 
-        public NewBookViewVM()
+        public NewBookViewVM(IBookService bookService)
         {
-            Parameter = new NewBookNavigateParameter() { NowPage = 0 };
+            _bookService = bookService;
+
+            Parameter = new NewBookNavigateParameter() { NowPage = 0, InputBook = _bookService.GetEmptyBook() };
             Parameter.IsCompleted.CollectionChanged += IsCompleted_CollectionChanged;
         }
 
@@ -110,9 +117,9 @@ namespace Memories.Modules.NewBook.ViewModels
 
         void Check()
         {
-            // TODO Make Book with Information
-
-            RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters()));
+            var param = new DialogParameters();
+            param.Add("NewBook", Parameter.InputBook);
+            RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }
 
         bool CanCheck()
@@ -121,7 +128,7 @@ namespace Memories.Modules.NewBook.ViewModels
             {
                 if (item == false)
                 {
-                    return false;   
+                    return false;
                 }
             }
             return true;
@@ -138,6 +145,8 @@ namespace Memories.Modules.NewBook.ViewModels
             get { return _nowPage; }
             set { SetProperty(ref _nowPage, value); }
         }
+
+        public Book InputBook { get; set; }
 
         private ObservableCollection<bool> _isCompleted = new ObservableCollection<bool>(Enumerable.Repeat(false, NewBookViewVM.NUM_OF_VIEWS));
         public ObservableCollection<bool> IsCompleted
