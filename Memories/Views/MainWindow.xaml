@@ -4,7 +4,8 @@
         xmlns:core="clr-namespace:Memories.Core;assembly=Memories.Core"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{StaticResource Program_Name}"
+        Title="{Binding Title}"
+        Visibility="{Binding Visibility, Mode=TwoWay}"
         ResizeMode="NoResize"
         Height="450" Width="800">
     <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />

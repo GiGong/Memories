@@ -1,4 +1,5 @@
-﻿using Memories.Modules.EditBook;
+﻿using Memories.Core;
+using Memories.Modules.EditBook;
 using Memories.Modules.NewBook;
 using Memories.Modules.Start;
 using Memories.Views;
@@ -24,7 +25,7 @@ namespace Memories
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-
+            containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

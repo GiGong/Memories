@@ -7,6 +7,7 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace Memories.Modules.NewBook.ViewModels
 {
@@ -62,6 +63,8 @@ namespace Memories.Modules.NewBook.ViewModels
 
         public NewBookViewVM(IBookService bookService)
         {
+            Title = (string)Application.Current.Resources["Program_Name"];
+
             _bookService = bookService;
 
             Parameter = new NewBookNavigateParameter() { NowPage = 0, InputBook = _bookService.GetEmptyBook() };
@@ -78,7 +81,7 @@ namespace Memories.Modules.NewBook.ViewModels
             param.Add("Parameter", Parameter);
             RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView", param);
 
-            // this code load null in navigated viewmodel
+            // this code loads null in navigated viewmodel
             //RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView", new NavigationParameters($"NowPage={Parameter}"));
         }
 
@@ -119,6 +122,7 @@ namespace Memories.Modules.NewBook.ViewModels
         {
             var param = new DialogParameters();
             param.Add("NewBook", Parameter.InputBook);
+
             RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }
 

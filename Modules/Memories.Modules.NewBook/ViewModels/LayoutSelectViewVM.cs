@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Enums;
+using Memories.Services.Interfaces;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 
@@ -10,6 +11,8 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Field
 
+        private readonly IFolderService _folderService;
+        private readonly IBookLayoutService _bookLayoutService;
         private NewBookNavigateParameter _naviParam;
 
         private ObservableCollection<object> _layouts;
@@ -44,6 +47,16 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #endregion Property
 
+        #region Constructor
+
+        public LayoutSelectViewVM(IFolderService folderService, IBookLayoutService bookLayoutService)
+        {
+            _folderService = folderService;
+            _bookLayoutService = bookLayoutService;
+        }
+
+        #endregion Constructor
+
         #region Method
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)
@@ -57,19 +70,15 @@ namespace Memories.Modules.NewBook.ViewModels
             _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigateParameter;
             _naviParam.NowPage = VIEW_INDEX;
 
-            switch (paperSize)
-            {
-                case PaperSize.A3:
-                    Layouts = new ObservableCollection<object>() { 3, 1 };
-                    break;
-                case PaperSize.A4:
-                    Layouts = new ObservableCollection<object>() { 4 };
-                    break;
-                default:
-                    Layouts = new ObservableCollection<object>();
-                    break;
-            }
+            GetLayoutTemplates(paperSize);
         } 
+
+        private void GetLayoutTemplates(PaperSize paperSize)
+        {
+            string path = _folderService.GetAppFolder("Layouts", paperSize.ToString());
+
+            Layouts = new ObservableCollection<object>(_bookLayoutService.Load(path));
+        }
 
         #endregion Method
     }
