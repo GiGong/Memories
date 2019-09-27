@@ -10,6 +10,6 @@ namespace Memories.Services.Interfaces
         /// </summary>
         /// <param name="path">Folder path</param>
         /// <returns></returns>
-        IEnumerable<BookLayout> Load(string path);
+        IEnumerable<BookLayout> LoadFromDirectory(string path);
     }
 }

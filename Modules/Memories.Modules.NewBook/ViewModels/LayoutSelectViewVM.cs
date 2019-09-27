@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Enums;
+using Memories.Business.Models;
 using Memories.Services.Interfaces;
 using Prism.Regions;
 using System.Collections.ObjectModel;
@@ -15,32 +16,34 @@ namespace Memories.Modules.NewBook.ViewModels
         private readonly IBookLayoutService _bookLayoutService;
         private NewBookNavigateParameter _naviParam;
 
-        private ObservableCollection<object> _layouts;
-        private int? _selectedIndex;
+        private ObservableCollection<BookLayout> _layouts;
+        private BookLayout _selectedItem;
 
         #endregion Field
 
         #region Property
 
-        public ObservableCollection<object> Layouts
+        public ObservableCollection<BookLayout> Layouts
         {
             get { return _layouts; }
             set { SetProperty(ref _layouts, value); }
         }
 
-        public int? SelectedIndex
+        public BookLayout SelectedItem
         {
-            get { return _selectedIndex; }
+            get { return _selectedItem; }
             set
             {
-                SetProperty(ref _selectedIndex, value);
-                if (value == null || value == -1)
+                SetProperty(ref _selectedItem, value);
+                if (value == null)
                 {
                     _naviParam.IsCompleted[VIEW_INDEX] = false;
                 }
                 else
                 {
                     _naviParam.IsCompleted[VIEW_INDEX] = true;
+
+                    _naviParam.InputBook.BookPages = SelectedItem.Pages;
                 }
             }
         }
@@ -77,7 +80,7 @@ namespace Memories.Modules.NewBook.ViewModels
         {
             string path = _folderService.GetAppFolder("Layouts", paperSize.ToString());
 
-            Layouts = new ObservableCollection<object>(_bookLayoutService.Load(path));
+            Layouts = new ObservableCollection<BookLayout>(_bookLayoutService.LoadFromDirectory(path));
         }
 
         #endregion Method

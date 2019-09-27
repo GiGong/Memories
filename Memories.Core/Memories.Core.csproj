@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
     <Compile Include="DialogViewModelBase.cs" />
+    <Compile Include="ExtentionNames.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
