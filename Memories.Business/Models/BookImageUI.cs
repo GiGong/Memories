@@ -1,15 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.IO;
-
-namespace Memories.Business.Models
+﻿namespace Memories.Business.Models
 {
     public class BookImageUI : BookUI
     {
-        private ObservableCollection<Stream> _imageSources;
-        public ObservableCollection<Stream> ImageSources
+        private byte[] _imageSource;
+        public byte[] ImageSource
         {
-            get { return _imageSources; }
-            set { SetProperty(ref _imageSources, value); }
+            get { return _imageSource; }
+            set { SetProperty(ref _imageSource, value); }
         }
     }
 }

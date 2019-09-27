@@ -1,0 +1,26 @@
+﻿<Window x:Class="LayoutGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LayoutGenerator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="900">
+    <Grid>
+        <Button Content="제작" Width="50" Height="50" Click="Button_Click" Margin="35,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+
+        <Canvas Width="500" Height="500" Name="pageCanvas1" Margin="150,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="25"/>
+            <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="25"/>
+            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="275"/>
+            <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="275"/>
+        </Canvas>
+
+        <Canvas Width="500" Height="500" Name="pageCanvas2" Margin="750,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="25"/>
+            <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="25"/>
+            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="275"/>
+            <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="275"/>
+        </Canvas>
+    </Grid>
+</Window>

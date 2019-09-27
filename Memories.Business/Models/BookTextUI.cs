@@ -4,11 +4,11 @@ namespace Memories.Business.Models
 {
     public class BookTextUI : BookUI
     {
-        private ObservableCollection<string> _documents;
-        public ObservableCollection<string> Documents
+        private string _document;
+        public string Document
         {
-            get { return _documents; }
-            set { SetProperty(ref _documents, value); }
+            get { return _document; }
+            set { SetProperty(ref _document, value); }
         }
     }
 }
