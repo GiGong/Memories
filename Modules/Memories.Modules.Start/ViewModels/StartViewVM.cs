@@ -1,7 +1,9 @@
 ﻿using Memories.Core;
+using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System.IO;
 using System.Windows;
 
 namespace Memories.Modules.Start.ViewModels
@@ -15,6 +17,8 @@ namespace Memories.Modules.Start.ViewModels
 
         private IDialogService _dialogService;
         private readonly IApplicationCommands _applicationCommands;
+        private readonly IFileService _fileService;
+        private readonly IBookService _bookService;
 
         #endregion
 
@@ -28,9 +32,11 @@ namespace Memories.Modules.Start.ViewModels
 
         #endregion Command
 
-        public StartViewVM(IDialogService dialogService, IApplicationCommands applicationCommands)
+        public StartViewVM(IDialogService dialogService, IFileService fileService, IBookService bookService, IApplicationCommands applicationCommands)
         {
             _dialogService = dialogService;
+            _fileService = fileService;
+            _bookService = bookService;
             _applicationCommands = applicationCommands;
         }
 
@@ -45,29 +51,32 @@ namespace Memories.Modules.Start.ViewModels
                     {
                         _applicationCommands.HideShellCommand.Execute("");
 
-                        _dialogService.Show("EditBookView", result.Parameters,
-                            (resultEdit) =>
-                            {
-                                if (resultEdit.Result == ButtonResult.None)
-                                {
-                                    Application.Current.Shutdown();
-                                }
-                                else if (resultEdit.Result == ButtonResult.Retry)
-                                {
-                                    _applicationCommands.ShowShellCommand.Execute("");
-                                }
-                            });
+                        _dialogService.Show("EditBookView", result.Parameters, EditBookView_Closed);
                     }
                 });
         }
 
-        void LoadBook()
+        private void LoadBook()
         {
-            //TODO: Select book in open file dialog, Show in EditBookView
-            _dialogService.Show("EditBookView", null, (result) =>
+            string path = _fileService.OpenFilePath();
+            if (path != null && File.Exists(path))
             {
-                MessageBox.Show(result.Result.ToString());
-            });
+                var param = new DialogParameters();
+                param.Add("LoadBook", _bookService.LoadBook(path));
+                _dialogService.Show("EditBookView", param, EditBookView_Closed);
+            }
+        }
+
+        private void EditBookView_Closed(IDialogResult result)
+        {
+            if (result.Result == ButtonResult.None)
+            {
+                Application.Current.Shutdown();
+            }
+            else if (result.Result == ButtonResult.Retry)
+            {
+                _applicationCommands.ShowShellCommand.Execute("");
+            }
         }
 
         #endregion Method

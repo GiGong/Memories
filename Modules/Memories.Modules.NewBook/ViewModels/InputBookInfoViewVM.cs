@@ -73,7 +73,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
         private void SelectFilePath()
         {
-            FilePath = _fileService.GetSaveFilePath() ?? FilePath;
+            FilePath = _fileService.SaveFilePath() ?? FilePath;
         }
 
         private void InputBookInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

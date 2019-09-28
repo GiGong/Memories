@@ -41,8 +41,18 @@ namespace Memories.Modules.EditBook.ViewModels
         {
             base.OnDialogOpened(parameters);
 
-            // Test code
-            Book book = parameters.GetValue<Book>("NewBook");
+            if (parameters.ContainsKey("NewBook"))
+            {
+                Book book = parameters.GetValue<Book>("NewBook");
+            }
+            else if (parameters.ContainsKey("LoadBook"))
+            {
+                Book book = parameters.GetValue<Book>("LoadBook");
+            }
+            else
+            {
+
+            }
         }
 
         void OpenStartWindow()
@@ -53,7 +63,7 @@ namespace Memories.Modules.EditBook.ViewModels
         void Open()
         {
 
-        } 
+        }
 
         #endregion Method
     }

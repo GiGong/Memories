@@ -7,6 +7,6 @@ namespace Memories.Services.Interfaces
     {
         Book GetEmptyBook();
         Book MakeBook(string title, string writer, PaperSize paperSize, string path);
-
+        Book LoadBook(string path);
     }
 }

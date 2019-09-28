@@ -2,6 +2,7 @@
 {
     public interface IFileService
     {
-        string GetSaveFilePath();
+        string SaveFilePath();
+        string OpenFilePath();
     }
 }

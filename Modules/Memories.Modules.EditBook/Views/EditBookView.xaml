@@ -22,6 +22,7 @@
             <Button Content="Open" Command="{Binding OpenCommand}"/>
             <Button Content="Save" Command="{Binding SaveCommand}"/>
             <Button Content="SaveAs" Command="{Binding SaveAsCommand}"/>
+            <Button Content="Debug" Command="{Binding OpenStartWindowCommand}"/>
         </StackPanel>
         
         
