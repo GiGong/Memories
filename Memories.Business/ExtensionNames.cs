@@ -2,7 +2,7 @@
 {
     public class ExtensionNames
     {
-        public const string Book = "mrbk";
-        public const string BookLayoutTemplate = "mrtl";
+        public const string Book = ".mrbk";
+        public const string BookLayoutTemplate = ".mrtl";
     }
 }

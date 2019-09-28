@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
-        <ListView ItemsSource="{Binding Layouts}" ItemTemplate="{StaticResource listViewBookLayoutTemplate}" SelectionMode="Single" 
+        <ListView ItemsSource="{Binding Layouts}" ItemTemplate="{StaticResource listViewBookLayoutTemplate}" ItemsPanel="{StaticResource listViewBookLayoutPanelTemplate}"
+                  SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

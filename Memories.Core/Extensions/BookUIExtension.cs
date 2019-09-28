@@ -9,42 +9,42 @@ namespace Memories.Core.Extensions
 {
     public static class BookUIExtension
     {
-        public static Xceed.Wpf.Toolkit.RichTextBox ToRichTextBox(this BookTextUI bookTextUI)
+        public static Xceed.Wpf.Toolkit.RichTextBox ToRichTextBox(this BookTextUI bookTextUI, bool isLayout = false)
         {
             Xceed.Wpf.Toolkit.RichTextBox richTextBox = new Xceed.Wpf.Toolkit.RichTextBox();
 
             BookUIToFE(bookTextUI, richTextBox);
-            richTextBox.Text = bookTextUI.Document;
+            richTextBox.Text = isLayout ? null : bookTextUI.Document;
 
             return richTextBox;
         }
 
-        public static BookTextUI ToBookTextUI(this Xceed.Wpf.Toolkit.RichTextBox richTextBox)
+        public static BookTextUI ToBookTextUI(this Xceed.Wpf.Toolkit.RichTextBox richTextBox, bool isLayout = false)
         {
             var bookTextUI = new BookTextUI();
 
             FEToBookUI(richTextBox, bookTextUI);
-            bookTextUI.Document = richTextBox.Text;
+            bookTextUI.Document = isLayout ? null : richTextBox.Text;
 
             return bookTextUI;
         }
 
-        public static Image ToImage(this BookImageUI bookImageUI)
+        public static Image ToImage(this BookImageUI bookImageUI, bool isLayout = false)
         {
             Image image = new Image();
 
             BookUIToFE(bookImageUI, image);
-            image.Source = GetSourceFromBook(bookImageUI);
+            image.Source = isLayout ? null : GetSourceFromBook(bookImageUI);
 
             return image;
         }
 
-        public static BookImageUI ToBookImageUI(this Image image)
+        public static BookImageUI ToBookImageUI(this Image image, bool isLayout = false)
         {
             var bookImageUI = new BookImageUI();
 
             FEToBookUI(image, bookImageUI);
-            bookImageUI.ImageSource = GetSourceFromImage((BitmapSource)image.Source);
+            bookImageUI.ImageSource = isLayout ? null : GetSourceFromImage((BitmapSource)image.Source);
 
             return bookImageUI;
         }
@@ -98,7 +98,7 @@ namespace Memories.Core.Extensions
             }
 
             MemoryStream memStream = new MemoryStream();
-            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(source));
             encoder.Save(memStream);
             return memStream.ToArray();

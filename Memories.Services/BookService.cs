@@ -21,10 +21,5 @@ namespace Memories.Services
 
             return null;
         }
-
-        public Book MakeBook(string title, string writer, PaperSize paperSize, string path)
-        {
-            return new Book(title, writer, paperSize, path);
-        }
     }
 }

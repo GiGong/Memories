@@ -121,7 +121,7 @@ namespace Memories.Modules.NewBook.ViewModels
         void Check()
         {
             var param = new DialogParameters();
-            param.Add("NewBook", Parameter.InputBook);
+            param.Add("NewBook", Parameter.InputBook.Clone());
 
             RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }

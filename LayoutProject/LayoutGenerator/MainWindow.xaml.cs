@@ -53,6 +53,7 @@ namespace LayoutGenerator
             _canvas.Add(pageCanvas3);
             _canvas.Add(pageCanvas4);
 
+            FormatText = null;
             DataContext = this;
         }
 
@@ -89,11 +90,11 @@ namespace LayoutGenerator
             {
                 if (item is Image image)
                 {
-                    bookUIs.Add(image.ToBookImageUI());
+                    bookUIs.Add(image.ToBookImageUI(true));
                 }
                 else if (item is Xceed.Wpf.Toolkit.RichTextBox richTextBok)
                 {
-                    bookUIs.Add(richTextBok.ToBookTextUI());
+                    bookUIs.Add(richTextBok.ToBookTextUI(true));
                 }
             }
 
@@ -123,7 +124,7 @@ namespace LayoutGenerator
             }
 
             MemoryStream memStream = new MemoryStream();
-            JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(source));
             encoder.Save(memStream);
             return memStream.ToArray();

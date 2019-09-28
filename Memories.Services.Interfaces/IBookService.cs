@@ -6,7 +6,6 @@ namespace Memories.Services.Interfaces
     public interface IBookService
     {
         Book GetEmptyBook();
-        Book MakeBook(string title, string writer, PaperSize paperSize, string path);
         Book LoadBook(string path);
     }
 }

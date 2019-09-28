@@ -2,6 +2,7 @@
 using Memories.Business.Models;
 using Memories.Services.Interfaces;
 using Prism.Regions;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Memories.Modules.NewBook.ViewModels
@@ -80,7 +81,7 @@ namespace Memories.Modules.NewBook.ViewModels
         {
             string path = _folderService.GetAppFolder("Layouts", paperSize.ToString());
 
-            Layouts = new ObservableCollection<BookLayout>(_bookLayoutService.LoadFromDirectory(path));
+            Layouts = new ObservableCollection<BookLayout>(_bookLayoutService.LoadLayoutsFromDirectory(path));
         }
 
         #endregion Method

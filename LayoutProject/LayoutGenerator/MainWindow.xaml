@@ -13,7 +13,7 @@
 
         <Image Name="imgPreview" Width="100" Height="100" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top">
             <Image.Source>
-                <BitmapImage UriSource=""/>
+                <BitmapImage UriSource="C:/Users/softc/Pictures/maple-icon.png"/>
             </Image.Source>
         </Image>
         <Canvas Width="500" Height="500" Name="pageCanvas1" Margin="100,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">

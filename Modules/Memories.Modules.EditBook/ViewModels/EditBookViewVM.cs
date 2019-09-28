@@ -1,5 +1,6 @@
 ﻿using Memories.Business.Models;
 using Memories.Core;
+using Memories.Core.Extensions;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System.Windows;
@@ -15,6 +16,17 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand _openStartWindowCommand;
 
         #endregion Field
+
+        #region Property
+
+        private Book _editBook;
+        public Book EditBook
+        {
+            get { return _editBook; }
+            set { SetProperty(ref _editBook, value); }
+        }
+
+        #endregion Property
 
         #region Command
 
@@ -43,15 +55,11 @@ namespace Memories.Modules.EditBook.ViewModels
 
             if (parameters.ContainsKey("NewBook"))
             {
-                Book book = parameters.GetValue<Book>("NewBook");
+                EditBook = parameters.GetValue<Book>("NewBook");
             }
             else if (parameters.ContainsKey("LoadBook"))
             {
-                Book book = parameters.GetValue<Book>("LoadBook");
-            }
-            else
-            {
-
+                EditBook = parameters.GetValue<Book>("LoadBook");
             }
         }
 
@@ -62,7 +70,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         void Open()
         {
-
+            
         }
 
         #endregion Method
