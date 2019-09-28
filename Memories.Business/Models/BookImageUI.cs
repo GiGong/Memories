@@ -8,5 +8,10 @@
             get { return _imageSource; }
             set { SetProperty(ref _imageSource, value); }
         }
+
+        public BookImageUI()
+        {
+            UIType = Enums.BookUIEnum.ImageUI;
+        }
     }
 }

@@ -12,7 +12,6 @@ namespace Memories.Services
     {
         public IEnumerable<BookLayout> LoadFromDirectory(string path)
         {
-            //TODO: Remove this
             DebugFunction(path);
 
 

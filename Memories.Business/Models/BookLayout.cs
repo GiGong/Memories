@@ -8,7 +8,7 @@ namespace Memories.Business.Models
         #region Field
 
         private string _name;
-        private Stream _previewSource;
+        private byte[] _previewSource;
         private ObservableCollection<BookPage> _pages;
 
         #endregion Field
@@ -21,7 +21,7 @@ namespace Memories.Business.Models
             set { SetProperty(ref _name, value); }
         }
 
-        public Stream PreviewSource
+        public byte[] PreviewSource
         {
             get { return _previewSource; }
             set { SetProperty(ref _previewSource, value); }

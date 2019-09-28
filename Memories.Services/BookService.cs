@@ -1,6 +1,8 @@
 ﻿using Memories.Business.Enums;
 using Memories.Business.Models;
 using Memories.Services.Interfaces;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Memories.Services
 {
@@ -9,6 +11,15 @@ namespace Memories.Services
         public Book GetEmptyBook()
         {
             return new Book();
+        }
+
+        public Book LoadBook(string path)
+        {
+            var json = File.ReadAllText(path);
+
+            JsonConvert.DeserializeObject<Book>(json);
+
+            return null;
         }
 
         public Book MakeBook(string title, string writer, PaperSize paperSize, string path)

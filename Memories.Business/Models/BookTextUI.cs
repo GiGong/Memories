@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Memories.Business.Models
+﻿namespace Memories.Business.Models
 {
     public class BookTextUI : BookUI
     {
@@ -9,6 +7,11 @@ namespace Memories.Business.Models
         {
             get { return _document; }
             set { SetProperty(ref _document, value); }
+        }
+
+        public BookTextUI()
+        {
+            UIType = Enums.BookUIEnum.TextUI;
         }
     }
 }

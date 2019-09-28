@@ -1,4 +1,6 @@
-﻿namespace Memories.Business.Models
+﻿using Memories.Business.Enums;
+
+namespace Memories.Business.Models
 {
     public abstract class BookUI : BusinessBase
     {
@@ -7,10 +9,16 @@
         private Point _margin;
         private double _width;
         private double _height;
+        private int _zIndex;
 
         #endregion Field
 
         #region Property
+
+        /// <summary>
+        /// Property for json serialization
+        /// </summary>
+        public BookUIEnum UIType { get; set; }
 
         /// <summary>
         /// Margin from left top.
@@ -31,6 +39,12 @@
         {
             get { return _height; }
             set { SetProperty(ref _height, value); }
+        }
+
+        public int ZIndex
+        {
+            get { return _zIndex; }
+            set { SetProperty(ref _zIndex, value); }
         }
 
         #endregion Property

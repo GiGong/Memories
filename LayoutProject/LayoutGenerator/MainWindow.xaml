@@ -3,24 +3,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:LayoutGenerator"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="900">
     <Grid>
-        <Button Content="제작" Width="50" Height="50" Click="Button_Click" Margin="35,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="제작" Width="50" Height="50" Click="Save_Click" Margin="35,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="불러오기" Width="50" Height="50" Click="Load_Click" Margin="35,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-        <Canvas Width="500" Height="500" Name="pageCanvas1" Margin="150,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <Image Name="imgPreview" Width="100" Height="100" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top">
+            <Image.Source>
+                <BitmapImage UriSource=""/>
+            </Image.Source>
+        </Image>
+        <Canvas Width="500" Height="500" Name="pageCanvas1" Margin="100,30,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="25"/>
             <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="25"/>
             <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="275"/>
             <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="275"/>
         </Canvas>
 
-        <Canvas Width="500" Height="500" Name="pageCanvas2" Margin="750,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="25"/>
-            <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="25"/>
+        <Canvas Width="500" Height="500" Name="pageCanvas2" Margin="600,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image Height="450" Width="200" Canvas.Left="25" Canvas.Top="25"/>
+            <Image Height="450" Width="200" Canvas.Left="275" Canvas.Top="25"/>
+        </Canvas>
+
+        <Canvas Width="500" Height="500" x:Name="pageCanvas3" Margin="100,530,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="25">
+                <Image.Source>
+                    <BitmapImage UriSource=""/>
+                </Image.Source>
+            </Image>
+            <xctk:RichTextBox Name="testBox" Text="{Binding FormatText}" FontFamily="NanumGothic" Height="450" Width="200" Canvas.Left="275" Canvas.Top="25"/>
             <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="275"/>
-            <Image Height="200" Width="200" Canvas.Left="275" Canvas.Top="275"/>
+        </Canvas>
+        <Canvas Width="500" Height="500" x:Name="pageCanvas4" Margin="600,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <xctk:RichTextBox Height="450" Width="200" Canvas.Left="25" Canvas.Top="25"/>
+            <xctk:RichTextBox Height="450" Width="200" Canvas.Left="275" Canvas.Top="25"/>
         </Canvas>
     </Grid>
 </Window>
