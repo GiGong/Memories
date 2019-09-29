@@ -1,6 +1,8 @@
 ﻿using Memories.Business.Models;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using System;
 
 namespace Memories.Modules.EditBook.ViewModels
 {
@@ -12,8 +14,12 @@ namespace Memories.Modules.EditBook.ViewModels
         private BookPage _leftPage;
         private BookPage _rightPage;
 
-        private int _currentPage;
-        private int _totalPage;
+        private int _leftNum;
+        private int _rightNum;
+        private int _totalNum;
+
+        private DelegateCommand _pageBackCommand;
+        private DelegateCommand _pageForwardCommand;
 
         #endregion Field
 
@@ -22,12 +28,22 @@ namespace Memories.Modules.EditBook.ViewModels
         public Book EditBook
         {
             get { return _editBook; }
-            set 
+            set
             {
                 SetProperty(ref _editBook, value);
 
-                TotalPage = EditBook.BookPages.Count;
-                CurrentPage = 1;
+                if (EditBook == null)
+                {
+                    TotalNum = 0;
+                    LeftNum = 0;
+                    RightNum = 0;
+                }
+                else
+                {
+                    TotalNum = EditBook.BookPages.Count;
+                    LeftNum = 1;
+                    RightNum = 2;
+                }
             }
         }
 
@@ -43,22 +59,78 @@ namespace Memories.Modules.EditBook.ViewModels
             set { SetProperty(ref _rightPage, value); }
         }
 
-        public int CurrentPage
+        public int LeftNum
         {
-            get { return _currentPage; }
-            set { SetProperty(ref _currentPage, value); }
+            get { return _leftNum; }
+            set
+            {
+                SetProperty(ref _leftNum, value);
+
+                LeftPage = EditBook.BookPages[LeftNum - 1];
+            }
         }
 
-        public int TotalPage
+        public int RightNum
         {
-            get { return _totalPage; }
-            set { SetProperty(ref _totalPage, value); }
+            get { return _rightNum; }
+            set
+            {
+                SetProperty(ref _rightNum, value);
+
+                RightPage = RightNum > TotalNum ? null : EditBook.BookPages[RightNum - 1];
+            }
+        }
+
+        public int TotalNum
+        {
+            get { return _totalNum; }
+            set { SetProperty(ref _totalNum, value); }
         }
 
         #endregion Property
 
+        #region Constructor
+
         public BookViewVM()
         {
         }
+
+        #endregion Constructor
+
+        #region Command
+
+        public DelegateCommand PageBackCommand =>
+            _pageBackCommand ?? (_pageBackCommand = new DelegateCommand(PageBack, CanPageBack).ObservesProperty(() => LeftNum));
+
+        public DelegateCommand PageForwardCommand =>
+            _pageForwardCommand ?? (_pageForwardCommand = new DelegateCommand(PageForward, CanPageForward).ObservesProperty(() => RightNum));
+
+        #endregion Command
+
+        #region Method
+
+        void PageBack()
+        {
+            LeftNum -= 2;
+            RightNum -= 2;
+        }
+
+        bool CanPageBack()
+        {
+            return LeftNum > 1;
+        }
+
+        void PageForward()
+        {
+            LeftNum += 2;
+            RightNum += 2;
+        }
+
+        bool CanPageForward()
+        {
+            return RightNum < TotalNum;
+        }
+
+        #endregion Method
     }
 }

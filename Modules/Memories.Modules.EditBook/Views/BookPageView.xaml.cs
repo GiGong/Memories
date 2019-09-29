@@ -19,9 +19,12 @@ namespace Memories.Modules.EditBook.Views
 
         private void BookPageView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var context = (ObservableObject<object>)sender;
-            var nowPage = (BookPage)context.Value;
-            (DataContext as BookPageViewVM).NowPage = nowPage;
+            if (e.PropertyName == "Value")
+            {
+                var context = (ObservableObject<object>)sender;
+                var nowPage = (BookPage)context.Value;
+                (DataContext as BookPageViewVM).NowPage = nowPage;
+            }
         }
     }
 }

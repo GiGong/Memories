@@ -6,7 +6,7 @@
     <ItemsControl ItemsSource="{Binding PageControls}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <Canvas Background="WhiteSmoke"/>
+                <Canvas ClipToBounds="True"/>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
     </ItemsControl>
