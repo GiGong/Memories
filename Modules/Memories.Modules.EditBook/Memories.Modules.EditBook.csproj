@@ -113,6 +113,14 @@
       <Project>{33D87DDF-93CE-4FE9-A6FA-963477183DFA}</Project>
       <Name>Memories.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Memories.Services.Interfaces\Memories.Services.Interfaces.csproj">
+      <Project>{FB763B9E-0A63-4887-847D-7A343C4FCAF0}</Project>
+      <Name>Memories.Services.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Memories.Services\Memories.Services.csproj">
+      <Project>{54D70EE3-7075-465F-A5DD-736DC52C2626}</Project>
+      <Name>Memories.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

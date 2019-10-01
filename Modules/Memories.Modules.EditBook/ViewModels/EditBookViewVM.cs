@@ -1,6 +1,7 @@
 ﻿using Memories.Business.Models;
 using Memories.Core;
 using Memories.Core.Extensions;
+using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System.Windows;
@@ -12,6 +13,7 @@ namespace Memories.Modules.EditBook.ViewModels
         #region Field
 
         private DelegateCommand _openCommand;
+        private DelegateCommand _saveCommand;
 
         private DelegateCommand _openStartWindowCommand;
 
@@ -20,6 +22,10 @@ namespace Memories.Modules.EditBook.ViewModels
         #region Property
 
         private Book _editBook;
+        private readonly IBookService _bookService;
+        private readonly IFileService _fileService;
+        private readonly IFolderService _folderService;
+
         public Book EditBook
         {
             get { return _editBook; }
@@ -33,6 +39,9 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand OpenCommand =>
             _openCommand ?? (_openCommand = new DelegateCommand(Open));
 
+        public DelegateCommand SaveCommand =>
+            _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
+
         public DelegateCommand OpenStartWindowCommand =>
             _openStartWindowCommand ?? (_openStartWindowCommand = new DelegateCommand(OpenStartWindow));
 
@@ -40,8 +49,11 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public EditBookViewVM()
+        public EditBookViewVM(IBookService bookService, IFileService fileService)
         {
+            _bookService = bookService;
+            _fileService = fileService;
+
             Title = (string)Application.Current.Resources["Program_Name"];
         }
 
@@ -71,6 +83,14 @@ namespace Memories.Modules.EditBook.ViewModels
         void Open()
         {
             
+        }
+
+        void Save()
+        {
+            if (EditBook != null)
+            {
+                _bookService.SaveBook(EditBook);
+            }
         }
 
         #endregion Method

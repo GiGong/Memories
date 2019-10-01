@@ -2,7 +2,7 @@
 {
     public interface IFileService
     {
-        string SaveFilePath();
-        string OpenFilePath();
+        string SaveFilePath(string filter = null);
+        string OpenFilePath(string filter = null);
     }
 }

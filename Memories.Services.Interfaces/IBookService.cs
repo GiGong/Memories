@@ -7,5 +7,6 @@ namespace Memories.Services.Interfaces
     {
         Book GetEmptyBook();
         Book LoadBook(string path);
+        void SaveBook(Book book);
     }
 }

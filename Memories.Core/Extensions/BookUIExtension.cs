@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Models;
+using Memories.Core.Controls;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,10 +32,14 @@ namespace Memories.Core.Extensions
 
         public static Image ToImage(this BookImageUI bookImageUI, bool isLayout = false)
         {
-            Image image = new Image();
+            MMClickableImage image = new MMClickableImage();
 
             BookUIToFE(bookImageUI, image);
-            image.Source = isLayout ? null : GetSourceFromBook(bookImageUI);
+
+            if (bookImageUI.ImageSource == null)
+            {
+                bookImageUI.ImageSource = GetSourceFromImage(new BitmapImage(new System.Uri("pack://application:,,,/Resources/Img/MemoriesEmptyImage.jpg")));
+            }
 
             return image;
         }
@@ -48,7 +53,6 @@ namespace Memories.Core.Extensions
 
             return bookImageUI;
         }
-
 
         /// <summary>
         /// BookUI to FrameworkElement
@@ -102,16 +106,6 @@ namespace Memories.Core.Extensions
             encoder.Frames.Add(BitmapFrame.Create(source));
             encoder.Save(memStream);
             return memStream.ToArray();
-        }
-
-        /// <summary>
-        /// Return source from BookImageUI
-        /// </summary>
-        /// <param name="bookImageUI"></param>
-        /// <returns></returns>
-        private static BitmapSource GetSourceFromBook(BookImageUI bookImageUI)
-        {
-            return bookImageUI.ImageSource == null ? null : (BitmapSource)new ImageSourceConverter().ConvertFrom(bookImageUI.ImageSource);
         }
     }
 }

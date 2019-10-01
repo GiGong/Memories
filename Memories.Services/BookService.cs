@@ -1,4 +1,4 @@
-﻿using Memories.Business.Enums;
+﻿using Memories.Business.Converters;
 using Memories.Business.Models;
 using Memories.Services.Interfaces;
 using Newtonsoft.Json;
@@ -17,9 +17,14 @@ namespace Memories.Services
         {
             var json = File.ReadAllText(path);
 
-            JsonConvert.DeserializeObject<Book>(json);
+            return JsonConvert.DeserializeObject<Book>(json, new BookUIConverter());
+        }
 
-            return null;
+        public void SaveBook(Book book)
+        {
+            var json = JsonConvert.SerializeObject(book);
+
+            File.WriteAllText(book.Path, json);
         }
     }
 }
