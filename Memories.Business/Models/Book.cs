@@ -12,7 +12,6 @@ namespace Memories.Business.Models
         private PaperSize _paperSize;
         private double _paperWidth;
         private double _paperHeight;
-        private string _path;
         private ObservableCollection<BookPage> _bookPages;
 
         #endregion Field
@@ -55,12 +54,6 @@ namespace Memories.Business.Models
             set { SetProperty(ref _paperHeight, value); }
         }
 
-        public string Path
-        {
-            get { return _path; }
-            set { SetProperty(ref _path, value); }
-        }
-
         public ObservableCollection<BookPage> BookPages
         {
             get { return _bookPages; }
@@ -78,7 +71,6 @@ namespace Memories.Business.Models
             PaperSize = PaperSize.비규격;
             PaperWidth = -1;
             PaperHeight = -1;
-            Path = string.Empty;
             BookPages = new ObservableCollection<BookPage>();
         }
 
@@ -95,7 +87,6 @@ namespace Memories.Business.Models
                 PaperSize = PaperSize,
                 PaperWidth = PaperWidth,
                 PaperHeight = PaperHeight,
-                Path = Path,
                 BookPages = new ObservableCollection<BookPage>(BookPages)
             };
         }

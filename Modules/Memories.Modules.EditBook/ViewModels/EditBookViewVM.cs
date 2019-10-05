@@ -15,6 +15,8 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand _openCommand;
         private DelegateCommand _saveCommand;
 
+        private DelegateCommand _addPageCommand;
+
         private DelegateCommand _openStartWindowCommand;
 
         #endregion Field
@@ -24,7 +26,6 @@ namespace Memories.Modules.EditBook.ViewModels
         private Book _editBook;
         private readonly IBookService _bookService;
         private readonly IFileService _fileService;
-        private readonly IFolderService _folderService;
 
         public Book EditBook
         {
@@ -32,18 +33,29 @@ namespace Memories.Modules.EditBook.ViewModels
             set { SetProperty(ref _editBook, value); }
         }
 
+        private string _bookPath;
+        public string BookPath
+        {
+            get { return _bookPath; }
+            set { SetProperty(ref _bookPath, value); }
+        }
+
         #endregion Property
 
         #region Command
 
         public DelegateCommand OpenCommand =>
-            _openCommand ?? (_openCommand = new DelegateCommand(Open));
+            _openCommand ?? (_openCommand = new DelegateCommand(ExecuteOpenCommand));
 
         public DelegateCommand SaveCommand =>
-            _saveCommand ?? (_saveCommand = new DelegateCommand(Save));
+            _saveCommand ?? (_saveCommand = new DelegateCommand(ExecuteSaveCommand));
 
         public DelegateCommand OpenStartWindowCommand =>
-            _openStartWindowCommand ?? (_openStartWindowCommand = new DelegateCommand(OpenStartWindow));
+            _openStartWindowCommand ?? (_openStartWindowCommand = new DelegateCommand(ExecuteOpenStartWindowCommand));
+
+        public DelegateCommand AddPageCommand =>
+            _addPageCommand ?? (_addPageCommand = new DelegateCommand(ExecuteAddPageCommand));
+
 
         #endregion Command
 
@@ -65,6 +77,8 @@ namespace Memories.Modules.EditBook.ViewModels
         {
             base.OnDialogOpened(parameters);
 
+            BookPath = parameters.GetValue<string>("BookPath");
+
             if (parameters.ContainsKey("NewBook"))
             {
                 EditBook = parameters.GetValue<Book>("NewBook");
@@ -75,22 +89,33 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
-        void OpenStartWindow()
+        void ExecuteOpenStartWindowCommand()
         {
             RaiseRequestClose(new DialogResult(ButtonResult.Retry));
         }
 
-        void Open()
+        void ExecuteOpenCommand()
         {
-            
+            BookPath = _fileService.OpenFilePath();
+            if (BookPath == null)
+            {
+                return;
+            }
+
+            EditBook = _bookService.LoadBook(BookPath);
         }
 
-        void Save()
+        void ExecuteSaveCommand()
         {
             if (EditBook != null)
             {
-                _bookService.SaveBook(EditBook);
+                _bookService.SaveBook(EditBook, BookPath);
             }
+        }
+
+        void ExecuteAddPageCommand()
+        {
+
         }
 
         #endregion Method

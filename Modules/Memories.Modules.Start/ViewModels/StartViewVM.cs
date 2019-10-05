@@ -61,8 +61,12 @@ namespace Memories.Modules.Start.ViewModels
             string path = _fileService.OpenFilePath();
             if (path != null && File.Exists(path))
             {
-                var param = new DialogParameters();
-                param.Add("LoadBook", _bookService.LoadBook(path));
+                var param = new DialogParameters
+                {
+                    { "LoadBook", _bookService.LoadBook(path) },
+                    { "BookPath", path }
+                };
+
                 _dialogService.Show("EditBookView", param, EditBookView_Closed);
             }
         }

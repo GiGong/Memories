@@ -5,10 +5,11 @@ namespace Memories.Services
 {
     public class FileService : IFileService
     {
-        public string OpenFilePath(string filter = null)
+        public string OpenFilePath(string filter = null, string title = "Memories")
         {
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
+                Title = title,
                 Filter = filter ?? "Memories Book|*.mrbk"
             };
 
@@ -20,10 +21,11 @@ namespace Memories.Services
             return null;
         }
 
-        public string SaveFilePath(string filter = null)
+        public string SaveFilePath(string filter = null, string title = "Memories")
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
+                Title = title,
                 Filter = filter ?? "Memories Book|*.mrbk"
             };
 

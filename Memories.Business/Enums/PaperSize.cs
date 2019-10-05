@@ -26,7 +26,7 @@ namespace Memories.Business.Enums
 
     public static class PaperSizeExtension
     {
-        public static double GetWidth(this PaperSize paperSize)
+        public static int GetWidth(this PaperSize paperSize)
         {
             switch (paperSize)
             {                
@@ -51,7 +51,7 @@ namespace Memories.Business.Enums
             }
         }
 
-        public static double GetHeight(this PaperSize paperSize)
+        public static int GetHeight(this PaperSize paperSize)
         {
             switch (paperSize)
             {                

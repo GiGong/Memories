@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Models;
+using Memories.Core.Controls;
 using Memories.Core.Converters;
 using Memories.Core.Extensions;
 using Memories.Services.Interfaces;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -19,9 +21,12 @@ namespace Memories.Modules.EditBook.ViewModels
         #region Field
 
         private ObservableCollection<UIElement> _pageControls;
+        private byte[] _background;
         private BookPage _nowPage;
 
         private DelegateCommand<Image> _imageClickCommand;
+        private DelegateCommand<Canvas> _canvasClickCommand;
+
         private readonly IFileService _fileService;
 
         #endregion Field
@@ -34,6 +39,20 @@ namespace Memories.Modules.EditBook.ViewModels
             set { SetProperty(ref _pageControls, value); }
         }
 
+        public byte[] Background
+        {
+            get { return _background; }
+            set
+            {
+                SetProperty(ref _background, value);
+
+                if (NowPage != null)
+                {
+                    NowPage.Background = Background;
+                }
+            }
+        }
+
         public BookPage NowPage
         {
             get { return _nowPage; }
@@ -41,6 +60,7 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _nowPage, value);
 
+                Background = NowPage == null ? null : NowPage.Background;
                 PageControls = NowPage == null ? null : new ObservableCollection<UIElement>(NowPage.PageControls.Select(BookUIToUIElement));
             }
         }
@@ -59,7 +79,10 @@ namespace Memories.Modules.EditBook.ViewModels
         #region Command
 
         public DelegateCommand<Image> ImageClickCommand =>
-            _imageClickCommand ?? (_imageClickCommand = new DelegateCommand<Image>(ImageClick));
+            _imageClickCommand ?? (_imageClickCommand = new DelegateCommand<Image>(ExecuteImageClickCommand));
+
+        public DelegateCommand<Canvas> CanvasClickCommand =>
+            _canvasClickCommand ?? (_canvasClickCommand = new DelegateCommand<Canvas>(ExecuteCanvasClickCommand));
 
         #endregion Command
 
@@ -71,9 +94,9 @@ namespace Memories.Modules.EditBook.ViewModels
             if (source.UIType == Business.Enums.BookUIEnum.TextUI)
             {
                 var richTextBox = (source as BookTextUI).ToRichTextBox();
-                richTextBox.SetBinding(Xceed.Wpf.Toolkit.RichTextBox.TextProperty, 
+                richTextBox.SetBinding(Xceed.Wpf.Toolkit.RichTextBox.TextProperty,
                     new Binding($"NowPage.PageControls[{index}].Document")
-                    { Mode = BindingMode.TwoWay});
+                    { Mode = BindingMode.TwoWay });
                 return richTextBox;
             }
             else if (source.UIType == Business.Enums.BookUIEnum.ImageUI)
@@ -90,25 +113,56 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
-        void ImageClick(Image image)
+        void ExecuteImageClickCommand(Image image)
         {
             string filter = "Image Files|*.jpg;*.jpeg;*.jpe;*.jfif;*.png;*.bmp;*.dib;*.gif|All files|*.*";
 
-            string path = _fileService.OpenFilePath(filter);
+            string path = _fileService.OpenFilePath(filter, "Select Image");
+
+            if (path == null)
+            {
+                return;
+            }
 
             try
             {
                 image.Source = new BitmapImage(new Uri(path));
-
             }
             catch (NotSupportedException)
             {
-                Xceed.Wpf.Toolkit.MessageBox.Show("Not supported file\n지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Not supported file\n지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        void ExecuteCanvasClickCommand(Canvas canvas)
+        {
+            string filter = "Image Files|*.jpg;*.jpeg;*.jpe;*.jfif;*.png;*.bmp;*.dib;*.gif|All files|*.*";
+
+            string path = _fileService.OpenFilePath(filter, "Select Background");
+
+            if (path == null)
+            {
+                return;
+            }
+
+            try
+            {
+                (canvas.Background as ImageBrush).ImageSource = new BitmapImage(new Uri(path));
+                _ = Background;
+            }
+            catch (NotSupportedException)
+            {
+                MessageBox.Show("Not supported file\n지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         #endregion Method

@@ -1,14 +1,12 @@
-﻿using System.Collections.ObjectModel;
-
-namespace Memories.Business.Models
+﻿namespace Memories.Business.Models
 {
-    public class BookLayout : BusinessBase
+    public class BookPageLayout : BusinessBase
     {
         #region Field
 
         private string _name;
         private byte[] _previewSource;
-        private ObservableCollection<BookPage> _pages;
+        private BookPage _page;
 
         #endregion Field
 
@@ -26,10 +24,10 @@ namespace Memories.Business.Models
             set { SetProperty(ref _previewSource, value); }
         }
 
-        public ObservableCollection<BookPage> Pages
+        public BookPage Page
         {
-            get { return _pages; }
-            set { SetProperty(ref _pages, value); }
+            get { return _page; }
+            set { SetProperty(ref _page, value); }
         }
 
         #endregion Property

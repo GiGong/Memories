@@ -49,9 +49,9 @@ namespace LayoutGenerator
             InitializeComponent();
 
             _canvas.Add(pageCanvas1);
-            _canvas.Add(pageCanvas2);
-            _canvas.Add(pageCanvas3);
-            _canvas.Add(pageCanvas4);
+            //_canvas.Add(pageCanvas2);
+            //_canvas.Add(pageCanvas3);
+            //_canvas.Add(pageCanvas4);
 
             FormatText = null;
             DataContext = this;

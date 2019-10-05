@@ -20,11 +20,16 @@ namespace Memories.Services
             return JsonConvert.DeserializeObject<Book>(json, new BookUIConverter());
         }
 
-        public void SaveBook(Book book)
+        public void SaveBook(Book book, string path)
         {
             var json = JsonConvert.SerializeObject(book);
 
-            File.WriteAllText(book.Path, json);
+            File.WriteAllText(path, json);
+        }
+
+        public void AddPage(Book book, BookPage page)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

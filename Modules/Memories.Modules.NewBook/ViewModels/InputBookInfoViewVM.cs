@@ -1,6 +1,5 @@
 ﻿using Memories.Business.Enums;
 using Memories.Services.Interfaces;
-using Microsoft.Win32;
 using Prism.Commands;
 using Prism.Regions;
 
@@ -90,7 +89,7 @@ namespace Memories.Modules.NewBook.ViewModels
                 _naviParam.InputBook.Title = BookTitle;
                 _naviParam.InputBook.Writer = Writer;
                 _naviParam.InputBook.PaperSize = SelectedPaperSize;
-                _naviParam.InputBook.Path = FilePath;
+                _naviParam.BookPath = FilePath;
             }
             else
             {

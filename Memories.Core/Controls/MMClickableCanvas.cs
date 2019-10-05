@@ -1,13 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Memories.Core.Controls
 {
-    public class MMClickableImage : Image
+    public class MMClickableCanvas : Canvas
     {
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(MMClickableImage));
-        
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(MMClickableCanvas));
+
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }

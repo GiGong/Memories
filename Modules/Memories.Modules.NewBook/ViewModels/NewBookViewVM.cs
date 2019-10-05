@@ -77,8 +77,10 @@ namespace Memories.Modules.NewBook.ViewModels
 
         public override void OnDialogOpened(IDialogParameters parameters)
         {
-            var param = new NavigationParameters();
-            param.Add("Parameter", Parameter);
+            var param = new NavigationParameters
+            {
+                { "Parameter", Parameter }
+            };
             RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView", param);
 
             // this code loads null in navigated viewmodel
@@ -120,8 +122,11 @@ namespace Memories.Modules.NewBook.ViewModels
 
         void Check()
         {
-            var param = new DialogParameters();
-            param.Add("NewBook", Parameter.InputBook.Clone());
+            var param = new DialogParameters
+            {
+                { "NewBook", Parameter.InputBook.Clone() },
+                { "BookPath", Parameter.BookPath }
+            };
 
             RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }
@@ -151,6 +156,7 @@ namespace Memories.Modules.NewBook.ViewModels
         }
 
         public Book InputBook { get; set; }
+        public string BookPath { get; set; }
 
         private ObservableCollection<bool> _isCompleted = new ObservableCollection<bool>(Enumerable.Repeat(false, NewBookViewVM.NUM_OF_VIEWS));
         public ObservableCollection<bool> IsCompleted
