@@ -14,15 +14,16 @@ namespace Memories.Core.Controls
             set { SetValue(CommandProperty, value); }
         }
 
-        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            base.OnPreviewMouseLeftButtonDown(e);
+            base.OnMouseLeftButtonDown(e);
 
-            if (Command != null && e.ClickCount == 2)
+            if (e.ClickCount == 2 && Command != null)
             {
                 if (Command.CanExecute(this))
                 {
                     Command.Execute(this);
+                    e.Handled = true;
                 }
             }
         }

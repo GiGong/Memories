@@ -1,8 +1,7 @@
 ﻿using Memories.Business.Models;
+using Memories.Core.Extensions;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
-using System;
 
 namespace Memories.Modules.EditBook.ViewModels
 {
@@ -40,6 +39,9 @@ namespace Memories.Modules.EditBook.ViewModels
                 }
                 else
                 {
+                    EditBook.PaperWidth = EditBook.PaperSize.GetWidthPixel();
+                    EditBook.PaperHeight= EditBook.PaperSize.GetHeightPiexl();
+
                     TotalNum = EditBook.BookPages.Count;
                     LeftNum = 1;
                     RightNum = 2;

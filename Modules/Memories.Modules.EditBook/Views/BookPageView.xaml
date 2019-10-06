@@ -4,12 +4,17 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core"
              xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
+             xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <ItemsControl ItemsSource="{Binding PageControls}">
         <ItemsControl.Resources>
             <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
             <Style TargetType="{x:Type controls:MMClickableImage}">
                 <Setter Property="Command" Value="{Binding ImageClickCommand}"/>
+                <Setter Property="Stretch" Value="UniformToFill"/>
+            </Style>
+            <Style TargetType="{x:Type tool:RichTextBox}">
+                <Setter Property="BorderThickness" Value="0"/>
             </Style>
         </ItemsControl.Resources>
         <ItemsControl.ItemsPanel>

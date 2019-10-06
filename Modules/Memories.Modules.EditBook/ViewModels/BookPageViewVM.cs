@@ -1,5 +1,4 @@
 ﻿using Memories.Business.Models;
-using Memories.Core.Controls;
 using Memories.Core.Converters;
 using Memories.Core.Extensions;
 using Memories.Services.Interfaces;
@@ -79,10 +78,10 @@ namespace Memories.Modules.EditBook.ViewModels
         #region Command
 
         public DelegateCommand<Image> ImageClickCommand =>
-            _imageClickCommand ?? (_imageClickCommand = new DelegateCommand<Image>(ExecuteImageClickCommand));
+            _imageClickCommand ?? (_imageClickCommand = new DelegateCommand<Image>(ExecuteSelectImageCommand));
 
         public DelegateCommand<Canvas> CanvasClickCommand =>
-            _canvasClickCommand ?? (_canvasClickCommand = new DelegateCommand<Canvas>(ExecuteCanvasClickCommand));
+            _canvasClickCommand ?? (_canvasClickCommand = new DelegateCommand<Canvas>(ExecuteSelectImageCommand));
 
         #endregion Command
 
@@ -104,7 +103,11 @@ namespace Memories.Modules.EditBook.ViewModels
                 var image = (source as BookImageUI).ToImage();
                 image.SetBinding(Image.SourceProperty,
                     new Binding($"NowPage.PageControls[{index}].ImageSource")
-                    { Mode = BindingMode.TwoWay, Converter = new ByteArrayToImageSourceConverter() });
+                    {
+                        Mode = BindingMode.TwoWay,
+                        Converter = new ByteArrayToImageSourceConverter(),
+                        TargetNullValue = new BitmapImage(new Uri("pack://application:,,,/Resources/Img/MemoriesEmptyImage.jpg"))
+                    });
                 return image;
             }
             else
@@ -113,20 +116,32 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
-        void ExecuteImageClickCommand(Image image)
+        private void ExecuteSelectImageCommand(FrameworkElement frameworkElement)
         {
-            string filter = "Image Files|*.jpg;*.jpeg;*.jpe;*.jfif;*.png;*.bmp;*.dib;*.gif|All files|*.*";
+            if (!(frameworkElement is Image || frameworkElement is Canvas))
+            {
+                throw new ArgumentException(frameworkElement + " is not image or canvas.");
+            }
 
-            string path = _fileService.OpenFilePath(filter, "Select Image");
+            string filter = "Image Files|*.jpg;*.jpeg;*.jpe;*.jfif;*.png;*.bmp;*.dib;*.gif|All files|*.*";
+            string path = _fileService.OpenFilePath(filter);
 
             if (path == null)
             {
                 return;
             }
 
+            var bitmap = new BitmapImage(new Uri(path));
             try
             {
-                image.Source = new BitmapImage(new Uri(path));
+                if (frameworkElement is Image image)
+                {
+                    image.Source = bitmap;
+                }
+                else if (frameworkElement is Canvas canvas)
+                {
+                    (canvas.Background as ImageBrush).ImageSource = bitmap;
+                }
             }
             catch (NotSupportedException)
             {
@@ -136,33 +151,6 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 throw;
             }
-        }
-
-        void ExecuteCanvasClickCommand(Canvas canvas)
-        {
-            string filter = "Image Files|*.jpg;*.jpeg;*.jpe;*.jfif;*.png;*.bmp;*.dib;*.gif|All files|*.*";
-
-            string path = _fileService.OpenFilePath(filter, "Select Background");
-
-            if (path == null)
-            {
-                return;
-            }
-
-            try
-            {
-                (canvas.Background as ImageBrush).ImageSource = new BitmapImage(new Uri(path));
-                _ = Background;
-            }
-            catch (NotSupportedException)
-            {
-                MessageBox.Show("Not supported file\n지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
         }
 
         #endregion Method

@@ -49,7 +49,7 @@ namespace LayoutGenerator
             InitializeComponent();
 
             _canvas.Add(pageCanvas1);
-            //_canvas.Add(pageCanvas2);
+            _canvas.Add(pageCanvas2);
             //_canvas.Add(pageCanvas3);
             //_canvas.Add(pageCanvas4);
 
@@ -61,7 +61,7 @@ namespace LayoutGenerator
         {
             BookLayout bookLayout = new BookLayout()
             {
-                Name = "Test Template",
+                Name = textBox.Text,
                 PreviewSource = GetSourceFromImage(imgPreview),
                 Pages = new ObservableCollection<BookPage>()
             };
@@ -77,7 +77,7 @@ namespace LayoutGenerator
             string json = JsonConvert.SerializeObject(bookLayout);
             //string json = JsonConvert.SerializeObject(bookLayout, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
 
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Outputs", "Gen.json");
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Outputs", textBox.Text + ".json");
 
             File.WriteAllText(path, json);
         }

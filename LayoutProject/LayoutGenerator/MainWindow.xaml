@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:LayoutGenerator"
         mc:Ignorable="d"
         Title="MainWindow" Height="887" Width="1074">
@@ -11,18 +11,29 @@
         <Button Content="제작" Width="50" Height="50" Click="Save_Click" Margin="35,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="불러오기" Width="50" Height="50" Click="Load_Click" Margin="35,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-        <Image Name="imgPreview" Width="100" Height="100" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top">
-            <Image.Source>
-                <BitmapImage/>
-            </Image.Source>
-        </Image>
+        <Grid Width="105" Height="50" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top">
+            <Image Name="imgPreview" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage UriSource="C:/Users/GiGong/Pictures/mushroom.jfif"/>
+                </Image.Source>
+            </Image>
+        </Grid>
+        <TextBox Text="포트폴리오" Name="textBox" Margin="0,270,971,421"/>
 
-        <Border BorderThickness="1" BorderBrush="Black" Width="559" Height="794" Margin="240,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Canvas Name="pageCanvas1">
-                <Image Height="134" Width="138" Canvas.Left="64" Canvas.Top="197"/>
+        <Canvas Name="pageCanvas1" Width="14.8cm" Height="794" Margin="105,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Image Height="274" Width="364" Canvas.Left="0" Canvas.Top="125"/>
+            <tool:RichTextBox Height="274" Width="190" Canvas.Left="369" Canvas.Top="125" />
+            <Image Height="210" Width="279" Canvas.Left="249" Canvas.Top="484"/>
+            <tool:RichTextBox Height="210" Width="200" Canvas.Left="44" Canvas.Top="484" />
+        </Canvas>
 
-            </Canvas>
-        </Border>
+        <Canvas Name="pageCanvas2" Width="14.8cm" Height="794" Margin="730,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Image Height="8.11cm" Width="12.01cm" Canvas.Left="1.41cm" Canvas.Top="1.62cm"/>
+            <tool:RichTextBox Height="161" Width="456" Canvas.Left="44" Canvas.Top="368" />
+            <Image Height="185" Width="248" Canvas.Left="280" Canvas.Top="560"/>
+            <tool:RichTextBox Height="185" Width="200" Canvas.Left="44" Canvas.Top="560" />
+        </Canvas>
+
         <!--<Canvas Width="500" Height="500" Name="pageCanvas2" Margin="600,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Image Height="450" Width="200" Canvas.Left="25" Canvas.Top="25"/>
             <Image Height="450" Width="200" Canvas.Left="275" Canvas.Top="25"/>

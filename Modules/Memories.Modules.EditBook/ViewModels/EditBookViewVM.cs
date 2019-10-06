@@ -82,6 +82,7 @@ namespace Memories.Modules.EditBook.ViewModels
             if (parameters.ContainsKey("NewBook"))
             {
                 EditBook = parameters.GetValue<Book>("NewBook");
+                ExecuteSaveCommand();
             }
             else if (parameters.ContainsKey("LoadBook"))
             {

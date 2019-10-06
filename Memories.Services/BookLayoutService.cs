@@ -22,7 +22,7 @@ namespace Memories.Services
 
             foreach (string file in files)
             {
-                if (Path.GetExtension(file) != ExtentionNames.BookLayoutTemplate)
+                if (Path.GetExtension(file) != "." + ExtentionNames.BookLayoutTemplate)
                 {
                     continue;
                 }

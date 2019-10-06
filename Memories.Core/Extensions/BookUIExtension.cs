@@ -36,11 +36,6 @@ namespace Memories.Core.Extensions
 
             BookUIToFE(bookImageUI, image);
 
-            if (bookImageUI.ImageSource == null)
-            {
-                bookImageUI.ImageSource = GetSourceFromImage(new BitmapImage(new System.Uri("pack://application:,,,/Resources/Img/MemoriesEmptyImage.jpg")));
-            }
-
             return image;
         }
 
