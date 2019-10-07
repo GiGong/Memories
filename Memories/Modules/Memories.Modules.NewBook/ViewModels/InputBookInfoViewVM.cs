@@ -17,7 +17,7 @@ namespace Memories.Modules.NewBook.ViewModels
         private PaperSize _selectedPaperSize;
 
         private DelegateCommand _selectFilePathCommand;
-        private NewBookNavigateParameter _naviParam;
+        private NewBookNavigationParameter _naviParam;
 
         private readonly IFileService _fileService;
 
@@ -79,7 +79,7 @@ namespace Memories.Modules.NewBook.ViewModels
         {
             if (e.PropertyName == "SelectedPaperSize")
             {
-                _naviParam.IsCompleted[LayoutSelectViewVM.VIEW_INDEX] = false;
+                _naviParam.IsCompleted[BookLayoutSelectViewVM.VIEW_INDEX] = false;
             }
 
             if (AllCompleted())
@@ -106,13 +106,13 @@ namespace Memories.Modules.NewBook.ViewModels
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            navigationContext.Parameters.Add("PaperSize", SelectedPaperSize);
+            navigationContext.Parameters.Add(nameof(PaperSize), SelectedPaperSize);
             navigationContext.Parameters.Add("Parameter", _naviParam);
         }
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigateParameter;
+            _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigationParameter;
             _naviParam.NowPage = VIEW_INDEX;
         }
 

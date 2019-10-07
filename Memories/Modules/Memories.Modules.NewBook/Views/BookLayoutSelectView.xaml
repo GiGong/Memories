@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Memories.Modules.NewBook.Views.LayoutSelectView"
+﻿<UserControl x:Class="Memories.Modules.NewBook.Views.BookLayoutSelectView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             

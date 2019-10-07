@@ -2,12 +2,11 @@
 using Memories.Business.Models;
 using Memories.Services.Interfaces;
 using Prism.Regions;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Memories.Modules.NewBook.ViewModels
 {
-    public class LayoutSelectViewVM : NewBookViewModelBase
+    public class BookLayoutSelectViewVM : NewBookViewModelBase
     {
         public const int VIEW_INDEX = 1;
 
@@ -15,7 +14,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
         private readonly IFolderService _folderService;
         private readonly IBookLayoutService _bookLayoutService;
-        private NewBookNavigateParameter _naviParam;
+        private NewBookNavigationParameter _naviParam;
 
         private ObservableCollection<BookLayout> _layouts;
         private BookLayout _selectedItem;
@@ -53,7 +52,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Constructor
 
-        public LayoutSelectViewVM(IFolderService folderService, IBookLayoutService bookLayoutService)
+        public BookLayoutSelectViewVM(IFolderService folderService, IBookLayoutService bookLayoutService)
         {
             _folderService = folderService;
             _bookLayoutService = bookLayoutService;
@@ -70,8 +69,8 @@ namespace Memories.Modules.NewBook.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            var paperSize = (PaperSize)navigationContext.Parameters["PaperSize"];
-            _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigateParameter;
+            var paperSize = (PaperSize)navigationContext.Parameters[nameof(PaperSize)];
+            _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigationParameter;
             _naviParam.NowPage = VIEW_INDEX;
 
             GetLayoutTemplates(paperSize);

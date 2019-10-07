@@ -1,12 +1,9 @@
-﻿using Memories.Business.Models;
-using Memories.Core;
+﻿using Memories.Core;
+using Memories.Modules.NewBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 
 namespace Memories.Modules.NewBook.ViewModels
@@ -24,7 +21,7 @@ namespace Memories.Modules.NewBook.ViewModels
         private DelegateCommand _cancelCommand;
         private DelegateCommand _checkCommand;
 
-        private NewBookNavigateParameter _parameter;
+        private NewBookNavigationParameter _parameter;
 
         #endregion Field
 
@@ -35,7 +32,7 @@ namespace Memories.Modules.NewBook.ViewModels
         /// if don't use this, then RequestNavigate doesn't activate
         /// </summary>
         public IRegionManager RegionManager { get; set; }
-        public NewBookNavigateParameter Parameter
+        public NewBookNavigationParameter Parameter
         {
             get { return _parameter; }
             set { SetProperty(ref _parameter, value); }
@@ -67,7 +64,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
             _bookService = bookService;
 
-            Parameter = new NewBookNavigateParameter() { NowPage = 0, InputBook = _bookService.GetEmptyBook() };
+            Parameter = new NewBookNavigationParameter() { NowPage = 0, InputBook = _bookService.GetEmptyBook() };
             Parameter.IsCompleted.CollectionChanged += IsCompleted_CollectionChanged;
         }
 
@@ -81,7 +78,7 @@ namespace Memories.Modules.NewBook.ViewModels
             {
                 { "Parameter", Parameter }
             };
-            RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView", param);
+            RegionManager.RequestNavigate(RegionNames.NewBookRegion, nameof(InputBookInfoView), param);
 
             // this code loads null in navigated viewmodel
             //RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView", new NavigationParameters($"NowPage={Parameter}"));
@@ -97,7 +94,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
         void Previous()
         {
-            RegionManager.RequestNavigate(RegionNames.NewBookRegion, "InputBookInfoView");
+            RegionManager.RequestNavigate(RegionNames.NewBookRegion, nameof(InputBookInfoView));
         }
 
         private bool CanPrevious()
@@ -107,7 +104,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
         void Next()
         {
-            RegionManager.RequestNavigate(RegionNames.NewBookRegion, "LayoutSelectView");
+            RegionManager.RequestNavigate(RegionNames.NewBookRegion, nameof(BookLayoutSelectView));
         }
 
         private bool CanNext()
@@ -144,25 +141,5 @@ namespace Memories.Modules.NewBook.ViewModels
         }
 
         #endregion Method
-    }
-
-    public class NewBookNavigateParameter : BindableBase
-    {
-        private int _nowPage;
-        public int NowPage
-        {
-            get { return _nowPage; }
-            set { SetProperty(ref _nowPage, value); }
-        }
-
-        public Book InputBook { get; set; }
-        public string BookPath { get; set; }
-
-        private ObservableCollection<bool> _isCompleted = new ObservableCollection<bool>(Enumerable.Repeat(false, NewBookViewVM.NUM_OF_VIEWS));
-        public ObservableCollection<bool> IsCompleted
-        {
-            get { return _isCompleted; }
-            set { SetProperty(ref _isCompleted, value); }
-        }
     }
 }
