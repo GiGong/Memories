@@ -14,17 +14,20 @@
         <Grid Width="105" Height="50" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top">
             <Image Name="imgPreview" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Image.Source>
-                    <BitmapImage UriSource="C:/Users/GiGong/Pictures/mushroom.jfif"/>
+                    <BitmapImage UriSource="W:/[Data]/mushroom.jfif"/>
                 </Image.Source>
             </Image>
         </Grid>
         <TextBox Text="포트폴리오" Name="textBox" Margin="0,270,971,421"/>
 
         <Canvas Name="pageCanvas1" Width="14.8cm" Height="794" Margin="105,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Canvas.Background>
+                <ImageBrush ImageSource="W:/[Data]/배경.jpg"/>
+            </Canvas.Background>
             <Image Height="274" Width="364" Canvas.Left="0" Canvas.Top="125"/>
-            <tool:RichTextBox Height="274" Width="190" Canvas.Left="369" Canvas.Top="125" />
-            <Image Height="210" Width="279" Canvas.Left="249" Canvas.Top="484"/>
-            <tool:RichTextBox Height="210" Width="200" Canvas.Left="44" Canvas.Top="484" />
+            <tool:RichTextBox Height="274" Width="195" Canvas.Left="364" Canvas.Top="125" />
+            <Image Height="210" Width="298" Canvas.Left="230" Canvas.Top="484"/>
+            <tool:RichTextBox Height="210" Width="200" Canvas.Left="25" Canvas.Top="484" />
         </Canvas>
 
         <Canvas Name="pageCanvas2" Width="14.8cm" Height="794" Margin="730,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">

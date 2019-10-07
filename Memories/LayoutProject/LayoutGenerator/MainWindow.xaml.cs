@@ -62,7 +62,7 @@ namespace LayoutGenerator
             BookLayout bookLayout = new BookLayout()
             {
                 Name = textBox.Text,
-                PreviewSource = GetSourceFromImage(imgPreview),
+                PreviewSource = GetSourceFromImage(imgPreview.Source),
                 Pages = new ObservableCollection<BookPage>()
             };
 
@@ -70,6 +70,7 @@ namespace LayoutGenerator
             {
                 bookLayout.Pages.Add(new BookPage()
                 {
+                    Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
                     PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
                 });
             }
@@ -77,7 +78,7 @@ namespace LayoutGenerator
             string json = JsonConvert.SerializeObject(bookLayout);
             //string json = JsonConvert.SerializeObject(bookLayout, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
 
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Outputs", textBox.Text + ".json");
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Outputs", textBox.Text + ".mrtl");
 
             File.WriteAllText(path, json);
         }
@@ -109,23 +110,20 @@ namespace LayoutGenerator
 
             BookLayout bookLayout = JsonConvert.DeserializeObject<BookLayout>(json, new BookUIConverter());
             //BookLayout bookLayout = JsonConvert.DeserializeObject<BookLayout>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
-
-
-
-
         }
 
-        private static byte[] GetSourceFromImage(Image image)
+        private static byte[] GetSourceFromImage(ImageSource source)
         {
-            var source = image.Source as BitmapImage;
             if (source == null)
             {
                 return null;
             }
 
+            var image = source as BitmapSource;
+
             MemoryStream memStream = new MemoryStream();
             PngBitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(source));
+            encoder.Frames.Add(BitmapFrame.Create(image));
             encoder.Save(memStream);
             return memStream.ToArray();
         }
