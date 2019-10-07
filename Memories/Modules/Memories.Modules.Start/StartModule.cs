@@ -1,7 +1,5 @@
 ﻿using Memories.Core;
 using Memories.Modules.Start.Views;
-using Memories.Services;
-using Memories.Services.Interfaces;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -24,8 +22,7 @@ namespace Memories.Modules.Start
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IBookService, BookService>();
-            containerRegistry.RegisterSingleton<IFileService, FileService>();
+
         }
     }
 }

@@ -2,6 +2,8 @@
 using Memories.Modules.EditBook;
 using Memories.Modules.NewBook;
 using Memories.Modules.Start;
+using Memories.Services;
+using Memories.Services.Interfaces;
 using Memories.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -25,6 +27,9 @@ namespace Memories
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IBookService, BookService>();
+            containerRegistry.RegisterSingleton<IFileService, FileService>();
+
             containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();
         }
 
