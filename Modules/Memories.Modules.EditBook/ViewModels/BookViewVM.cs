@@ -45,6 +45,9 @@ namespace Memories.Modules.EditBook.ViewModels
                     TotalNum = EditBook.BookPages.Count;
                     LeftNum = 1;
                     RightNum = 2;
+
+                    PageBackCommand.RaiseCanExecuteChanged();
+                    PageForwardCommand.RaiseCanExecuteChanged();
                 }
             }
         }
