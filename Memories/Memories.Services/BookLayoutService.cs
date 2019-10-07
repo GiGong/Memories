@@ -1,8 +1,7 @@
 ﻿using Memories.Business;
-using Memories.Business.Converters;
+using Memories.Business.IO;
 using Memories.Business.Models;
 using Memories.Services.Interfaces;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
@@ -27,7 +26,7 @@ namespace Memories.Services
                     continue;
                 }
 
-                BookLayout layout = LoadFromFile(file);
+                BookLayout layout = FileSystem.LoadFromJson<BookLayout>(file);
                 if (layout != null)
                 {
                     layouts.Add(layout);
@@ -35,13 +34,6 @@ namespace Memories.Services
             }
 
             return layouts;
-        }
-
-        private BookLayout LoadFromFile(string path)
-        {
-            string json = File.ReadAllText(path);
-
-            return JsonConvert.DeserializeObject<BookLayout>(json, new BookUIConverter());
         }
     }
 }

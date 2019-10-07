@@ -1,8 +1,6 @@
-﻿using Memories.Business.Converters;
+﻿using Memories.Business.IO;
 using Memories.Business.Models;
 using Memories.Services.Interfaces;
-using Newtonsoft.Json;
-using System.IO;
 
 namespace Memories.Services
 {
@@ -15,16 +13,12 @@ namespace Memories.Services
 
         public Book LoadBook(string path)
         {
-            var json = File.ReadAllText(path);
-
-            return JsonConvert.DeserializeObject<Book>(json, new BookUIConverter());
+            return FileSystem.LoadFromJson<Book>(path);
         }
 
         public void SaveBook(Book book, string path)
         {
-            var json = JsonConvert.SerializeObject(book);
-
-            File.WriteAllText(path, json);
+            FileSystem.SaveToJson(book, path);
         }
 
         public void AddPage(Book book, BookPage page)
