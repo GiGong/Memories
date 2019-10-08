@@ -8,26 +8,31 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="887" Width="1074">
     <Grid>
-        <Button Content="제작" Width="50" Height="50" Click="Save_Click" Margin="35,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Button Content="불러오기" Width="50" Height="50" Click="Load_Click" Margin="35,100,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="제작" Width="85" Height="30" Click="Save_Click" Margin="10,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="불러오기" Width="85" Height="30" Click="Load_Click" Margin="10,70,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-        <Grid Width="105" Height="50" HorizontalAlignment="Left" Margin="0,170,0,0" VerticalAlignment="Top">
-            <Image Name="imgPreview" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid Width="105" Height="50" HorizontalAlignment="Left" Margin="0,135,0,0" VerticalAlignment="Top">
+            <Image Name="imgPreview" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="imgPreview_MouseLeftButtonDown">
                 <Image.Source>
                     <BitmapImage UriSource="W:/[Data]/mushroom.jfif"/>
                 </Image.Source>
             </Image>
         </Grid>
-        <TextBox Text="포트폴리오" Name="textBox" Margin="0,270,971,421"/>
+        <TextBox Text="포트폴리오" Name="textBox" Margin="5,205,966,611"/>
 
         <Canvas Name="pageCanvas1" Width="14.8cm" Height="794" Margin="105,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
             <Canvas.Background>
                 <ImageBrush ImageSource="W:/[Data]/배경.jpg"/>
             </Canvas.Background>
-            <Image Height="274" Width="364" Canvas.Left="0" Canvas.Top="125"/>
+            <!--<Image Height="274" Width="364" Canvas.Left="0" Canvas.Top="125"/>
             <tool:RichTextBox Height="274" Width="195" Canvas.Left="364" Canvas.Top="125" />
             <Image Height="210" Width="298" Canvas.Left="230" Canvas.Top="484"/>
-            <tool:RichTextBox Height="210" Width="200" Canvas.Left="25" Canvas.Top="484" />
+            <tool:RichTextBox Height="210" Width="200" Canvas.Left="25" Canvas.Top="484" />-->
+
+            <Image Height="250" Width="250" Canvas.Left="20" Canvas.Top="135"/>
+            <Image Height="250" Width="250" Canvas.Left="285" Canvas.Top="135"/>
+            <Image Height="250" Width="250" Canvas.Left="20" Canvas.Top="405"/>
+            <Image Height="250" Width="250" Canvas.Left="285" Canvas.Top="405"/>
         </Canvas>
 
         <Canvas Name="pageCanvas2" Width="14.8cm" Height="794" Margin="730,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
@@ -37,23 +42,8 @@
             <tool:RichTextBox Height="185" Width="200" Canvas.Left="44" Canvas.Top="560" />
         </Canvas>
 
-        <!--<Canvas Width="500" Height="500" Name="pageCanvas2" Margin="600,30,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Image Height="450" Width="200" Canvas.Left="25" Canvas.Top="25"/>
-            <Image Height="450" Width="200" Canvas.Left="275" Canvas.Top="25"/>
-        </Canvas>
+        <Button Content="제작" Width="85" Height="30" Click="SavePage_Click" Margin="10,460,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="불러오기" Width="85" Height="30" Click="LoadPage_Click" Margin="10,495,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-        <Canvas Width="500" Height="500" x:Name="pageCanvas3" Margin="100,530,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="25">
-                <Image.Source>
-                    <BitmapImage UriSource=""/>
-                </Image.Source>
-            </Image>
-            <xctk:RichTextBox Name="testBox" Text="{Binding FormatText}" FontFamily="NanumGothic" Height="450" Width="200" Canvas.Left="275" Canvas.Top="25"/>
-            <Image Height="200" Width="200" Canvas.Left="25" Canvas.Top="275"/>
-        </Canvas>
-        <Canvas Width="500" Height="500" x:Name="pageCanvas4" Margin="600,530,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <xctk:RichTextBox Height="450" Width="200" Canvas.Left="25" Canvas.Top="25"/>
-            <xctk:RichTextBox Height="450" Width="200" Canvas.Left="275" Canvas.Top="25"/>
-        </Canvas>-->
     </Grid>
 </Window>

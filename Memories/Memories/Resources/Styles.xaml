@@ -1,13 +1,22 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ItemsPanelTemplate x:Key="listViewLayoutPanelTemplate">
+        <WrapPanel Orientation="Horizontal"></WrapPanel>
+    </ItemsPanelTemplate>
+    
     <DataTemplate x:Key="listViewBookLayoutTemplate">
         <StackPanel Orientation="Vertical" Width="100" Height="auto">
-            <Image Source="{Binding PreviewSource}" Height="100"/>
+            <Image Source="{Binding PreviewSource}" Height="150"/>
             <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
         </StackPanel>
     </DataTemplate>
 
-    <ItemsPanelTemplate x:Key="listViewBookLayoutPanelTemplate">
-        <WrapPanel Orientation="Horizontal"></WrapPanel>
-    </ItemsPanelTemplate>
+    <DataTemplate x:Key="listViewPageLayoutTemplate">
+        <StackPanel Orientation="Vertical" Width="100" Height="auto">
+            <Image Source="{Binding PreviewSource}" Height="150"/>
+            <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
+        </StackPanel>
+    </DataTemplate>
+
 </ResourceDictionary>

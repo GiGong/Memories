@@ -6,7 +6,10 @@
              xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
              xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <ItemsControl ItemsSource="{Binding PageControls}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+    </UserControl.Resources>
+    <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
         <ItemsControl.Resources>
             <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
             <Style TargetType="{x:Type controls:MMClickableImage}">

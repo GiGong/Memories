@@ -2,6 +2,7 @@
 using Memories.Business.Converters;
 using Memories.Business.Models;
 using Memories.Core.Extensions;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -126,6 +127,45 @@ namespace LayoutGenerator
             encoder.Frames.Add(BitmapFrame.Create(image));
             encoder.Save(memStream);
             return memStream.ToArray();
+        }
+
+        private void imgPreview_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    imgPreview.Source = new BitmapImage(new Uri(openFileDialog.FileName));
+                }
+            }
+        }
+
+        private void SavePage_Click(object sender, RoutedEventArgs e)
+        {
+            BookPageLayout bookPageLayout = new BookPageLayout()
+            {
+                Name = textBox.Text,
+                PreviewSource = GetSourceFromImage(imgPreview.Source),
+                Page = new BookPage()
+                {
+                    Background = pageCanvas1.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
+                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(pageCanvas1))
+                }
+            };
+
+
+            string json = JsonConvert.SerializeObject(bookPageLayout);
+            //string json = JsonConvert.SerializeObject(bookLayout, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
+
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Outputs", textBox.Text + ".mrptl");
+
+            File.WriteAllText(path, json);
+        }
+
+        private void LoadPage_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

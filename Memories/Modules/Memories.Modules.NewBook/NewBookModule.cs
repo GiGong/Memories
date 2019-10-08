@@ -21,7 +21,6 @@ namespace Memories.Modules.NewBook
             containerRegistry.RegisterForNavigation<BookLayoutSelectView, BookLayoutSelectViewVM>();
 
             containerRegistry.RegisterSingleton<IBookLayoutService, BookLayoutService>();
-            containerRegistry.RegisterSingleton<IFolderService, FolderService>();
         }
     }
 }

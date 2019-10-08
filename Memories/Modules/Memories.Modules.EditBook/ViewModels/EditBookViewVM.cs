@@ -1,9 +1,11 @@
 ﻿using Memories.Business.Models;
 using Memories.Core;
-using Memories.Core.Extensions;
+using Memories.Modules.EditBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -26,6 +28,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private Book _editBook;
         private readonly IBookService _bookService;
         private readonly IFileService _fileService;
+        private readonly IDialogService _dialogService;
 
         public Book EditBook
         {
@@ -61,10 +64,12 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public EditBookViewVM(IBookService bookService, IFileService fileService)
+        public EditBookViewVM(IBookService bookService, IFileService fileService, IDialogService dialogService)
         {
             _bookService = bookService;
+
             _fileService = fileService;
+            _dialogService = dialogService;
 
             Title = (string)Application.Current.Resources["Program_Name"];
         }
@@ -116,7 +121,23 @@ namespace Memories.Modules.EditBook.ViewModels
 
         void ExecuteAddPageCommand()
         {
+            var param = new DialogParameters
+            {
+                { "PaperSize", EditBook.PaperSize}
+            };
 
+            _dialogService.ShowDialog(nameof(PageLayoutSelectView), param, PageLayoutSelected);
+        }
+
+        private void PageLayoutSelected(IDialogResult result)
+        {
+            if (result.Result != ButtonResult.OK)
+            {
+                return;
+            }
+
+            var layout = result.Parameters.GetValue<BookPageLayout>("PageLayout");
+            EditBook.BookPages.Add(layout.Page);
         }
 
         #endregion Method

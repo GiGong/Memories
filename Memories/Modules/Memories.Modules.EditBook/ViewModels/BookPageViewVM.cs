@@ -19,6 +19,8 @@ namespace Memories.Modules.EditBook.ViewModels
     {
         #region Field
 
+        private bool _isEditPage;
+
         private ObservableCollection<UIElement> _pageControls;
         private byte[] _background;
         private BookPage _nowPage;
@@ -31,6 +33,12 @@ namespace Memories.Modules.EditBook.ViewModels
         #endregion Field
 
         #region Property
+
+        public bool IsEditPage
+        {
+            get { return _isEditPage; }
+            set { SetProperty(ref _isEditPage, value); }
+        }
 
         public ObservableCollection<UIElement> PageControls
         {
@@ -59,8 +67,18 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _nowPage, value);
 
-                Background = NowPage == null ? null : NowPage.Background;
-                PageControls = NowPage == null ? null : new ObservableCollection<UIElement>(NowPage.PageControls.Select(BookUIToUIElement));
+                if (NowPage == null)
+                {
+                    IsEditPage = false;
+                    Background = null;
+                    PageControls = null;
+                }
+                else
+                {
+                    IsEditPage = true;
+                    Background = NowPage.Background;
+                    PageControls = new ObservableCollection<UIElement>(NowPage.PageControls.Select(BookUIToUIElement));
+                }
             }
         }
 

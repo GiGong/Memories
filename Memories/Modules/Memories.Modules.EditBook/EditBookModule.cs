@@ -1,6 +1,8 @@
 ﻿using Memories.Core;
 using Memories.Modules.EditBook.ViewModels;
 using Memories.Modules.EditBook.Views;
+using Memories.Services;
+using Memories.Services.Interfaces;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -25,7 +27,10 @@ namespace Memories.Modules.EditBook
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<IBookPageLayoutService, BookPageLayoutService>();
+
             containerRegistry.RegisterDialog<EditBookView, EditBookViewVM>();
+            containerRegistry.RegisterDialog<PageLayoutSelectView, PageLayoutSelectViewVM>();
         }
     }
 }

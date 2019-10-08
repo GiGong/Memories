@@ -29,6 +29,7 @@ namespace Memories
         {
             containerRegistry.RegisterSingleton<IBookService, BookService>();
             containerRegistry.RegisterSingleton<IFileService, FileService>();
+            containerRegistry.RegisterSingleton<IFolderService, FolderService>();
 
             containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();
         }

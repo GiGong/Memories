@@ -1,4 +1,5 @@
-﻿using Memories.Business.Models;
+﻿using System;
+using Memories.Business.Models;
 using Memories.Core.Extensions;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -39,15 +40,7 @@ namespace Memories.Modules.EditBook.ViewModels
                 }
                 else
                 {
-                    EditBook.PaperWidth = EditBook.PaperSize.GetWidthPixel();
-                    EditBook.PaperHeight= EditBook.PaperSize.GetHeightPiexl();
-
-                    TotalNum = EditBook.BookPages.Count;
-                    LeftNum = 1;
-                    RightNum = 2;
-
-                    PageBackCommand.RaiseCanExecuteChanged();
-                    PageForwardCommand.RaiseCanExecuteChanged();
+                    EditBookChanged();
                 }
             }
         }
@@ -113,6 +106,31 @@ namespace Memories.Modules.EditBook.ViewModels
         #endregion Command
 
         #region Method
+
+        private void EditBookChanged()
+        {
+            EditBook.BookPages.CollectionChanged += BookPages_CollectionChanged;
+
+            EditBook.PaperWidth = EditBook.PaperSize.GetWidthPixel();
+            EditBook.PaperHeight = EditBook.PaperSize.GetHeightPiexl();
+
+            TotalNum = EditBook.BookPages.Count;
+            LeftNum = 1;
+            RightNum = 2;
+
+            PageBackCommand.RaiseCanExecuteChanged();
+            PageForwardCommand.RaiseCanExecuteChanged();
+        }
+
+        private void BookPages_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            TotalNum = EditBook.BookPages.Count;
+            LeftNum = LeftNum;
+            RightNum = RightNum;
+
+            PageBackCommand.RaiseCanExecuteChanged();
+            PageForwardCommand.RaiseCanExecuteChanged();
+        }
 
         void PageBack()
         {
