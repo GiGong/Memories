@@ -20,27 +20,27 @@
         </Grid>
         <TextBox Text="포트폴리오" Name="textBox" Margin="5,205,966,611"/>
 
-        <Canvas Name="pageCanvas1" Width="14.8cm" Height="794" Margin="105,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Canvas.Background>
-                <ImageBrush ImageSource="W:/[Data]/배경.jpg"/>
-            </Canvas.Background>
-            <!--<Image Height="274" Width="364" Canvas.Left="0" Canvas.Top="125"/>
-            <tool:RichTextBox Height="274" Width="195" Canvas.Left="364" Canvas.Top="125" />
-            <Image Height="210" Width="298" Canvas.Left="230" Canvas.Top="484"/>
-            <tool:RichTextBox Height="210" Width="200" Canvas.Left="25" Canvas.Top="484" />-->
+        <Viewbox Margin="135,35,531,256">
+            <Canvas Name="pageCanvas1" Width="14.8cm" Height="21cm">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:/[Data]/cover1.jpg"/>
+                </Canvas.Background>
 
-            <Image Height="250" Width="250" Canvas.Left="20" Canvas.Top="135"/>
-            <Image Height="250" Width="250" Canvas.Left="285" Canvas.Top="135"/>
-            <Image Height="250" Width="250" Canvas.Left="20" Canvas.Top="405"/>
-            <Image Height="250" Width="250" Canvas.Left="285" Canvas.Top="405"/>
-        </Canvas>
+                <tool:RichTextBox Height="230" Width="492" Canvas.Left="34" Canvas.Top="65"/>
+            </Canvas>
+        </Viewbox>
 
-        <Canvas Name="pageCanvas2" Width="14.8cm" Height="794" Margin="730,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <Image Height="8.11cm" Width="12.01cm" Canvas.Left="1.41cm" Canvas.Top="1.62cm"/>
-            <tool:RichTextBox Height="161" Width="456" Canvas.Left="44" Canvas.Top="368" />
-            <Image Height="185" Width="248" Canvas.Left="280" Canvas.Top="560"/>
-            <tool:RichTextBox Height="185" Width="200" Canvas.Left="44" Canvas.Top="560" />
-        </Canvas>
+        <Viewbox Margin="580,35,71,256">
+            <Canvas Name="pageCanvas2" Width="14.8cm" Height="21cm">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:/[Data]/cover2.jpg"/>
+                </Canvas.Background>
+                <Image Height="8.11cm" Width="12.01cm" Canvas.Left="1.41cm" Canvas.Top="1.62cm"/>
+                <tool:RichTextBox Height="161" Width="456" Canvas.Left="44" Canvas.Top="368" />
+                <Image Height="185" Width="248" Canvas.Left="280" Canvas.Top="560"/>
+                <tool:RichTextBox Height="185" Width="200" Canvas.Left="44" Canvas.Top="560" />
+            </Canvas>
+        </Viewbox>
 
         <Button Content="제작" Width="85" Height="30" Click="SavePage_Click" Margin="10,460,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="불러오기" Width="85" Height="30" Click="LoadPage_Click" Margin="10,495,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>

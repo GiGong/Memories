@@ -9,10 +9,16 @@ namespace Memories.Business.Models
 
         private string _title;
         private string _writer;
+
         private PaperSize _paperSize;
+
         private double _paperWidth;
         private double _paperHeight;
+
         private ObservableCollection<BookPage> _bookPages;
+
+        private BookPage _frontCover;
+        private BookPage _backCover;
 
         #endregion Field
 
@@ -60,6 +66,18 @@ namespace Memories.Business.Models
             set { SetProperty(ref _bookPages, value); }
         }
 
+        public BookPage FrontCover
+        {
+            get { return _frontCover; }
+            set { SetProperty(ref _frontCover, value); }
+        }
+
+        public BookPage BackCover
+        {
+            get { return _backCover; }
+            set { SetProperty(ref _backCover, value); }
+        }
+
         #endregion Property
 
         #region Constructor
@@ -72,6 +90,8 @@ namespace Memories.Business.Models
             PaperWidth = -1;
             PaperHeight = -1;
             BookPages = new ObservableCollection<BookPage>();
+            FrontCover = new BookPage();
+            BackCover = new BookPage();
         }
 
         #endregion Constructor
@@ -87,7 +107,9 @@ namespace Memories.Business.Models
                 PaperSize = PaperSize,
                 PaperWidth = PaperWidth,
                 PaperHeight = PaperHeight,
-                BookPages = new ObservableCollection<BookPage>(BookPages)
+                BookPages = new ObservableCollection<BookPage>(BookPages),
+                FrontCover = FrontCover.Clone(),
+                BackCover = BackCover.Clone()
             };
         }
 

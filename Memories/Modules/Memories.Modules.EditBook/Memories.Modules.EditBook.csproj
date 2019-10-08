@@ -51,7 +51,9 @@
     <Reference Include="Xceed.Wpf.Toolkit, Version=3.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\BookStateToVisibilityConverter.cs" />
     <Compile Include="EditBookModule.cs" />
+    <Compile Include="Enums\BookState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -130,5 +132,6 @@
       <Name>Memories.Services</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

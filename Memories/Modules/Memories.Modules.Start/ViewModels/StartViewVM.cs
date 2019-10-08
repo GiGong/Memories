@@ -14,6 +14,7 @@ namespace Memories.Modules.Start.ViewModels
 
         private DelegateCommand _newBookCommand;
         private DelegateCommand _loadBookCommand;
+        private DelegateCommand _debugCommand;
 
         private IDialogService _dialogService;
         private readonly IApplicationCommands _applicationCommands;
@@ -29,6 +30,9 @@ namespace Memories.Modules.Start.ViewModels
 
         public DelegateCommand LoadBookCommand =>
             _loadBookCommand ?? (_loadBookCommand = new DelegateCommand(LoadBook));
+
+        public DelegateCommand DebugCommand =>
+            _debugCommand ?? (_debugCommand = new DelegateCommand(ExecuteDebugCommand));
 
         #endregion Command
 
@@ -81,6 +85,11 @@ namespace Memories.Modules.Start.ViewModels
             {
                 _applicationCommands.ShowShellCommand.Execute("");
             }
+        }
+
+        void ExecuteDebugCommand()
+        {
+            _dialogService.Show("EditBookView", null, null);
         }
 
         #endregion Method

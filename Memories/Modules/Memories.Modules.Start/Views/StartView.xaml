@@ -11,5 +11,6 @@
         <Image Margin="500,100,0,0" HorizontalAlignment="Left" Width="100" Height="100" VerticalAlignment="Top"/>
         <Button Content="새 책 만들기" Command="{Binding NewBookCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,255,0,0"/>
         <Button Content="책 불러오기" Command="{Binding LoadBookCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,290,0,0"/>
+        <Button Content="Debug" Command="{Binding DebugCommand}" Visibility="Hidden" HorizontalAlignment="Left" Margin="430,355,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </UserControl>

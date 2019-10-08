@@ -82,6 +82,11 @@ namespace Memories.Modules.EditBook.ViewModels
         {
             base.OnDialogOpened(parameters);
 
+            if (parameters == null)
+            {
+                return;
+            }
+
             BookPath = parameters.GetValue<string>("BookPath");
 
             if (parameters.ContainsKey("NewBook"))

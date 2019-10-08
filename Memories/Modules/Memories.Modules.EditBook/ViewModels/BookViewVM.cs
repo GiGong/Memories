@@ -1,6 +1,6 @@
-﻿using System;
-using Memories.Business.Models;
+﻿using Memories.Business.Models;
 using Memories.Core.Extensions;
+using Memories.Modules.EditBook.Enums;
 using Prism.Commands;
 using Prism.Mvvm;
 
@@ -17,6 +17,10 @@ namespace Memories.Modules.EditBook.ViewModels
         private int _leftNum;
         private int _rightNum;
         private int _totalNum;
+
+        private bool _isRightExist;
+
+        private BookState _bookState;
 
         private DelegateCommand _pageBackCommand;
         private DelegateCommand _pageForwardCommand;
@@ -45,6 +49,7 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
+
         public BookPage LeftPage
         {
             get { return _leftPage; }
@@ -64,7 +69,21 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _leftNum, value);
 
-                LeftPage = EditBook.BookPages[LeftNum - 1];
+                if (LeftNum < 1)
+                {
+                    LeftPage = null;
+                    BookState = BookState.FrontCover;
+                }
+                else if (LeftNum > TotalNum)
+                {
+                    LeftPage = EditBook.BackCover;
+                    BookState = BookState.BackCover;
+                }
+                else
+                {
+                    LeftPage = EditBook.BookPages[LeftNum - 1];
+                    BookState = BookState.Page;
+                }
             }
         }
 
@@ -75,7 +94,24 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _rightNum, value);
 
-                RightPage = RightNum > TotalNum ? null : EditBook.BookPages[RightNum - 1];
+                IsRightExist = true;
+
+                if (RightNum < 2)
+                {
+                    RightPage = EditBook.FrontCover;
+                }
+                else if (RightNum > TotalNum)
+                {
+                    RightPage = null;
+                    if (TotalNum % 2 == 1)
+                    {
+                        IsRightExist = false;
+                    }
+                }
+                else
+                {
+                    RightPage = EditBook.BookPages[RightNum - 1];
+                }
             }
         }
 
@@ -83,6 +119,18 @@ namespace Memories.Modules.EditBook.ViewModels
         {
             get { return _totalNum; }
             set { SetProperty(ref _totalNum, value); }
+        }
+
+        public BookState BookState
+        {
+            get { return _bookState; }
+            set { SetProperty(ref _bookState, value); }
+        }
+
+        public bool IsRightExist
+        {
+            get { return _isRightExist; }
+            set { SetProperty(ref _isRightExist, value); }
         }
 
         #endregion Property
@@ -115,8 +163,8 @@ namespace Memories.Modules.EditBook.ViewModels
             EditBook.PaperHeight = EditBook.PaperSize.GetHeightPiexl();
 
             TotalNum = EditBook.BookPages.Count;
-            LeftNum = 1;
-            RightNum = 2;
+            LeftNum = -1;
+            RightNum = 0;
 
             PageBackCommand.RaiseCanExecuteChanged();
             PageForwardCommand.RaiseCanExecuteChanged();
@@ -140,7 +188,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         bool CanPageBack()
         {
-            return LeftNum > 1;
+            return LeftNum > -1;
         }
 
         void PageForward()
@@ -151,7 +199,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         bool CanPageForward()
         {
-            return RightNum < TotalNum;
+            return RightNum < TotalNum + 2;
         }
 
         #endregion Method

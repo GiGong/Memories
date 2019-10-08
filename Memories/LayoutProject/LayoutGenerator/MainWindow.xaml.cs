@@ -64,17 +64,27 @@ namespace LayoutGenerator
             {
                 Name = textBox.Text,
                 PreviewSource = GetSourceFromImage(imgPreview.Source),
-                Pages = new ObservableCollection<BookPage>()
+                Pages = new ObservableCollection<BookPage>(),
+                FrontCover = new BookPage()
+                {
+                    Background = pageCanvas1.Background is ImageBrush image1 ? GetSourceFromImage(image1.ImageSource) : null,
+                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(pageCanvas1))
+                },
+                BackCover = new BookPage()
+                {
+                    Background = pageCanvas2.Background is ImageBrush image2 ? GetSourceFromImage(image2.ImageSource) : null,
+                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(pageCanvas2))
+                }
             };
 
-            foreach (var item in _canvas)
-            {
-                bookLayout.Pages.Add(new BookPage()
-                {
-                    Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
-                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
-                });
-            }
+            //foreach (var item in _canvas)
+            //{
+            //    bookLayout.Pages.Add(new BookPage()
+            //    {
+            //        Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
+            //        PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
+            //    });
+            //}
 
             string json = JsonConvert.SerializeObject(bookLayout);
             //string json = JsonConvert.SerializeObject(bookLayout, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });

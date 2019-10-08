@@ -10,6 +10,9 @@ namespace Memories.Business.Models
         private byte[] _previewSource;
         private ObservableCollection<BookPage> _pages;
 
+        private BookPage _frontCover;
+        private BookPage _backCover;
+
         #endregion Field
 
         #region Property
@@ -30,6 +33,18 @@ namespace Memories.Business.Models
         {
             get { return _pages; }
             set { SetProperty(ref _pages, value); }
+        }
+
+        public BookPage FrontCover
+        {
+            get { return _frontCover; }
+            set { SetProperty(ref _frontCover, value); }
+        }
+
+        public BookPage BackCover
+        {
+            get { return _backCover; }
+            set { SetProperty(ref _backCover, value); }
         }
 
         #endregion Property

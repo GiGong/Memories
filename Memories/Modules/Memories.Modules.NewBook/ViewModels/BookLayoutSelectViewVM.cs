@@ -44,6 +44,8 @@ namespace Memories.Modules.NewBook.ViewModels
                     _naviParam.IsCompleted[VIEW_INDEX] = true;
 
                     _naviParam.InputBook.BookPages = SelectedItem.Pages;
+                    _naviParam.InputBook.FrontCover = SelectedItem.FrontCover;
+                    _naviParam.InputBook.BackCover = SelectedItem.BackCover;
                 }
             }
         }
