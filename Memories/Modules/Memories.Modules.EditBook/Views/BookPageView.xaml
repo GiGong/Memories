@@ -8,23 +8,21 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
+        <Style TargetType="{x:Type controls:MMClickableImage}">
+            <Setter Property="Command" Value="{Binding ImageClickCommand}"/>
+            <Setter Property="Stretch" Value="Fill"/>
+        </Style>
+        <Style TargetType="{x:Type tool:RichTextBox}">
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
     </UserControl.Resources>
     <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
-        <ItemsControl.Resources>
-            <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
-            <Style TargetType="{x:Type controls:MMClickableImage}">
-                <Setter Property="Command" Value="{Binding ImageClickCommand}"/>
-                <Setter Property="Stretch" Value="UniformToFill"/>
-            </Style>
-            <Style TargetType="{x:Type tool:RichTextBox}">
-                <Setter Property="BorderThickness" Value="0"/>
-            </Style>
-        </ItemsControl.Resources>
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
                 <controls:MMClickableCanvas ClipToBounds="True" Command="{Binding CanvasClickCommand}">
                     <Canvas.Background>
-                        <ImageBrush ImageSource="{Binding Background, Mode=TwoWay, Converter={StaticResource byteSourceConverter}}"/>
+                        <ImageBrush Stretch="Fill" ImageSource="{Binding Background, Mode=TwoWay, Converter={StaticResource byteSourceConverter}}"/>
                     </Canvas.Background>
                 </controls:MMClickableCanvas>
             </ItemsPanelTemplate>

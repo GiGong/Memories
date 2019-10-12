@@ -12,7 +12,6 @@ namespace Memories.Core.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value == null ? null : (BitmapSource)new ImageSourceConverter().ConvertFrom(value as byte[]);
-
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -11,6 +11,10 @@ namespace Memories.Modules.EditBook.ViewModels
         #region Field
 
         private Book _editBook;
+
+        private double _paperWidth;
+        private double _paperHeight;
+
         private BookPage _leftPage;
         private BookPage _rightPage;
 
@@ -49,6 +53,17 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
+        public double PaperWidth
+        {
+            get { return _paperWidth; }
+            set { SetProperty(ref _paperWidth, value); }
+        }
+
+        public double PaperHeight
+        {
+            get { return _paperHeight; }
+            set { SetProperty(ref _paperHeight, value); }
+        }
 
         public BookPage LeftPage
         {
@@ -69,21 +84,7 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _leftNum, value);
 
-                if (LeftNum < 1)
-                {
-                    LeftPage = null;
-                    BookState = BookState.FrontCover;
-                }
-                else if (LeftNum > TotalNum)
-                {
-                    LeftPage = EditBook.BackCover;
-                    BookState = BookState.BackCover;
-                }
-                else
-                {
-                    LeftPage = EditBook.BookPages[LeftNum - 1];
-                    BookState = BookState.Page;
-                }
+                PageNumSet(true);
             }
         }
 
@@ -94,24 +95,7 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _rightNum, value);
 
-                IsRightExist = true;
-
-                if (RightNum < 2)
-                {
-                    RightPage = EditBook.FrontCover;
-                }
-                else if (RightNum > TotalNum)
-                {
-                    RightPage = null;
-                    if (TotalNum % 2 == 1)
-                    {
-                        IsRightExist = false;
-                    }
-                }
-                else
-                {
-                    RightPage = EditBook.BookPages[RightNum - 1];
-                }
+                PageNumSet(false);
             }
         }
 
@@ -159,8 +143,8 @@ namespace Memories.Modules.EditBook.ViewModels
         {
             EditBook.BookPages.CollectionChanged += BookPages_CollectionChanged;
 
-            EditBook.PaperWidth = EditBook.PaperSize.GetWidthPixel();
-            EditBook.PaperHeight = EditBook.PaperSize.GetHeightPiexl();
+            PaperWidth = EditBook.PaperSize.GetWidthPixel();
+            PaperHeight = EditBook.PaperSize.GetHeightPiexl();
 
             TotalNum = EditBook.BookPages.Count;
             LeftNum = -1;
@@ -200,6 +184,49 @@ namespace Memories.Modules.EditBook.ViewModels
         bool CanPageForward()
         {
             return RightNum < TotalNum + 2;
+        }
+
+        private void PageNumSet(bool isLeft)
+        {
+            if (isLeft)
+            {
+                if (LeftNum < 1)
+                {
+                    LeftPage = null;
+                    BookState = BookState.FrontCover;
+                }
+                else if (LeftNum > TotalNum)
+                {
+                    LeftPage = EditBook.BackCover;
+                    BookState = BookState.BackCover;
+                }
+                else
+                {
+                    LeftPage = EditBook.BookPages[LeftNum - 1];
+                    BookState = BookState.Page;
+                }
+            }
+            else
+            {
+                IsRightExist = true;
+
+                if (RightNum < 2)
+                {
+                    RightPage = EditBook.FrontCover;
+                }
+                else if (RightNum > TotalNum)
+                {
+                    RightPage = null;
+                    if (TotalNum % 2 == 1)
+                    {
+                        IsRightExist = false;
+                    }
+                }
+                else
+                {
+                    RightPage = EditBook.BookPages[RightNum - 1];
+                }
+            }
         }
 
         #endregion Method

@@ -21,17 +21,13 @@
         </Grid.RowDefinitions>
 
         <Viewbox HorizontalAlignment="Right" Grid.Column="0">
-            <Border BorderBrush="Black" BorderThickness="1">
-                <ContentControl Width="{Binding EditBook.PaperWidth, FallbackValue=148}" Height="{Binding EditBook.PaperHeight, FallbackValue=210}"
-                                prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftPageRegion}" prism:RegionManager.RegionContext="{Binding LeftPage}"/>
-            </Border>
+            <ContentControl Width="{Binding PaperWidth, FallbackValue=148}" Height="{Binding PaperHeight, FallbackValue=210}"
+                            prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftPageRegion}" prism:RegionManager.RegionContext="{Binding LeftPage}"/>
         </Viewbox>
 
         <Viewbox HorizontalAlignment="left" Grid.Column="1">
-            <Border BorderBrush="Black" BorderThickness="1">
-                <ContentControl Width="{Binding EditBook.PaperWidth, FallbackValue=148}" Height="{Binding EditBook.PaperHeight, FallbackValue=210}"
-                                prism:RegionManager.RegionName="{x:Static core:RegionNames.RightPageRegion}" prism:RegionManager.RegionContext="{Binding RightPage}"/>
-            </Border>
+            <ContentControl Width="{Binding PaperWidth, FallbackValue=148}" Height="{Binding PaperHeight, FallbackValue=210}"
+                            prism:RegionManager.RegionName="{x:Static core:RegionNames.RightPageRegion}" prism:RegionManager.RegionContext="{Binding RightPage}"/>
         </Viewbox>
 
         <Grid Width="200" Height="40" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">

@@ -10,6 +10,7 @@ namespace Memories.Business.Models
         private double _width;
         private double _height;
         private int _zIndex;
+        private BookUIMatrix _transform;
 
         #endregion Field
 
@@ -45,6 +46,12 @@ namespace Memories.Business.Models
         {
             get { return _zIndex; }
             set { SetProperty(ref _zIndex, value); }
+        }
+
+        public BookUIMatrix Transform
+        {
+            get { return _transform; }
+            set { SetProperty(ref _transform, value); }
         }
 
         #endregion Property

@@ -63,6 +63,10 @@ namespace Memories.Core.Extensions
             Canvas.SetTop(element, bookUI.Margin.Y);
 
             Panel.SetZIndex(element, bookUI.ZIndex);
+
+            element.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+
+            element.RenderTransform = new MatrixTransform(bookUI.Transform.ToMatrix());
         }
 
         /// <summary>
@@ -82,6 +86,8 @@ namespace Memories.Core.Extensions
             };
 
             bookUI.ZIndex = Panel.GetZIndex(element);
+
+            bookUI.Transform = element.RenderTransform.Value.ToBookUIMatrix();
         }
 
         /// <summary>

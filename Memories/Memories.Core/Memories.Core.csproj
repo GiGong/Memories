@@ -87,6 +87,7 @@
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="DialogViewModelBase.cs" />
     <Compile Include="Extensions\BookUIExtension.cs" />
+    <Compile Include="Extensions\MatrixExtension.cs" />
     <Compile Include="Extensions\PaperSizeExtension.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />

@@ -149,7 +149,7 @@ namespace Memories.Modules.EditBook.ViewModels
                 return;
             }
 
-            var bitmap = new BitmapImage(new Uri(path));
+            var bitmap = new BitmapImage(new Uri(path, UriKind.Relative));
             try
             {
                 if (frameworkElement is Image image)
@@ -158,12 +158,16 @@ namespace Memories.Modules.EditBook.ViewModels
                 }
                 else if (frameworkElement is Canvas canvas)
                 {
-                    (canvas.Background as ImageBrush).ImageSource = bitmap;
+                    canvas.Background = new ImageBrush(bitmap);
                 }
             }
             catch (NotSupportedException)
             {
                 MessageBox.Show("Not supported file\n지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch(ArgumentException e)
+            {
+                MessageBox.Show(e.Message);
             }
             catch (Exception)
             {
