@@ -158,20 +158,16 @@ namespace Memories.Modules.EditBook.ViewModels
                 }
                 else if (frameworkElement is Canvas canvas)
                 {
-                    canvas.Background = new ImageBrush(bitmap);
+                    Background = ByteArrayToImageSourceConverter.SourceToByteArray(bitmap);
                 }
             }
             catch (NotSupportedException)
             {
                 MessageBox.Show("Not supported file\n지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch(ArgumentException e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-            }
-            catch (Exception)
-            {
-                throw;
             }
         }
 

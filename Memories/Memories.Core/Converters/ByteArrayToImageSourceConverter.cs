@@ -21,9 +21,14 @@ namespace Memories.Core.Converters
                 return null;
             }
 
+            return SourceToByteArray(value as BitmapSource);
+        }
+
+        public static byte[] SourceToByteArray(BitmapSource bitmap)
+        {
             MemoryStream memStream = new MemoryStream();
             PngBitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(value as BitmapSource));
+            encoder.Frames.Add(BitmapFrame.Create(bitmap));
             encoder.Save(memStream);
             return memStream.ToArray();
         }

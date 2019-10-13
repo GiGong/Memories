@@ -1,6 +1,6 @@
 ﻿using Memories.Business.Models;
 using Memories.Core.Controls;
-using System.IO;
+using Memories.Core.Converters;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -97,16 +97,7 @@ namespace Memories.Core.Extensions
         /// <returns></returns>
         private static byte[] GetSourceFromImage(BitmapSource source)
         {
-            if (source == null)
-            {
-                return null;
-            }
-
-            MemoryStream memStream = new MemoryStream();
-            PngBitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(source));
-            encoder.Save(memStream);
-            return memStream.ToArray();
+            return source == null ? null : ByteArrayToImageSourceConverter.SourceToByteArray(source);
         }
     }
 }
