@@ -4,8 +4,6 @@ using Memories.Modules.EditBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
-using System;
-using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Memories.Modules.EditBook.ViewModels

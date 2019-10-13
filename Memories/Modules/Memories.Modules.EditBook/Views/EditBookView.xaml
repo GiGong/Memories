@@ -12,21 +12,18 @@
     </prism:Dialog.WindowStyle>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/> <!-- Row for Menu-->
-            <RowDefinition Height="50"/> <!-- Row for Simple Menu Icon-->
+            <RowDefinition Height="40"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
-        <Menu Grid.Row="0"/>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="Open" Command="{Binding OpenCommand}"/>
             <Button Content="Save" Command="{Binding SaveCommand}"/>
             <Button Content="SaveAs" Command="{Binding SaveAsCommand}"/>
             <Button Content="Debug" Command="{Binding OpenStartWindowCommand}"/>
             <Button Content="AddPage" Command="{Binding AddPageCommand}"/>
         </StackPanel>
-        
-        
-        <ContentControl Grid.Row="2" Margin="50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
+
+        <ContentControl Grid.Row="2" Margin="25" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
     </Grid>
 </UserControl>

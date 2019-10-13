@@ -28,6 +28,7 @@ namespace Memories.Modules.EditBook
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IBookPageLayoutService, BookPageLayoutService>();
+            containerRegistry.RegisterSingleton<IExportToImageService, ExportToImageService>();
 
             containerRegistry.RegisterDialog<EditBookView, EditBookViewVM>();
             containerRegistry.RegisterDialog<PageLayoutSelectView, PageLayoutSelectViewVM>();

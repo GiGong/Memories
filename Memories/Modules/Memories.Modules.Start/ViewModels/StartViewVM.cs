@@ -54,7 +54,6 @@ namespace Memories.Modules.Start.ViewModels
                     if (result.Result == ButtonResult.OK)
                     {
                         _applicationCommands.HideShellCommand.Execute("");
-
                         _dialogService.Show("EditBookView", result.Parameters, EditBookView_Closed);
                     }
                 });
@@ -71,6 +70,7 @@ namespace Memories.Modules.Start.ViewModels
                     { "BookPath", path }
                 };
 
+                _applicationCommands.HideShellCommand.Execute("");
                 _dialogService.Show("EditBookView", param, EditBookView_Closed);
             }
         }

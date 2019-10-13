@@ -8,24 +8,26 @@ namespace Memories.ViewModels
     public class MainWindowVM : BindableBase
     {
         private string _title;
+        private Visibility _visibility;
+
+        private DelegateCommand<string> _hideCommand;
+        private DelegateCommand<string> _showCommand;
+
         public string Title
         {
             get { return _title; }
             set { SetProperty(ref _title, value); }
         }
 
-        private Visibility _visibility;
         public Visibility Visibility
         {
             get { return _visibility; }
             set { SetProperty(ref _visibility, value); }
         }
 
-        private DelegateCommand<string> _hideCommand;
         public DelegateCommand<string> HideCommand =>
             _hideCommand ?? (_hideCommand = new DelegateCommand<string>(ExecuteHideCommand));
 
-        private DelegateCommand<string> _showCommand;
         public DelegateCommand<string> ShowCommand =>
             _showCommand ?? (_showCommand = new DelegateCommand<string>(ExecuteShowCommand));
 
@@ -37,8 +39,8 @@ namespace Memories.ViewModels
 
             applicationCommands.HideShellCommand.RegisterCommand(HideCommand);
             applicationCommands.ShowShellCommand.RegisterCommand(ShowCommand);
-        }        
-        
+        }
+
         void ExecuteHideCommand(string param)
         {
             Visibility = Visibility.Collapsed;
