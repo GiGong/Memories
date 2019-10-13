@@ -50,7 +50,7 @@ namespace LayoutGenerator
             InitializeComponent();
 
             _canvas.Add(pageCanvas1);
-            _canvas.Add(pageCanvas2);
+            //_canvas.Add(pageCanvas2);
             //_canvas.Add(pageCanvas3);
             //_canvas.Add(pageCanvas4);
 
@@ -67,24 +67,24 @@ namespace LayoutGenerator
                 Pages = new ObservableCollection<BookPage>(),
                 FrontCover = new BookPage()
                 {
-                    Background = pageCanvas1.Background is ImageBrush image1 ? GetSourceFromImage(image1.ImageSource) : null,
-                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(pageCanvas1))
+                    Background = coverCanvas1.Background is ImageBrush image1 ? GetSourceFromImage(image1.ImageSource) : null,
+                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(coverCanvas1))
                 },
                 BackCover = new BookPage()
                 {
-                    Background = pageCanvas2.Background is ImageBrush image2 ? GetSourceFromImage(image2.ImageSource) : null,
-                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(pageCanvas2))
+                    Background = coverCanvas2.Background is ImageBrush image2 ? GetSourceFromImage(image2.ImageSource) : null,
+                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(coverCanvas2))
                 }
             };
 
-            //foreach (var item in _canvas)
-            //{
-            //    bookLayout.Pages.Add(new BookPage()
-            //    {
-            //        Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
-            //        PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
-            //    });
-            //}
+            foreach (var item in _canvas)
+            {
+                bookLayout.Pages.Add(new BookPage()
+                {
+                    Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
+                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
+                });
+            }
 
             string json = JsonConvert.SerializeObject(bookLayout);
             //string json = JsonConvert.SerializeObject(bookLayout, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
@@ -176,6 +176,21 @@ namespace LayoutGenerator
         private void LoadPage_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Debug_Click(object sender, RoutedEventArgs e)
+        {
+            var rect = new System.Windows.Shapes.Rectangle();
+            rect.Fill = Brushes.Black;
+
+            rect.Width = imgDebug.Width;
+            rect.Height = imgDebug.Height;
+
+            rect.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            rect.RenderTransform = new MatrixTransform(imgDebug.RenderTransform.Value);
+            
+
+            gridDebug.Children.Add(rect);
         }
     }
 }

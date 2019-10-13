@@ -20,8 +20,8 @@
         </Grid>
         <TextBox Text="포트폴리오" Name="textBox" Margin="5,205,966,611"/>
 
-        <Viewbox Margin="135,35,531,256">
-            <Canvas Name="pageCanvas1" Width="14.8cm" Height="21cm">
+        <Viewbox Margin="135,35,831,680">
+            <Canvas Name="coverCanvas1" Width="14.8cm" Height="21cm">
                 <Canvas.Background>
                     <ImageBrush ImageSource="W:/[Data]/cover1.jpg"/>
                 </Canvas.Background>
@@ -30,8 +30,8 @@
             </Canvas>
         </Viewbox>
 
-        <Viewbox Margin="580,35,71,256">
-            <Canvas Name="pageCanvas2" Width="14.8cm" Height="21cm">
+        <Viewbox Margin="240,35,723,680">
+            <Canvas Name="coverCanvas2" Width="14.8cm" Height="21cm">
                 <Canvas.Background>
                     <ImageBrush ImageSource="W:/[Data]/cover2.jpg"/>
                 </Canvas.Background>
@@ -42,8 +42,39 @@
             </Canvas>
         </Viewbox>
 
-        <Button Content="제작" Width="85" Height="30" Click="SavePage_Click" Margin="10,460,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Viewbox Margin="375,50,88,244">
+            <Canvas Name="pageCanvas1" Width="559" Height="794">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:/[Data]/polaroid1.jpg"/>
+                </Canvas.Background>
+                <Image Height="175" Canvas.Left="50" Canvas.Top="122" Width="148" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <SkewTransform AngleY="9.0879999999999939" AngleX="-0.613"/>
+                            <RotateTransform Angle="8.582"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Height="177" Canvas.Left="242" Canvas.Top="133" Width="129"/>
+                <Image Height="171" Canvas.Left="411" Canvas.Top="125" Width="105" RenderTransformOrigin="0.5,0.5"
+                       Name="imgDebug"
+                       Stretch="Fill">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <SkewTransform AngleY="-13.015"/>
+                            <RotateTransform Angle="-15.605000000000004"/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Height="250" Canvas.Left="136" Canvas.Top="441" Width="265"/>
+            </Canvas>
+        </Viewbox>
+
+        <Button Content="페이지 제작" Width="85" Height="30" Click="SavePage_Click" Margin="10,460,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="불러오기" Width="85" Height="30" Click="LoadPage_Click" Margin="10,495,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="Debug" Width="85" Height="30" Click="Debug_Click" Margin="10,406,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Grid HorizontalAlignment="Left" Height="340" Margin="176,283,0,0" VerticalAlignment="Top" Width="256"
+              Name="gridDebug"/>
 
     </Grid>
 </Window>
