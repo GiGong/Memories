@@ -113,7 +113,9 @@ namespace Memories.Modules.EditBook.ViewModels
                 var richTextBox = (source as BookTextUI).ToRichTextBox();
                 richTextBox.SetBinding(Xceed.Wpf.Toolkit.RichTextBox.TextProperty,
                     new Binding($"NowPage.PageControls[{index}].Document")
-                    { Mode = BindingMode.TwoWay });
+                    { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged});
+                
+                Xceed.Wpf.Toolkit.RichTextBoxFormatBarManager.SetFormatBar(richTextBox, new Xceed.Wpf.Toolkit.RichTextBoxFormatBar() { Width=200, Height=75});
                 return richTextBox;
             }
             else if (source.UIType == Business.Enums.BookUIEnum.ImageUI)
