@@ -22,6 +22,10 @@ namespace Memories
     {
         protected override Window CreateShell()
         {
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
             return Container.Resolve<MainWindow>();
         }
 
@@ -55,6 +59,20 @@ namespace Memories
                 var viewModelName = $"{viewName}VM, {viewAssemblyName}";
                 return Type.GetType(viewModelName);
             });
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("In UnhandledException\n" + ((Exception)e.ExceptionObject).Message);
+
+            throw (Exception)e.ExceptionObject;
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("In DispatcherUnhandledException\n" + e.Exception.Message);
+
+            throw e.Exception;
         }
     }
 }
