@@ -17,6 +17,8 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private DelegateCommand _addPageCommand;
 
+        private DelegateCommand _exportToImageCommand;
+
         private DelegateCommand _openStartWindowCommand;
 
         #endregion Field
@@ -57,6 +59,8 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand AddPageCommand =>
             _addPageCommand ?? (_addPageCommand = new DelegateCommand(ExecuteAddPageCommand));
 
+        public DelegateCommand ExportToImageCommand =>
+            _exportToImageCommand ?? (_exportToImageCommand = new DelegateCommand(ExecuteExportToImageCommand));
 
         #endregion Command
 
@@ -141,6 +145,11 @@ namespace Memories.Modules.EditBook.ViewModels
 
             var layout = result.Parameters.GetValue<BookPageLayout>("PageLayout");
             EditBook.BookPages.Add(layout.Page);
+        }
+
+        void ExecuteExportToImageCommand()
+        {
+
         }
 
         #endregion Method
