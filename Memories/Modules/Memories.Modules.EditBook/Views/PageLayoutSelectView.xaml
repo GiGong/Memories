@@ -8,12 +8,12 @@
         <Style TargetType="Window">
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="SizeToContent" Value="WidthAndHeight"/>
-            
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid>
         <ListView ItemsSource="{Binding Layouts}" ItemTemplate="{StaticResource listViewPageLayoutTemplate}" ItemsPanel="{StaticResource listViewLayoutPanelTemplate}"
                   SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Background="WhiteSmoke"
                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Margin="50,75"/>
         <Button Content="확인" Command="{Binding CheckCommand}" Width="80" Height="20" Margin="0,0,100,20" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
     </Grid>

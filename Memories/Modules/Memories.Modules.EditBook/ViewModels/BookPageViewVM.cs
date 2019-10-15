@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Models;
+using Memories.Core.Controls;
 using Memories.Core.Converters;
 using Memories.Core.Extensions;
 using Memories.Services.Interfaces;
@@ -10,7 +11,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -25,7 +25,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private byte[] _background;
         private BookPage _nowPage;
 
-        private DelegateCommand<Image> _imageClickCommand;
+        private DelegateCommand<MMCenterImage> _imageClickCommand;
         private DelegateCommand<Canvas> _canvasClickCommand;
 
         private readonly IFileService _fileService;
@@ -95,8 +95,8 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Command
 
-        public DelegateCommand<Image> ImageClickCommand =>
-            _imageClickCommand ?? (_imageClickCommand = new DelegateCommand<Image>(ExecuteSelectImageCommand));
+        public DelegateCommand<MMCenterImage> ImageClickCommand =>
+            _imageClickCommand ?? (_imageClickCommand = new DelegateCommand<MMCenterImage>(ExecuteSelectImageCommand));
 
         public DelegateCommand<Canvas> CanvasClickCommand =>
             _canvasClickCommand ?? (_canvasClickCommand = new DelegateCommand<Canvas>(ExecuteSelectImageCommand));
@@ -121,7 +121,7 @@ namespace Memories.Modules.EditBook.ViewModels
             else if (source.UIType == Business.Enums.BookUIEnum.ImageUI)
             {
                 var image = (source as BookImageUI).ToImage();
-                image.SetBinding(Image.SourceProperty,
+                image.SetBinding(MMCenterImage.ImageSourceProperty,
                     new Binding($"NowPage.PageControls[{index}].ImageSource")
                     {
                         Mode = BindingMode.TwoWay,
@@ -138,7 +138,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteSelectImageCommand(FrameworkElement frameworkElement)
         {
-            if (!(frameworkElement is Image || frameworkElement is Canvas))
+            if (!(frameworkElement is MMCenterImage || frameworkElement is Canvas))
             {
                 throw new ArgumentException(frameworkElement + " is not image or canvas.");
             }
@@ -154,9 +154,9 @@ namespace Memories.Modules.EditBook.ViewModels
             var bitmap = new BitmapImage(new Uri(path, UriKind.Relative));
             try
             {
-                if (frameworkElement is Image image)
+                if (frameworkElement is MMCenterImage image)
                 {
-                    image.Source = bitmap;
+                    image.ImageSource = bitmap;
                 }
                 else if (frameworkElement is Canvas canvas)
                 {

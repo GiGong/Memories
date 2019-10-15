@@ -9,11 +9,12 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
-        <Style TargetType="{x:Type controls:MMClickableImage}">
+        <Style TargetType="{x:Type controls:MMCenterImage}">
             <Setter Property="Command" Value="{Binding ImageClickCommand}"/>
-            <Setter Property="Stretch" Value="Fill"/>
         </Style>
         <Style TargetType="{x:Type tool:RichTextBox}">
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Background" Value="Transparent"/>
         </Style>
     </UserControl.Resources>

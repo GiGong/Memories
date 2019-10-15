@@ -30,9 +30,9 @@ namespace Memories.Core.Extensions
             return bookTextUI;
         }
 
-        public static Image ToImage(this BookImageUI bookImageUI, bool isLayout = false)
+        public static MMCenterImage ToImage(this BookImageUI bookImageUI, bool isLayout = false)
         {
-            MMClickableImage image = new MMClickableImage();
+            MMCenterImage image = new MMCenterImage();
 
             BookUIToFE(bookImageUI, image);
 

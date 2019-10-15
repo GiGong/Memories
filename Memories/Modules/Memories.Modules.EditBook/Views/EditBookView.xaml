@@ -8,6 +8,7 @@
         <Style TargetType="Window">
             <Setter Property="Width" Value="1280"/>
             <Setter Property="Height" Value="900"/>
+            <Setter Property="Background" Value="#FFFDFDF5"/>
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid>
@@ -30,7 +31,7 @@
             <Button Content="Export to Image" Command="{Binding ExportToImageCommand}"/>
         </StackPanel>
 
-        <ContentControl Grid.Row="1" Grid.ColumnSpan="3" Margin ="25" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
+        <ContentControl Grid.Row="1" Grid.Column="1" Margin ="25,50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
 
         <ContentControl Grid.Row="1" Grid.Column="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.TextFormatRegion}"/>
     </Grid>
