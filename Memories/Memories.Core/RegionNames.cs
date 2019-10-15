@@ -7,5 +7,6 @@
         public const string BookRegion = "BookRegion";
         public const string LeftPageRegion = "LeftPageRegion";
         public const string RightPageRegion = "RightPageRegion";
+        public const string TextFormatRegion = "TextFormatRegion";
     }
 }

@@ -14,7 +14,7 @@
             <Setter Property="Stretch" Value="Fill"/>
         </Style>
         <Style TargetType="{x:Type tool:RichTextBox}">
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
     </UserControl.Resources>
     <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
