@@ -77,7 +77,7 @@ namespace Memories.Modules.EditBook.ViewModels
                 {
                     IsEditPage = true;
                     Background = NowPage.Background;
-                    PageControls = new ObservableCollection<UIElement>(NowPage.PageControls.Select(BookUIToUIElement));
+                    PageControls = NowPage.ToUIElementCollection();
                 }
             }
         }
@@ -104,37 +104,6 @@ namespace Memories.Modules.EditBook.ViewModels
         #endregion Command
 
         #region Method
-
-
-        private UIElement BookUIToUIElement(BookUI source, int index)
-        {
-            if (source.UIType == Business.Enums.BookUIEnum.TextUI)
-            {
-                var richTextBox = (source as BookTextUI).ToRichTextBox();
-                richTextBox.SetBinding(Xceed.Wpf.Toolkit.RichTextBox.TextProperty,
-                    new Binding($"NowPage.PageControls[{index}].Document")
-                    { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged});
-                
-                Xceed.Wpf.Toolkit.RichTextBoxFormatBarManager.SetFormatBar(richTextBox, new Xceed.Wpf.Toolkit.RichTextBoxFormatBar() { Width=200, Height=75});
-                return richTextBox;
-            }
-            else if (source.UIType == Business.Enums.BookUIEnum.ImageUI)
-            {
-                var image = (source as BookImageUI).ToImage();
-                image.SetBinding(MMCenterImage.ImageSourceProperty,
-                    new Binding($"NowPage.PageControls[{index}].ImageSource")
-                    {
-                        Mode = BindingMode.TwoWay,
-                        Converter = new ByteArrayToImageSourceConverter(),
-                        TargetNullValue = new BitmapImage(new Uri("pack://application:,,,/Resources/Img/MemoriesEmptyImage.jpg"))
-                    });
-                return image;
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(source + " is not BookUI");
-            }
-        }
 
         private void ExecuteSelectImageCommand(FrameworkElement frameworkElement)
         {

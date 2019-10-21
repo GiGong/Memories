@@ -84,8 +84,10 @@
     <Compile Include="ApplicationCommands.cs" />
     <Compile Include="Controls\CenterImage.cs" />
     <Compile Include="Controls\MMClickableCanvas.cs" />
+    <Compile Include="Converters\BookUIMatrixToTransformConverter.cs" />
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="DialogViewModelBase.cs" />
+    <Compile Include="Extensions\BookPageExtension.cs" />
     <Compile Include="Extensions\BookUIExtension.cs" />
     <Compile Include="Extensions\MatrixExtension.cs" />
     <Compile Include="Extensions\PaperSizeExtension.cs" />
