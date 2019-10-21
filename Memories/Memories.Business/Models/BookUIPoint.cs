@@ -1,6 +1,6 @@
 ﻿namespace Memories.Business.Models
 {
-    public class Point : BusinessBase
+    public class BookUIPoint : BusinessBase
     {
         private double _x;
         private double _y;
@@ -17,19 +17,19 @@
             set { SetProperty(ref _y, value); }
         }
 
-        public static bool operator ==(Point source, Point target)
+        public static bool operator ==(BookUIPoint source, BookUIPoint target)
         {
             return source.X == target.X && source.Y == target.Y;
         }
 
-        public static bool operator !=(Point source, Point target)
+        public static bool operator !=(BookUIPoint source, BookUIPoint target)
         {
             return source.X != target.X || source.Y != target.Y;
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is Point point)
+            if (obj is BookUIPoint point)
             {
                 return X == point.X && Y == point.Y;
             }

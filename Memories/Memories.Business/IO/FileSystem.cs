@@ -17,7 +17,7 @@ namespace Memories.Business.IO
         {
             string json = File.ReadAllText(path);
 
-            return JsonConvert.DeserializeObject<T>(json, new BookUIConverter());
+            return JsonConvert.DeserializeObject<T>(json, new BookUIJsonConverter());
         }
 
     }

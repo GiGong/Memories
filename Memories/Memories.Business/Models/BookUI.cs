@@ -6,7 +6,7 @@ namespace Memories.Business.Models
     {
         #region Field
 
-        private Point _margin;
+        private BookUIPoint _margin;
         private double _width;
         private double _height;
         private int _zIndex;
@@ -24,7 +24,7 @@ namespace Memories.Business.Models
         /// <summary>
         /// Margin from left top.
         /// </summary>
-        public Point Margin
+        public BookUIPoint Margin
         {
             get { return _margin; }
             set { SetProperty(ref _margin, value); }

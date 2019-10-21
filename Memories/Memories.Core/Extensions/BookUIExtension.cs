@@ -79,7 +79,7 @@ namespace Memories.Core.Extensions
             bookUI.Width = element.Width;
             bookUI.Height = element.Height;
 
-            bookUI.Margin = new Business.Models.Point()
+            bookUI.Margin = new BookUIPoint()
             {
                 X = Canvas.GetLeft(element),
                 Y = Canvas.GetTop(element),

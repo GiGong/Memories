@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Enums;
+using Memories.Business.Models;
 using Memories.Services.Interfaces;
 using System;
 using System.Windows;
@@ -9,7 +10,7 @@ namespace Memories.Services
 {
     public class ExportToImageService : IExportToImageService
     {
-        public void VisualToImage(object visual, Business.Models.Point pixelSize, ImageFormat format, string path)
+        public void VisualToImage(object visual, BookUIPoint pixelSize, ImageFormat format, string path)
         {
             if (!(visual is Visual target))
             {

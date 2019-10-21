@@ -21,7 +21,7 @@ namespace Memories.Business.Converters
         }
     }
 
-    public class BookUIConverter : JsonConverter
+    public class BookUIJsonConverter : JsonConverter
     {
         private static JsonSerializerSettings _specifiedSubclassConversion = new JsonSerializerSettings() { ContractResolver = new BookUISpecifiedConcreteClassConverter() };
 

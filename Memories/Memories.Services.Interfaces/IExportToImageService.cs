@@ -11,6 +11,6 @@ namespace Memories.Services.Interfaces
         /// <param name="visual">Must be System.Windows.Media.Visual</param>
         /// <param name="printSize">pixel size to print</param>
         /// <param name="format">Jpeg, Png ... etc</param>
-        void VisualToImage(object visual, Point pixelSize, ImageFormat format, string path);
+        void VisualToImage(object visual, BookUIPoint pixelSize, ImageFormat format, string path);
     }
 }
