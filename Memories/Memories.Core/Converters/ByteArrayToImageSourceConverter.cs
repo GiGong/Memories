@@ -7,6 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace Memories.Core.Converters
 {
+    [ValueConversion(typeof(byte[]), typeof(BitmapSource))]
     public class ByteArrayToImageSourceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

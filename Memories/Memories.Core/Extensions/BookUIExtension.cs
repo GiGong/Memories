@@ -1,9 +1,10 @@
 ﻿using Memories.Business.Models;
 using Memories.Core.Controls;
 using Memories.Core.Converters;
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 namespace Memories.Core.Extensions
@@ -15,7 +16,9 @@ namespace Memories.Core.Extensions
             Xceed.Wpf.Toolkit.RichTextBox richTextBox = new Xceed.Wpf.Toolkit.RichTextBox();
 
             BookUIToFE(bookTextUI, richTextBox);
-            richTextBox.Text = isLayout ? null : bookTextUI.Document;
+            richTextBox.SetBinding(Xceed.Wpf.Toolkit.RichTextBox.TextProperty,
+                new Binding("Document")
+                { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
 
             return richTextBox;
         }
@@ -25,7 +28,7 @@ namespace Memories.Core.Extensions
             var bookTextUI = new BookTextUI();
 
             FEToBookUI(richTextBox, bookTextUI);
-            bookTextUI.Document = isLayout ? null : richTextBox.Text;
+            bookTextUI.Document = isLayout ? string.Empty : richTextBox.Text;
 
             return bookTextUI;
         }
@@ -35,6 +38,13 @@ namespace Memories.Core.Extensions
             MMCenterImage image = new MMCenterImage();
 
             BookUIToFE(bookImageUI, image);
+            image.SetBinding(MMCenterImage.ImageSourceProperty,
+                new Binding("ImageSource")
+                {
+                    Mode = BindingMode.TwoWay,
+                    Converter = new ByteArrayToImageSourceConverter(),
+                    TargetNullValue = new BitmapImage(new Uri("pack://application:,,,/Resources/Img/MemoriesEmptyImage.jpg"))
+                });
 
             return image;
         }
@@ -56,17 +66,23 @@ namespace Memories.Core.Extensions
         /// <param name="element">To</param>
         private static void BookUIToFE(BookUI bookUI, FrameworkElement element)
         {
-            element.Width = bookUI.Width;
-            element.Height = bookUI.Height;
+            element.SetBinding(FrameworkElement.WidthProperty, "Width");
+            element.SetBinding(FrameworkElement.HeightProperty, "Height");
 
-            Canvas.SetLeft(element, bookUI.Margin.X);
-            Canvas.SetTop(element, bookUI.Margin.Y);
+            element.SetBinding(Canvas.LeftProperty, "Margin.X");
+            element.SetBinding(Canvas.TopProperty, "Margin.Y");
 
-            Panel.SetZIndex(element, bookUI.ZIndex);
+            element.SetBinding(Panel.ZIndexProperty, "ZIndex");
 
-            element.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            element.RenderTransformOrigin = new Point(0.5, 0.5);
+            element.SetBinding(UIElement.RenderTransformProperty, 
+                new Binding("Transform")
+                {
+                    Mode = BindingMode.TwoWay,
+                    Converter = new BookUIMatrixToTransformConverter()
+                });
 
-            element.RenderTransform = new MatrixTransform(bookUI.Transform.ToMatrix());
+            element.DataContext = bookUI;
         }
 
         /// <summary>
