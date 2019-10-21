@@ -1,9 +1,31 @@
 ﻿namespace Memories.Business.Models
 {
-    public struct Point
+    public class Point : BusinessBase
     {
-        public double X { get; set; }
-        public double Y { get; set; }
+        private double _x;
+        private double _y;
+
+        public double X
+        {
+            get { return _x; }
+            set { SetProperty(ref _x, value); }
+        }
+
+        public double Y
+        {
+            get { return _y; }
+            set { SetProperty(ref _y, value); }
+        }
+
+        public static bool operator ==(Point source, Point target)
+        {
+            return source.X == target.X && source.Y == target.Y;
+        }
+
+        public static bool operator !=(Point source, Point target)
+        {
+            return source.X != target.X || source.Y != target.Y;
+        }
 
         public override bool Equals(object obj)
         {
