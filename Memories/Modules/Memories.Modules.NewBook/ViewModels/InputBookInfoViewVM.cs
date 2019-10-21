@@ -1,11 +1,12 @@
 ﻿using Memories.Business.Enums;
+using Memories.Core;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Regions;
 
 namespace Memories.Modules.NewBook.ViewModels
 {
-    public class InputBookInfoViewVM : NewBookViewModelBase
+    public class InputBookInfoViewVM : NavigationViewModelBase
     {
         public const int VIEW_INDEX = 0;
 

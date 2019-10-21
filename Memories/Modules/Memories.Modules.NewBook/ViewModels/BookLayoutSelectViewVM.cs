@@ -1,12 +1,13 @@
 ﻿using Memories.Business.Enums;
 using Memories.Business.Models;
+using Memories.Core;
 using Memories.Services.Interfaces;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 
 namespace Memories.Modules.NewBook.ViewModels
 {
-    public class BookLayoutSelectViewVM : NewBookViewModelBase
+    public class BookLayoutSelectViewVM : NavigationViewModelBase
     {
         public const int VIEW_INDEX = 1;
 

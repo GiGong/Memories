@@ -1,9 +1,9 @@
 ﻿using Prism.Mvvm;
 using Prism.Regions;
 
-namespace Memories.Modules.NewBook.ViewModels
+namespace Memories.Core
 {
-    public abstract class NewBookViewModelBase : BindableBase, INavigationAware
+    public class NavigationViewModelBase : BindableBase, INavigationAware
     {
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
         {
@@ -12,12 +12,12 @@ namespace Memories.Modules.NewBook.ViewModels
 
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
-            
+
         }
 
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
-            
+
         }
     }
 }

@@ -66,7 +66,6 @@
     </Compile>
     <Compile Include="ViewModels\InputBookInfoViewVM.cs" />
     <Compile Include="ViewModels\BookLayoutSelectViewVM.cs" />
-    <Compile Include="ViewModels\NewBookViewModelBase.cs" />
     <Compile Include="ViewModels\NewBookViewVM.cs" />
     <Compile Include="Views\InputBookInfoView.xaml.cs">
       <DependentUpon>InputBookInfoView.xaml</DependentUpon>
