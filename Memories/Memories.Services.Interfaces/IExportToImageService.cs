@@ -5,6 +5,8 @@ namespace Memories.Services.Interfaces
 {
     public interface IExportToImageService
     {
+        void ExportBookToImage(Book book, ImageFormat format, string path);
+
         /// <summary>
         /// Visual Export to Image file
         /// </summary>

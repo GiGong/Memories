@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Memories.Core\Memories.Core.csproj" />
     <ProjectReference Include="..\Memories.Services.Interfaces\Memories.Services.Interfaces.csproj" />
   </ItemGroup>
 

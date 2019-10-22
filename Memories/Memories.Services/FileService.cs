@@ -1,4 +1,5 @@
-﻿using Memories.Services.Interfaces;
+﻿using Memories.Business;
+using Memories.Services.Interfaces;
 using Microsoft.Win32;
 
 namespace Memories.Services
@@ -10,7 +11,7 @@ namespace Memories.Services
             OpenFileDialog openFileDialog = new OpenFileDialog()
             {
                 Title = title,
-                Filter = filter ?? "Memories Book|*.mrbk"
+                Filter = filter ?? ExtentionFilters.Book
             };
 
             if (openFileDialog.ShowDialog() == true)
@@ -26,7 +27,7 @@ namespace Memories.Services
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
                 Title = title,
-                Filter = filter ?? "Memories Book|*.mrbk"
+                Filter = filter ?? ExtentionFilters.Book
             };
 
             if (saveFileDialog.ShowDialog() == true)

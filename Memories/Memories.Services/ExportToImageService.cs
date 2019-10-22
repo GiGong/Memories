@@ -1,8 +1,11 @@
 ﻿using Memories.Business.Enums;
 using Memories.Business.Models;
+using Memories.Core.Extensions;
 using Memories.Services.Interfaces;
 using System;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -10,11 +13,36 @@ namespace Memories.Services
 {
     public class ExportToImageService : IExportToImageService
     {
+        public void ExportBookToImage(Book book, ImageFormat format, string path)
+        {
+            // Generate new folder
+            string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+            Directory.CreateDirectory(folderPath);
+
+            BookUIPoint imageSize = new BookUIPoint(book.PaperSize.GetWidth() * 10, book.PaperSize.GetHeight() * 10);
+
+            BookPage page = book.FrontCover;
+            string imagePath = Path.Combine(folderPath, 0 + Path.GetExtension(path));
+            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+
+            for (int i = 0, l = book.BookPages.Count; i < l; i++)
+            {
+                page = book.BookPages[i];
+
+                imagePath = Path.Combine(folderPath, (i + 1) + Path.GetExtension(path));
+                VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+            }
+
+            page = book.BackCover;
+            imagePath = Path.Combine(folderPath, (book.BookPages.Count + 1) + Path.GetExtension(path));
+            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+        }
+
         public void VisualToImage(object visual, BookUIPoint pixelSize, ImageFormat format, string path)
         {
             if (!(visual is Visual target))
             {
-                throw new ArgumentException(visual.GetType().FullName + "is not Visual!\nIn " + nameof(ExportToImageService));
+                throw new ArgumentException(visual.GetType().FullName + "is not Visual!" + Environment.NewLine + "In " + nameof(ExportToImageService));
             }
 
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)pixelSize.X, (int)pixelSize.Y, 96d, 96d, PixelFormats.Default);
@@ -31,7 +59,7 @@ namespace Memories.Services
             BitmapEncoder bitmapEncoder = GetEncoderFromFormat(format);
             bitmapEncoder.Frames.Add(BitmapFrame.Create(rtb));
 
-            using (var fs = System.IO.File.OpenWrite(path))
+            using (var fs = File.OpenWrite(path))
             {
                 bitmapEncoder.Save(fs);
             }

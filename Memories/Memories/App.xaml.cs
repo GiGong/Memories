@@ -1,4 +1,5 @@
 ﻿using Memories.Core;
+using Memories.Core.Controls;
 using Memories.Modules.EditBook;
 using Memories.Modules.NewBook;
 using Memories.Modules.Start;
@@ -22,9 +23,12 @@ namespace Memories
     {
         protected override Window CreateShell()
         {
+#if DEBUG
+#else
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+#endif
 
             return Container.Resolve<MainWindow>();
         }
@@ -63,14 +67,14 @@ namespace Memories
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show("In UnhandledException\n" + ((Exception)e.ExceptionObject).Message);
+            MMMessageBox.Show("In UnhandledException" + Environment.NewLine + ((Exception)e.ExceptionObject).Message);
 
             throw (Exception)e.ExceptionObject;
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show("In DispatcherUnhandledException\n" + e.Exception.Message);
+            MMMessageBox.Show("In DispatcherUnhandledException" + Environment.NewLine + e.Exception.Message);
 
             throw e.Exception;
         }

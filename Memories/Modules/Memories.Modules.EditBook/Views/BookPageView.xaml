@@ -4,19 +4,10 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core"
              xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
-             xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
-        <Style TargetType="{x:Type controls:MMCenterImage}">
-            <Setter Property="Command" Value="{Binding ImageClickCommand}"/>
-        </Style>
-        <Style TargetType="{x:Type tool:RichTextBox}">
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Background" Value="Transparent"/>
-        </Style>
     </UserControl.Resources>
     <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
         <ItemsControl.ItemsPanel>

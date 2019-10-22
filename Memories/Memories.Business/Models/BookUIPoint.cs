@@ -17,6 +17,14 @@
             set { SetProperty(ref _y, value); }
         }
 
+        public BookUIPoint() : base() { }
+
+        public BookUIPoint(double x, double y)
+        {
+            X = x;
+            Y = y;
+        }
+
         public static bool operator ==(BookUIPoint source, BookUIPoint target)
         {
             return source.X == target.X && source.Y == target.Y;

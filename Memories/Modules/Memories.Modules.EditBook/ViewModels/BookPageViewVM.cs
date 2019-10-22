@@ -1,4 +1,5 @@
-﻿using Memories.Business.Models;
+﻿using Memories.Business;
+using Memories.Business.Models;
 using Memories.Core.Controls;
 using Memories.Core.Converters;
 using Memories.Core.Extensions;
@@ -7,10 +8,8 @@ using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -112,7 +111,7 @@ namespace Memories.Modules.EditBook.ViewModels
                 throw new ArgumentException(frameworkElement + " is not image or canvas.");
             }
 
-            string filter = "Image Files|*.jpg;*.jpeg;*.jpe;*.jfif;*.png;*.bmp;*.dib;*.gif|All files|*.*";
+            string filter = ExtentionFilters.ImageFiles;
             string path = _fileService.OpenFilePath(filter);
 
             if (path == null)
@@ -134,11 +133,11 @@ namespace Memories.Modules.EditBook.ViewModels
             }
             catch (NotSupportedException)
             {
-                MessageBox.Show("Not supported file\n지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
+                MMMessageBox.Show("Not supported file" + Environment.NewLine + "지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MMMessageBox.Show(e.Message);
             }
         }
 

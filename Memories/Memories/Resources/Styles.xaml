@@ -1,5 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core"
+                    xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
+>
 
     <ItemsPanelTemplate x:Key="listViewLayoutPanelTemplate">
         <WrapPanel Orientation="Horizontal"></WrapPanel>
@@ -18,5 +21,14 @@
             <TextBlock Text="{Binding Name}" TextWrapping="Wrap"/>
         </StackPanel>
     </DataTemplate>
+
+    <Style TargetType="{x:Type controls:MMCenterImage}">
+        <Setter Property="Command" Value="{Binding ImageClickCommand}"/>
+    </Style>
+    <Style TargetType="{x:Type tool:RichTextBox}">
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
 
 </ResourceDictionary>

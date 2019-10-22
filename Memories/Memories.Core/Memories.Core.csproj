@@ -84,6 +84,7 @@
     <Compile Include="ApplicationCommands.cs" />
     <Compile Include="Controls\CenterImage.cs" />
     <Compile Include="Controls\MMClickableCanvas.cs" />
+    <Compile Include="Controls\MMMessageBox.cs" />
     <Compile Include="Converters\BookUIMatrixToTransformConverter.cs" />
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="DialogViewModelBase.cs" />

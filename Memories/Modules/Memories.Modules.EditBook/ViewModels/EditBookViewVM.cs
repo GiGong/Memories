@@ -1,9 +1,13 @@
-﻿using Memories.Business.Models;
+﻿using Memories.Business;
+using Memories.Business.Enums;
+using Memories.Business.Models;
 using Memories.Core;
+using Memories.Core.Controls;
 using Memories.Modules.EditBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using System.IO;
 using System.Windows;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -12,23 +16,23 @@ namespace Memories.Modules.EditBook.ViewModels
     {
         #region Field
 
+        private Book _editBook;
+        private string _bookPath;
+
         private DelegateCommand _openCommand;
         private DelegateCommand _saveCommand;
-
         private DelegateCommand _addPageCommand;
-
         private DelegateCommand _exportToImageCommand;
-
         private DelegateCommand _openStartWindowCommand;
+
+        private readonly IBookService _bookService;
+        private readonly IFileService _fileService;
+        private readonly IDialogService _dialogService;
+        private readonly IExportToImageService _exportToImageService;
 
         #endregion Field
 
         #region Property
-
-        private Book _editBook;
-        private readonly IBookService _bookService;
-        private readonly IFileService _fileService;
-        private readonly IDialogService _dialogService;
 
         public Book EditBook
         {
@@ -36,7 +40,6 @@ namespace Memories.Modules.EditBook.ViewModels
             set { SetProperty(ref _editBook, value); }
         }
 
-        private string _bookPath;
         public string BookPath
         {
             get { return _bookPath; }
@@ -66,12 +69,14 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public EditBookViewVM(IBookService bookService, IFileService fileService, IDialogService dialogService)
+        public EditBookViewVM(IBookService bookService, IFileService fileService, IDialogService dialogService,
+                                IExportToImageService exportToImageService)
         {
             _bookService = bookService;
 
             _fileService = fileService;
             _dialogService = dialogService;
+            _exportToImageService = exportToImageService;
 
             Title = (string)Application.Current.Resources["Program_Name"];
         }
@@ -149,7 +154,34 @@ namespace Memories.Modules.EditBook.ViewModels
 
         void ExecuteExportToImageCommand()
         {
+            //MMMessageBox.Show("폴더를 새로 생성하고, 그 안에 Image파일들을 넣습니다.");
 
+            string path = _fileService.SaveFilePath(
+                string.Join("|",
+                ExtentionFilters.JPEG,
+                ExtentionFilters.PNG,
+                ExtentionFilters.BMP,
+                ExtentionFilters.ImageFiles));
+
+            ImageFormat format = ImageFormat.JPEG;
+
+            switch (Path.GetExtension(path))
+            {
+                case ".jpg":
+                case ".jpeg":
+                default:
+                    break;
+
+                case ".png":
+                    format = ImageFormat.PNG;
+                    break;
+
+                case ".bmp":
+                    format = ImageFormat.BMP;
+                    break;
+            }
+
+            _exportToImageService.ExportBookToImage(EditBook, format, path);
         }
 
         #endregion Method
