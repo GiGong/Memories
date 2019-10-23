@@ -92,6 +92,9 @@
     <Compile Include="Extensions\BookUIExtension.cs" />
     <Compile Include="Extensions\MatrixExtension.cs" />
     <Compile Include="Extensions\PaperSizeExtension.cs" />
+    <Compile Include="Controls\MMDialogWindow.xaml.cs">
+      <DependentUpon>MMDialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NavigationViewModelBase.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />
@@ -123,6 +126,12 @@
       <Project>{03369DBC-8CF3-42DA-B9FA-64CF57F67C6B}</Project>
       <Name>Memories.Business</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Controls\MMDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

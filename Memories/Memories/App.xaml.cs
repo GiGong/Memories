@@ -39,6 +39,8 @@ namespace Memories
             containerRegistry.RegisterSingleton<IFileService, FileService>();
             containerRegistry.RegisterSingleton<IFolderService, FolderService>();
 
+            containerRegistry.RegisterDialogWindow<MMDialogWindow>();
+
             containerRegistry.RegisterSingleton<IApplicationCommands, ApplicationCommands>();
         }
 

@@ -1,0 +1,11 @@
+﻿<Window x:Class="Memories.Core.Controls.MMDialogWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{Binding Title}"
+        WindowStartupLocation="CenterScreen">
+    <Window.Style>
+        <Style TargetType="{x:Type Window}" >
+            <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        </Style>
+    </Window.Style>
+</Window>
