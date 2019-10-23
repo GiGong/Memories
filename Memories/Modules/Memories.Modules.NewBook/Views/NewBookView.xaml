@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:core="clr-namespace:Memories.Core;assembly=Memories.Core"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Height="500" Width="700">
     <prism:Dialog.WindowStyle>
@@ -20,10 +21,10 @@
         <Rectangle Grid.Row="0" Fill="WhiteSmoke"/>
         <Label Content="" Margin="50,30,300,30" VerticalContentAlignment="Center"/>
 
-        <ContentControl Margin="50,50,50,75" Grid.Row="1" 
+        <Controls:TransitioningContentControl Margin="50,50,50,75" Grid.Row="1" 
                         prism:RegionManager.RegionName="{x:Static core:RegionNames.NewBookRegion}"/>
 
-        <Grid Margin="0,0,50,25" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="20" VerticalAlignment="Bottom">
+        <Grid Margin="0,0,50,20" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="30" VerticalAlignment="Bottom">
             <Button Content="이전" Command="{Binding PreviousCommand}" HorizontalAlignment="Left"  Width="75"/>
             <Button Content="다음" Command="{Binding NextCommand}" HorizontalAlignment="Left" Margin="90,0,0,0" Width="75"/>
             <Button Content="취소" Command="{Binding CancelCommand}" HorizontalAlignment="Right" Margin="0,0,90,0" Width="75"/>
