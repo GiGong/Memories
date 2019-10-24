@@ -48,6 +48,7 @@ namespace Memories.Modules.Start.ViewModels
 
         private void NewBook()
         {
+            //TODO: Dialog Service Extension에 옮기기 => 다른 곳에서도 새 책 만들기 부를 수 있음
             _dialogService.ShowDialog("NewBookView", null,
                 (result) =>
                 {

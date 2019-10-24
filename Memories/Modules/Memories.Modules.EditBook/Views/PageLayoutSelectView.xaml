@@ -11,10 +11,11 @@
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid>
+        <Label Margin="50,15,50,0" Height="40" VerticalAlignment="Top" Content="레이아웃을 선택해주세요." VerticalContentAlignment="Center"/>
         <ListView ItemsSource="{Binding Layouts}" ItemTemplate="{StaticResource listViewPageLayoutTemplate}" ItemsPanel="{StaticResource listViewLayoutPanelTemplate}"
                   SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  Background="WhiteSmoke"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" Margin="50,75"/>
-        <Button Content="확인" Command="{Binding CheckCommand}" Width="80" Height="20" Margin="0,0,100,20" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
+                  Background="WhiteSmoke" Margin="50,75"/>
+        <Button Content="확인" Command="{Binding CheckCommand}" Width="80" Height="30" Margin="0,0,100,20" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
     </Grid>
 </UserControl>

@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:ext="clr-namespace:Memories.Core.Extensions;assembly=Memories.Core"
              xmlns:enums="clr-namespace:Memories.Business.Enums;assembly=Memories.Business"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.RowDefinitions>
@@ -22,10 +23,10 @@
         </Grid.ColumnDefinitions>
         
         <Label Content="책 제목"/>
-        <TextBox Grid.Column="2" Text="{Binding BookTitle, Mode=TwoWay}"/>
+        <TextBox Grid.Column="2" Text="{Binding BookTitle, Mode=TwoWay}" Controls:TextBoxHelper.Watermark="제목을 입력해주세요."/>
 
         <Label Content="작가" Grid.Row="2"/>
-        <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding Writer, Mode=TwoWay}"/>
+        <TextBox Grid.Column="2" Grid.Row="2" Text="{Binding Writer, Mode=TwoWay}" Controls:TextBoxHelper.Watermark="작가 이름을 입력해주세요."/>
 
         <Label Content="책 크기" Grid.Row="4"/>
         <ComboBox Grid.Column="2" Grid.Row="4"
@@ -38,7 +39,7 @@
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding FilePath, Mode=TwoWay}" IsReadOnly="True"/>
+            <TextBox Text="{Binding FilePath, Mode=TwoWay}" IsReadOnly="True" Controls:TextBoxHelper.Watermark="우측 버튼을 눌러서 경로를 지정해주세요."/>
             <Button Content="..." Grid.Column="2" Height="20" Command="{Binding SelectFilePathCommand}"/>
         </Grid>
     </Grid>

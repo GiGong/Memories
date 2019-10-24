@@ -2,11 +2,13 @@
 using Memories.Business.Enums;
 using Memories.Business.Models;
 using Memories.Core;
-using Memories.Core.Controls;
+using Memories.Modules.EditBook.Enums;
+using Memories.Modules.EditBook.Parameters;
 using Memories.Modules.EditBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 
@@ -19,11 +21,15 @@ namespace Memories.Modules.EditBook.ViewModels
         private Book _editBook;
         private string _bookPath;
 
-        private DelegateCommand _openCommand;
+        private ObservableCollection<ExportParameter> _exportMenus;
+        private ObservableCollection<MenuParameter> _extensionMenus;
+
+        private DelegateCommand _loadCommand;
         private DelegateCommand _saveCommand;
         private DelegateCommand _addPageCommand;
-        private DelegateCommand _exportToImageCommand;
-        private DelegateCommand _openStartWindowCommand;
+
+        private DelegateCommand<MenuParameter> _menuCommand;
+        private DelegateCommand<ExportParameter> _exportCommand;
 
         private readonly IBookService _bookService;
         private readonly IFileService _fileService;
@@ -46,24 +52,36 @@ namespace Memories.Modules.EditBook.ViewModels
             set { SetProperty(ref _bookPath, value); }
         }
 
+        public ObservableCollection<MenuParameter> ExtensionMenus
+        {
+            get { return _extensionMenus; }
+            set { SetProperty(ref _extensionMenus, value); }
+        }
+
+        public ObservableCollection<ExportParameter> ExportMenus
+        {
+            get { return _exportMenus; }
+            set { SetProperty(ref _exportMenus, value); }
+        }
+
         #endregion Property
 
         #region Command
 
-        public DelegateCommand OpenCommand =>
-            _openCommand ?? (_openCommand = new DelegateCommand(ExecuteOpenCommand));
+        public DelegateCommand LoadCommand =>
+            _loadCommand ?? (_loadCommand = new DelegateCommand(ExecuteLoadCommand));
 
         public DelegateCommand SaveCommand =>
             _saveCommand ?? (_saveCommand = new DelegateCommand(ExecuteSaveCommand));
 
-        public DelegateCommand OpenStartWindowCommand =>
-            _openStartWindowCommand ?? (_openStartWindowCommand = new DelegateCommand(ExecuteOpenStartWindowCommand));
-
         public DelegateCommand AddPageCommand =>
             _addPageCommand ?? (_addPageCommand = new DelegateCommand(ExecuteAddPageCommand));
 
-        public DelegateCommand ExportToImageCommand =>
-            _exportToImageCommand ?? (_exportToImageCommand = new DelegateCommand(ExecuteExportToImageCommand));
+        public DelegateCommand<MenuParameter> MenuCommand =>
+            _menuCommand ?? (_menuCommand = new DelegateCommand<MenuParameter>(ExecuteMenuCommand));
+
+        public DelegateCommand<ExportParameter> ExportCommand =>
+            _exportCommand ?? (_exportCommand = new DelegateCommand<ExportParameter>(ExecuteExportCommand));
 
         #endregion Command
 
@@ -79,6 +97,23 @@ namespace Memories.Modules.EditBook.ViewModels
             _exportToImageService = exportToImageService;
 
             Title = (string)Application.Current.Resources["Program_Name"];
+
+            ExtensionMenus = new ObservableCollection<MenuParameter>
+            {
+                new MenuParameter("새 책 만들기", MenuType.New),
+                new MenuParameter("책 열기", MenuType.Load),
+                new MenuParameter("저장하기", MenuType.Save),
+                new MenuParameter("다른이름으로 저장하기", MenuType.SaveAs),
+                new MenuParameter("처음 화면으로 돌아가기", MenuType.BackToStartWindow),
+                new MenuParameter("닫기", MenuType.Close),
+            };
+
+            ExportMenus = new ObservableCollection<ExportParameter>
+            {
+                new ExportParameter("이미지로 내보내기", ExportType.Image ),
+                new ExportParameter("PDF로 내보내기", ExportType.PDF ),
+                new ExportParameter("출력하기", ExportType.Print)
+            };
         }
 
         #endregion Constructor
@@ -107,12 +142,9 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
-        void ExecuteOpenStartWindowCommand()
-        {
-            RaiseRequestClose(new DialogResult(ButtonResult.Retry));
-        }
+        #region Command Method
 
-        void ExecuteOpenCommand()
+        void ExecuteLoadCommand()
         {
             BookPath = _fileService.OpenFilePath();
             if (BookPath == null)
@@ -141,6 +173,48 @@ namespace Memories.Modules.EditBook.ViewModels
             _dialogService.ShowDialog(nameof(PageLayoutSelectView), param, PageLayoutSelected);
         }
 
+        void ExecuteExportCommand(ExportParameter parameter)
+        {
+            switch (parameter.Type)
+            {
+                case ExportType.Image:
+                    ExportToImage();
+                    break;
+                case ExportType.PDF:
+                    ExportToPdf();
+                    break;
+                case ExportType.Print:
+                    ExportToPrint();
+                    break;
+            }
+        }
+
+        void ExecuteMenuCommand(MenuParameter parameter)
+        {
+            switch (parameter.Type)
+            {
+                case MenuType.New:
+                    break;
+                case MenuType.Load:
+                    ExecuteLoadCommand();
+                    break;
+                case MenuType.Save:
+                    ExecuteSaveCommand();
+                    break;
+                case MenuType.SaveAs:
+                    break;
+
+                case MenuType.Close:
+                    RaiseRequestClose(new DialogResult(ButtonResult.None));
+                    break;
+                case MenuType.BackToStartWindow:
+                    RaiseRequestClose(new DialogResult(ButtonResult.Retry));
+                    break;
+            }
+        }
+
+        #endregion Command Method
+
         private void PageLayoutSelected(IDialogResult result)
         {
             if (result.Result != ButtonResult.OK)
@@ -152,26 +226,22 @@ namespace Memories.Modules.EditBook.ViewModels
             EditBook.BookPages.Add(layout.Page);
         }
 
-        void ExecuteExportToImageCommand()
+        private void ExportToImage()
         {
             //MMMessageBox.Show("폴더를 새로 생성하고, 그 안에 Image파일들을 넣습니다.");
 
             string path = _fileService.SaveFilePath(
-                string.Join("|",
-                ExtentionFilters.JPEG,
-                ExtentionFilters.PNG,
-                ExtentionFilters.BMP,
-                ExtentionFilters.ImageFiles));
+                string.Join("|", ExtentionFilters.JPEG, ExtentionFilters.PNG, ExtentionFilters.BMP, ExtentionFilters.ImageFiles));
+
+            if (path == null)
+            {
+                return;
+            }
 
             ImageFormat format = ImageFormat.JPEG;
 
             switch (Path.GetExtension(path))
             {
-                case ".jpg":
-                case ".jpeg":
-                default:
-                    break;
-
                 case ".png":
                     format = ImageFormat.PNG;
                     break;
@@ -183,6 +253,18 @@ namespace Memories.Modules.EditBook.ViewModels
 
             _exportToImageService.ExportBookToImage(EditBook, format, path);
         }
+
+        private void ExportToPdf()
+        {
+
+        }
+
+        private void ExportToPrint()
+        {
+
+        }
+
+
 
         #endregion Method
     }

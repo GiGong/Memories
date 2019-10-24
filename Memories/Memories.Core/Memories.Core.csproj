@@ -89,7 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
-    <Compile Include="Controls\CenterImage.cs" />
+    <Compile Include="Controls\MMCenterImage.cs" />
     <Compile Include="Controls\MMClickableCanvas.cs" />
     <Compile Include="Controls\MMMessageBox.cs" />
     <Compile Include="Converters\BookUIMatrixToTransformConverter.cs" />

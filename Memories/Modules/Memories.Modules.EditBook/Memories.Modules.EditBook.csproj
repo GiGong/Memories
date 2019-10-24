@@ -53,6 +53,10 @@
     <Compile Include="Converters\BookStateToVisibilityConverter.cs" />
     <Compile Include="EditBookModule.cs" />
     <Compile Include="Enums\BookState.cs" />
+    <Compile Include="Enums\ExportType.cs" />
+    <Compile Include="Enums\MenuType.cs" />
+    <Compile Include="Parameters\ExportParameter.cs" />
+    <Compile Include="Parameters\MenuParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -119,6 +123,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="MahApps.Metro">
+      <Version>2.0.0-alpha0531</Version>
+    </PackageReference>
+    <PackageReference Include="MahApps.Metro.IconPacks">
+      <Version>3.0.0-alpha0255</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Wpf" Version="7.2.0.1367" />
   </ItemGroup>
   <ItemGroup>

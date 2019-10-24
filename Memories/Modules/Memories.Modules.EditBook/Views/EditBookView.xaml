@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:core="clr-namespace:Memories.Core;assembly=Memories.Core"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
@@ -22,13 +24,56 @@
             <ColumnDefinition Width="200"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
-            <Button Content="Open" Command="{Binding OpenCommand}"/>
-            <Button Content="Save" Command="{Binding SaveCommand}"/>
-            <Button Content="SaveAs" Command="{Binding SaveAsCommand}"/>
-            <Button Content="Debug" Command="{Binding OpenStartWindowCommand}"/>
-            <Button Content="AddPage" Command="{Binding AddPageCommand}"/>
-            <Button Content="Export to Image" Command="{Binding ExportToImageCommand}"/>
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" Background="White">
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}">
+                    <Setter Property="Width" Value="40"/>
+                </Style>
+                <Style TargetType="{x:Type Controls:DropDownButton}">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Width" Value="40"/>
+                </Style>
+            </StackPanel.Resources>
+
+            <Controls:DropDownButton ArrowVisibility="Collapsed" ItemsSource="{Binding ExtensionMenus}" ToolTip="더 보기">
+                <Controls:DropDownButton.Icon>
+                    <iconPacks:PackIconMaterial Kind="ViewGrid" Width="16" Height="16"/>
+                </Controls:DropDownButton.Icon>
+                <Controls:DropDownButton.ItemContainerStyle>
+                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Title}"/>
+                        <Setter Property="Command" Value="{Binding DataContext.MenuCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                        <Setter Property="CommandParameter" Value="{Binding}"/>
+                        <Setter Property="ItemsSource" Value="{Binding SubMenus}"/>
+                    </Style>
+                </Controls:DropDownButton.ItemContainerStyle>
+            </Controls:DropDownButton>
+
+            <Button Command="{Binding OpenCommand}" ToolTip="책 열기">
+                <iconPacks:PackIconMaterial Kind="FolderOpen"/>
+            </Button>
+
+            <Button Command="{Binding SaveCommand}" ToolTip="저장하기">
+                <iconPacks:PackIconMaterial Kind="ContentSave"/>
+            </Button>
+            
+            <Button Command="{Binding AddPageCommand}">
+                <iconPacks:PackIconMaterial Kind="BookOpenPageVariant"/>
+            </Button>
+            
+            <Controls:DropDownButton ItemsSource="{Binding ExportMenus}" ToolTip="...으로 내보내기">
+                <Controls:DropDownButton.Icon>
+                    <iconPacks:PackIconMaterial Kind="Export"/>
+                </Controls:DropDownButton.Icon>
+                <Controls:DropDownButton.ItemContainerStyle>
+                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Title}"/>
+                        <Setter Property="Command" Value="{Binding DataContext.ExportCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                        <Setter Property="CommandParameter" Value="{Binding}"/>
+                    </Style>
+                </Controls:DropDownButton.ItemContainerStyle>
+            </Controls:DropDownButton>
+           
         </StackPanel>
 
         <ContentControl Grid.Row="1" Grid.Column="1" Margin ="25,50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
