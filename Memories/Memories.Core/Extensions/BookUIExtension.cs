@@ -11,19 +11,19 @@ namespace Memories.Core.Extensions
 {
     public static class BookUIExtension
     {
-        public static Xceed.Wpf.Toolkit.RichTextBox ToRichTextBox(this BookTextUI bookTextUI, bool isLayout = false)
+        public static MMRichTextBox ToRichTextBox(this BookTextUI bookTextUI, bool isLayout = false)
         {
-            Xceed.Wpf.Toolkit.RichTextBox richTextBox = new Xceed.Wpf.Toolkit.RichTextBox();
+            MMRichTextBox richTextBox = new MMRichTextBox();
 
             BookUIToFE(bookTextUI, richTextBox);
-            richTextBox.SetBinding(Xceed.Wpf.Toolkit.RichTextBox.TextProperty,
+            richTextBox.SetBinding(MMRichTextBox.TextProperty,
                 new Binding("Document")
                 { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
 
             return richTextBox;
         }
 
-        public static BookTextUI ToBookTextUI(this Xceed.Wpf.Toolkit.RichTextBox richTextBox, bool isLayout = false)
+        public static BookTextUI ToBookTextUI(this MMRichTextBox richTextBox, bool isLayout = false)
         {
             var bookTextUI = new BookTextUI();
 

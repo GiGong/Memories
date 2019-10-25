@@ -1,6 +1,5 @@
 ﻿using Memories.Business.Enums;
 using Memories.Business.Models;
-using Memories.Core.Controls;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -59,7 +58,7 @@ namespace Memories.Core.Extensions
             {
                 var richTextBox = (source as BookTextUI).ToRichTextBox();
 
-                Xceed.Wpf.Toolkit.RichTextBoxFormatBarManager.SetFormatBar(richTextBox, new Xceed.Wpf.Toolkit.RichTextBoxFormatBar() { Width = 200, Height = 75 });
+                //Xceed.Wpf.Toolkit.RichTextBoxFormatBarManager.SetFormatBar(richTextBox, new Xceed.Wpf.Toolkit.RichTextBoxFormatBar() { Width = 250, Height = 100 });
                 return richTextBox;
             }
             else if (source.UIType == BookUIEnum.ImageUI)

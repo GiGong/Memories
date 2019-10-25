@@ -6,6 +6,7 @@ using System.Windows.Data;
 
 namespace Memories.Modules.EditBook.Converters
 {
+    [ValueConversion(typeof(BookState), typeof(Visibility))]
     public class BookStateToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

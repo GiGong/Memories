@@ -2,9 +2,11 @@
 using Memories.Business.Models;
 using Memories.Core.Controls;
 using Memories.Core.Converters;
+using Memories.Core.Events;
 using Memories.Core.Extensions;
 using Memories.Services.Interfaces;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
@@ -28,6 +30,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand<Canvas> _canvasClickCommand;
 
         private readonly IFileService _fileService;
+        private readonly IEventAggregator _eventAggregator;
 
         #endregion Field
 
@@ -42,7 +45,22 @@ namespace Memories.Modules.EditBook.ViewModels
         public ObservableCollection<UIElement> PageControls
         {
             get { return _pageControls; }
-            set { SetProperty(ref _pageControls, value); }
+            set
+            {
+                SetProperty(ref _pageControls, value);
+
+                if (PageControls != null)
+                {
+                    foreach (var element in PageControls)
+                    {
+                        if (element is MMRichTextBox richTextBox)
+                        {
+                            richTextBox.GotFocus += (s, e) => _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(s as MMRichTextBox);
+                            //richTextBox.LostKeyboardFocus += (s, e) => _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(null);
+                        }
+                    }
+                }
+            }
         }
 
         public byte[] Background
@@ -85,9 +103,10 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public BookPageViewVM(IFileService fileService)
+        public BookPageViewVM(IFileService fileService, IEventAggregator eventAggregator)
         {
             _fileService = fileService;
+            _eventAggregator = eventAggregator;
         }
 
         #endregion Constructor

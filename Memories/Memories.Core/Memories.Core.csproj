@@ -91,10 +91,14 @@
     <Compile Include="ApplicationCommands.cs" />
     <Compile Include="Controls\MMCenterImage.cs" />
     <Compile Include="Controls\MMClickableCanvas.cs" />
+    <Compile Include="Controls\MMFontFamilySearch.cs" />
     <Compile Include="Controls\MMMessageBox.cs" />
+    <Compile Include="Controls\MMRichTextBox.cs" />
     <Compile Include="Converters\BookUIMatrixToTransformConverter.cs" />
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
+    <Compile Include="Converters\EnumToIsCheckedConverter.cs" />
     <Compile Include="DialogViewModelBase.cs" />
+    <Compile Include="Events\RichTextBoxSelectedEvent.cs" />
     <Compile Include="Extensions\BookPageExtension.cs" />
     <Compile Include="Extensions\BookUIExtension.cs" />
     <Compile Include="Extensions\MatrixExtension.cs" />
@@ -102,6 +106,7 @@
     <Compile Include="Controls\MMDialogWindow.xaml.cs">
       <DependentUpon>MMDialogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\TextSelectionExtension.cs" />
     <Compile Include="NavigationViewModelBase.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />

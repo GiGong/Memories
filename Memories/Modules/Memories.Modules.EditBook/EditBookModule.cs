@@ -23,6 +23,7 @@ namespace Memories.Modules.EditBook
             _regionManager.RegisterViewWithRegion(RegionNames.BookRegion, typeof(BookView));
             _regionManager.RegisterViewWithRegion(RegionNames.LeftPageRegion, typeof(BookPageView));
             _regionManager.RegisterViewWithRegion(RegionNames.RightPageRegion, typeof(BookPageView));
+            _regionManager.RegisterViewWithRegion(RegionNames.TextFormatRegion, typeof(TextFormatView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
