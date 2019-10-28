@@ -17,12 +17,15 @@
 
             <Style TargetType="{x:Type Button}">
                 <Setter Property="CommandTarget" Value="{Binding RichTextBox}"/>
+                <Setter Property="Focusable" Value="False"/>
             </Style>
             <Style TargetType="{x:Type ToggleButton}">
                 <Setter Property="CommandTarget" Value="{Binding RichTextBox}"/>
+                <Setter Property="Focusable" Value="False"/>
             </Style>
             <Style TargetType="{x:Type RadioButton}">
                 <Setter Property="CommandTarget" Value="{Binding RichTextBox}"/>
+                <Setter Property="Focusable" Value="False"/>
             </Style>
 
         </Grid.Resources>

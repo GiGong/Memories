@@ -1,5 +1,6 @@
 ﻿using Memories.Business.Enums;
 using Memories.Business.Models;
+using Memories.Core.Controls;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -56,14 +57,12 @@ namespace Memories.Core.Extensions
         {
             if (source.UIType == BookUIEnum.TextUI)
             {
-                var richTextBox = (source as BookTextUI).ToRichTextBox();
-
-                //Xceed.Wpf.Toolkit.RichTextBoxFormatBarManager.SetFormatBar(richTextBox, new Xceed.Wpf.Toolkit.RichTextBoxFormatBar() { Width = 250, Height = 100 });
+                var richTextBox = (source as BookTextUI).ToRichTextBox();// datacontext가 book image ui 라서 command가 발생되지 않음
                 return richTextBox;
             }
             else if (source.UIType == BookUIEnum.ImageUI)
             {
-                var image = (source as BookImageUI).ToImage();
+                MMCenterImage image = (source as BookImageUI).ToImage();
                 return image;
             }
             else

@@ -101,14 +101,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void RichTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (RichTextBox.Selection.IsEmpty == true)
-            {
-                ClearFormats();
-            }
-            else
-            {
-                UpdateFormats();
-            }
+            UpdateFormats();
         }
 
         #endregion Method

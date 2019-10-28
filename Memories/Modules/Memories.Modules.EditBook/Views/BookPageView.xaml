@@ -12,11 +12,11 @@
     <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
         <ItemsControl.ItemsPanel>
             <ItemsPanelTemplate>
-                <controls:MMClickableCanvas ClipToBounds="True" Command="{Binding CanvasClickCommand}">
+                <controls:MMBookPageCanvas ClipToBounds="True" DoubleClickCommand="{Binding CanvasClickCommand}">
                     <Canvas.Background>
                         <ImageBrush Stretch="Fill" ImageSource="{Binding Background, Mode=TwoWay, Converter={StaticResource byteSourceConverter}}"/>
                     </Canvas.Background>
-                </controls:MMClickableCanvas>
+                </controls:MMBookPageCanvas>
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
     </ItemsControl>

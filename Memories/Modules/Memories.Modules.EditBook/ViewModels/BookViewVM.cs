@@ -84,7 +84,7 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _leftNum, value);
 
-                PageNumSet(true);
+                PageLeftNumSet();
             }
         }
 
@@ -95,7 +95,7 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _rightNum, value);
 
-                PageNumSet(false);
+                PageRightNumSet();
             }
         }
 
@@ -164,15 +164,20 @@ namespace Memories.Modules.EditBook.ViewModels
             PageForwardCommand.RaiseCanExecuteChanged();
         }
 
+        bool CanPageBack()
+        {
+            return LeftNum > -1;
+        }
+
         void PageBack()
         {
             LeftNum -= 2;
             RightNum -= 2;
         }
 
-        bool CanPageBack()
+        bool CanPageForward()
         {
-            return LeftNum > -1;
+            return RightNum < TotalNum + 2;
         }
 
         void PageForward()
@@ -181,51 +186,45 @@ namespace Memories.Modules.EditBook.ViewModels
             RightNum += 2;
         }
 
-        bool CanPageForward()
+        private void PageLeftNumSet()
         {
-            return RightNum < TotalNum + 2;
+            if (LeftNum < 1)
+            {
+                LeftPage = null;
+                BookState = BookState.FrontCover;
+            }
+            else if (LeftNum > TotalNum)
+            {
+                LeftPage = EditBook.BackCover;
+                BookState = BookState.BackCover;
+            }
+            else
+            {
+                LeftPage = EditBook.BookPages[LeftNum - 1];
+                BookState = BookState.Page;
+            }
+
         }
 
-        private void PageNumSet(bool isLeft)
+        private void PageRightNumSet()
         {
-            if (isLeft)
+            IsRightExist = true;
+
+            if (RightNum < 2)
             {
-                if (LeftNum < 1)
+                RightPage = EditBook.FrontCover;
+            }
+            else if (RightNum > TotalNum)
+            {
+                RightPage = null;
+                if (TotalNum % 2 == 1)
                 {
-                    LeftPage = null;
-                    BookState = BookState.FrontCover;
-                }
-                else if (LeftNum > TotalNum)
-                {
-                    LeftPage = EditBook.BackCover;
-                    BookState = BookState.BackCover;
-                }
-                else
-                {
-                    LeftPage = EditBook.BookPages[LeftNum - 1];
-                    BookState = BookState.Page;
+                    IsRightExist = false;
                 }
             }
             else
             {
-                IsRightExist = true;
-
-                if (RightNum < 2)
-                {
-                    RightPage = EditBook.FrontCover;
-                }
-                else if (RightNum > TotalNum)
-                {
-                    RightPage = null;
-                    if (TotalNum % 2 == 1)
-                    {
-                        IsRightExist = false;
-                    }
-                }
-                else
-                {
-                    RightPage = EditBook.BookPages[RightNum - 1];
-                }
+                RightPage = EditBook.BookPages[RightNum - 1];
             }
         }
 

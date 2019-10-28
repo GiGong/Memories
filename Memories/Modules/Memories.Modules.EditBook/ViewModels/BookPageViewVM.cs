@@ -26,8 +26,8 @@ namespace Memories.Modules.EditBook.ViewModels
         private byte[] _background;
         private BookPage _nowPage;
 
-        private DelegateCommand<MMCenterImage> _imageClickCommand;
-        private DelegateCommand<Canvas> _canvasClickCommand;
+        private DelegateCommand<FrameworkElement> _canvasClickCommand;
+        private DelegateCommand<MMCenterImage> _imageSelectCommand;
 
         private readonly IFileService _fileService;
         private readonly IEventAggregator _eventAggregator;
@@ -56,7 +56,6 @@ namespace Memories.Modules.EditBook.ViewModels
                         if (element is MMRichTextBox richTextBox)
                         {
                             richTextBox.GotFocus += (s, e) => _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(s as MMRichTextBox);
-                            //richTextBox.LostKeyboardFocus += (s, e) => _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(null);
                         }
                     }
                 }
@@ -113,15 +112,23 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Command
 
-        public DelegateCommand<MMCenterImage> ImageClickCommand =>
-            _imageClickCommand ?? (_imageClickCommand = new DelegateCommand<MMCenterImage>(ExecuteSelectImageCommand));
+        public DelegateCommand<MMCenterImage> ImageSelectCommand =>
+            _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<MMCenterImage>(ExecuteSelectImageCommand));
 
-        public DelegateCommand<Canvas> CanvasClickCommand =>
-            _canvasClickCommand ?? (_canvasClickCommand = new DelegateCommand<Canvas>(ExecuteSelectImageCommand));
+        public DelegateCommand<FrameworkElement> CanvasClickCommand =>
+            _canvasClickCommand ?? (_canvasClickCommand = new DelegateCommand<FrameworkElement>(ExecuteCanvasClickCommand));
 
         #endregion Command
 
         #region Method
+
+        private void ExecuteCanvasClickCommand(FrameworkElement element)
+        {
+            if (element is MMCenterImage || element is Canvas)
+            {
+                ExecuteSelectImageCommand(element);
+            }
+        }
 
         private void ExecuteSelectImageCommand(FrameworkElement frameworkElement)
         {
