@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Memories.Core.Controls
@@ -13,18 +12,8 @@ namespace Memories.Core.Controls
 
         #region Dependency Property
 
-        public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register("Command", typeof(ICommand), typeof(MMCenterImage), new PropertyMetadata());
-
         public static readonly DependencyProperty ImageSourceProperty =
-            DependencyProperty.Register("ImageSource", typeof(ImageSource), typeof(MMCenterImage), new PropertyMetadata());
-
-
-        public ICommand Command
-        {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
-        }
+            DependencyProperty.Register("ImageSource", typeof(ImageSource), typeof(MMCenterImage), new PropertyMetadata(null));
 
         public ImageSource ImageSource
         {
@@ -37,6 +26,7 @@ namespace Memories.Core.Controls
         }
 
         #endregion Dependency Property
+
 
         public Image Image { get; }
 
@@ -53,8 +43,6 @@ namespace Memories.Core.Controls
                 DataContext = this
             };
             img.SetBinding(Image.SourceProperty, new Binding("ImageSource") { Mode = BindingMode.TwoWay });
-            img.MouseLeftButtonDown += Image_MouseLeftButtonDown;
-
             Image = img;
 
             Content = Image;
@@ -67,18 +55,6 @@ namespace Memories.Core.Controls
         public static explicit operator Image(MMCenterImage control)
         {
             return control.Image;
-        }
-
-        private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ClickCount == 2 && Command != null)
-            {
-                if (Command.CanExecute(this))
-                {
-                    Command.Execute(this);
-                    e.Handled = true;
-                }
-            }
         }
 
         #endregion Method
