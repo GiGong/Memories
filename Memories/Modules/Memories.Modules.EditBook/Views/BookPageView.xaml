@@ -10,11 +10,11 @@
         <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
         <Style TargetType="{x:Type controls:MMRichTextBox}">
             <Setter Property="GotFocusCommand" Value="{Binding Path=DataContext.TextBoxGotFocusCommand,
-                RelativeSource={RelativeSource AncestorType={x:Type UserControl}} }"/>
+                RelativeSource={RelativeSource AncestorType={x:Type Canvas}}}"/>
         </Style>
         <Style TargetType="{x:Type controls:MMCenterImage}">
             <Setter Property="DoubleClickCommand" Value="{Binding Path=DataContext.DoubleClickCommand,
-                RelativeSource={RelativeSource AncestorType={x:Type UserControl}} }"/>
+                RelativeSource={RelativeSource AncestorType={x:Type Canvas}}}"/>
         </Style>
     </UserControl.Resources>
     <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
