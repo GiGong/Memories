@@ -55,5 +55,24 @@ namespace Memories.Business.Models
         }
 
         #endregion Property
+
+        #region Method
+
+        public static BookUI GetBookUI(BookUIEnum type)
+        {
+            switch (type)
+            {
+                case BookUIEnum.TextUI:
+                    return new BookTextUI();
+
+                case BookUIEnum.ImageUI:
+                    return  new BookImageUI();
+
+                default:
+                    throw new System.ArgumentOutOfRangeException("It's not " + typeof(BookUIEnum));
+            }
+        }
+
+        #endregion Method
     }
 }

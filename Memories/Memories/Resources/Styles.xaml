@@ -49,7 +49,7 @@
         <Setter Property="Height" Value="24"/>
     </Style>
         
-    <Style TargetType="{x:Type controls:MMRichTextBox}">
+    <Style TargetType="{x:Type controls:MMRichTextBox}" x:Key="baseRichTextBox">
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="Transparent"/>

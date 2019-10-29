@@ -1,18 +1,10 @@
 ﻿using Memories.Modules.EditBook.Enums;
-using Prism.Mvvm;
 
 namespace Memories.Modules.EditBook.Parameters
 {
-    public class MenuParameter : BindableBase
+    public class MenuParameter : ParameterBase
     {
-        private string _title;
         private MenuType _type;
-
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
 
         public MenuType Type
         {

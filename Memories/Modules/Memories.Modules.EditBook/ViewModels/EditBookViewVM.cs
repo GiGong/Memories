@@ -23,6 +23,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private ObservableCollection<ExportParameter> _exportMenus;
         private ObservableCollection<MenuParameter> _extensionMenus;
+        private ObservableCollection<DrawParameter> _drawControls;
 
         private DelegateCommand _loadCommand;
         private DelegateCommand _saveCommand;
@@ -35,6 +36,8 @@ namespace Memories.Modules.EditBook.ViewModels
         private readonly IFileService _fileService;
         private readonly IDialogService _dialogService;
         private readonly IExportToImageService _exportToImageService;
+
+        private IApplicationCommands _applicationCommands;
 
         #endregion Field
 
@@ -58,10 +61,22 @@ namespace Memories.Modules.EditBook.ViewModels
             set { SetProperty(ref _extensionMenus, value); }
         }
 
+        public ObservableCollection<DrawParameter> DrawControls
+        {
+            get { return _drawControls; }
+            set { SetProperty(ref _drawControls, value); }
+        }
+
         public ObservableCollection<ExportParameter> ExportMenus
         {
             get { return _exportMenus; }
             set { SetProperty(ref _exportMenus, value); }
+        }
+
+        public IApplicationCommands ApplicationCommands
+        {
+            get { return _applicationCommands; }
+            set { SetProperty(ref _applicationCommands, value); }
         }
 
         #endregion Property
@@ -88,13 +103,15 @@ namespace Memories.Modules.EditBook.ViewModels
         #region Constructor
 
         public EditBookViewVM(IBookService bookService, IFileService fileService, IDialogService dialogService,
-                                IExportToImageService exportToImageService)
+                                IExportToImageService exportToImageService, IApplicationCommands applicationCommands)
         {
             _bookService = bookService;
 
             _fileService = fileService;
             _dialogService = dialogService;
             _exportToImageService = exportToImageService;
+
+            ApplicationCommands = applicationCommands;
 
             Title = (string)Application.Current.Resources["Program_Name"];
 
@@ -113,6 +130,12 @@ namespace Memories.Modules.EditBook.ViewModels
                 new ExportParameter("이미지로 내보내기", ExportType.Image ),
                 new ExportParameter("PDF로 내보내기", ExportType.PDF ),
                 new ExportParameter("출력하기", ExportType.Print)
+            };
+
+            DrawControls = new ObservableCollection<DrawParameter>
+            {
+                new DrawParameter("사진 추가하기", BookUIEnum.ImageUI),
+                new DrawParameter("글 추가하기", BookUIEnum.TextUI)
             };
         }
 
@@ -173,22 +196,6 @@ namespace Memories.Modules.EditBook.ViewModels
             _dialogService.ShowDialog(nameof(PageLayoutSelectView), param, PageLayoutSelected);
         }
 
-        void ExecuteExportCommand(ExportParameter parameter)
-        {
-            switch (parameter.Type)
-            {
-                case ExportType.Image:
-                    ExportToImage();
-                    break;
-                case ExportType.PDF:
-                    ExportToPdf();
-                    break;
-                case ExportType.Print:
-                    ExportToPrint();
-                    break;
-            }
-        }
-
         void ExecuteMenuCommand(MenuParameter parameter)
         {
             switch (parameter.Type)
@@ -209,6 +216,22 @@ namespace Memories.Modules.EditBook.ViewModels
                     break;
                 case MenuType.BackToStartWindow:
                     RaiseRequestClose(new DialogResult(ButtonResult.Retry));
+                    break;
+            }
+        }
+
+        void ExecuteExportCommand(ExportParameter parameter)
+        {
+            switch (parameter.Type)
+            {
+                case ExportType.Image:
+                    ExportToImage();
+                    break;
+                case ExportType.PDF:
+                    ExportToPdf();
+                    break;
+                case ExportType.Print:
+                    ExportToPrint();
                     break;
             }
         }

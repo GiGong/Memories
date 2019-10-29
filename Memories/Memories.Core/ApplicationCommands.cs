@@ -6,6 +6,7 @@ namespace Memories.Core
     {
         CompositeCommand HideShellCommand { get; }
         CompositeCommand ShowShellCommand { get; }
+        CompositeCommand DrawControlCommand { get; }
     }
 
     public class ApplicationCommands : IApplicationCommands
@@ -13,5 +14,7 @@ namespace Memories.Core
         public CompositeCommand HideShellCommand { get; } = new CompositeCommand();
 
         public CompositeCommand ShowShellCommand { get; } = new CompositeCommand();
+
+        public CompositeCommand DrawControlCommand { get; } = new CompositeCommand();
     }
 }

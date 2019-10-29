@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
+    <Compile Include="Controls\DrawableCanvas.cs" />
     <Compile Include="Controls\MMCenterImage.cs" />
     <Compile Include="Controls\MMBookPageCanvas.cs" />
     <Compile Include="Controls\MMFontFamilySearch.cs" />

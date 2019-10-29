@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Memories.Core.Extensions
 {
@@ -57,6 +58,15 @@ namespace Memories.Core.Extensions
             bookImageUI.ImageSource = isLayout ? null : GetSourceFromImage((BitmapSource)image.Source);
 
             return bookImageUI;
+        }
+
+        public static void GetPropertyFromRectangle(this BookUI bookUI, Rectangle rect)
+        {
+            bookUI.Width = rect.Width;
+            bookUI.Height = rect.Height;
+            bookUI.Margin = new BookUIPoint(Canvas.GetLeft(rect), Canvas.GetTop(rect));
+            bookUI.ZIndex = Panel.GetZIndex(rect);
+            bookUI.Transform = rect.RenderTransform.Value.ToBookUIMatrix();
         }
 
         /// <summary>

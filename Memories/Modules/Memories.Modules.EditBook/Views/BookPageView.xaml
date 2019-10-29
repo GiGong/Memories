@@ -8,7 +8,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
-        <Style TargetType="{x:Type controls:MMRichTextBox}">
+        <Style TargetType="{x:Type controls:MMRichTextBox}" BasedOn="{StaticResource baseRichTextBox}">
             <Setter Property="GotFocusCommand" Value="{Binding Path=DataContext.TextBoxGotFocusCommand,
                 RelativeSource={RelativeSource AncestorType={x:Type Canvas}}}"/>
         </Style>
@@ -17,15 +17,18 @@
                 RelativeSource={RelativeSource AncestorType={x:Type Canvas}}}"/>
         </Style>
     </UserControl.Resources>
-    <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <controls:MMBookPageCanvas ClipToBounds="True" DoubleClickCommand="{Binding DoubleClickCommand}">
-                    <Canvas.Background>
-                        <ImageBrush Stretch="Fill" ImageSource="{Binding Background, Mode=TwoWay, Converter={StaticResource byteSourceConverter}}"/>
-                    </Canvas.Background>
-                </controls:MMBookPageCanvas>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
+    <Grid>
+        <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <controls:MMBookPageCanvas ClipToBounds="True" DoubleClickCommand="{Binding DoubleClickCommand}">
+                        <Canvas.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="{Binding Background, Mode=TwoWay, Converter={StaticResource byteSourceConverter}}"/>
+                        </Canvas.Background>
+                    </controls:MMBookPageCanvas>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <controls:DrawableCanvas IsDraw="{Binding IsDraw, Mode=TwoWay}" DrawEndCommand="{Binding DrawEndCommand}"/>
+    </Grid>
 </UserControl>

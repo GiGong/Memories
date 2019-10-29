@@ -55,8 +55,10 @@
     <Compile Include="Enums\BookState.cs" />
     <Compile Include="Enums\ExportType.cs" />
     <Compile Include="Enums\MenuType.cs" />
+    <Compile Include="Parameters\DrawParameter.cs" />
     <Compile Include="Parameters\ExportParameter.cs" />
     <Compile Include="Parameters\MenuParameter.cs" />
+    <Compile Include="Parameters\ParameterBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

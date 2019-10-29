@@ -17,7 +17,7 @@ namespace Memories.Core.Controls
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
-
+            Keyboard.ClearFocus();
             if (e.ClickCount == 2 && DoubleClickCommand != null)
             {
                 var source = e.OriginalSource as FrameworkElement;

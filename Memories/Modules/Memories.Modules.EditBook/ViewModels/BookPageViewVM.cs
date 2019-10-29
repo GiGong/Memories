@@ -1,9 +1,12 @@
 ﻿using Memories.Business;
+using Memories.Business.Enums;
 using Memories.Business.Models;
+using Memories.Core;
 using Memories.Core.Controls;
 using Memories.Core.Converters;
 using Memories.Core.Events;
 using Memories.Core.Extensions;
+using Memories.Modules.EditBook.Parameters;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Events;
@@ -13,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 
 namespace Memories.Modules.EditBook.ViewModels
 {
@@ -20,7 +24,10 @@ namespace Memories.Modules.EditBook.ViewModels
     {
         #region Field
 
+        BookUI _newUI;
+
         private bool _isEditPage;
+        private bool _isDraw;
 
         private ObservableCollection<UIElement> _pageControls;
         private byte[] _background;
@@ -29,6 +36,8 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand<MMRichTextBox> _textBoxGotFocusCommand;
         private DelegateCommand<FrameworkElement> _doubleClickCommand;
         private DelegateCommand<MMCenterImage> _imageSelectCommand;
+        private DelegateCommand<DrawParameter> _drawControlCommand;
+        private DelegateCommand<Rectangle> _drawEndCommand;
 
         private readonly IFileService _fileService;
         private readonly IEventAggregator _eventAggregator;
@@ -41,6 +50,12 @@ namespace Memories.Modules.EditBook.ViewModels
         {
             get { return _isEditPage; }
             set { SetProperty(ref _isEditPage, value); }
+        }
+
+        public bool IsDraw
+        {
+            get { return _isDraw; }
+            set { SetProperty(ref _isDraw, value); }
         }
 
         public ObservableCollection<UIElement> PageControls
@@ -92,10 +107,14 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public BookPageViewVM(IFileService fileService, IEventAggregator eventAggregator)
+        public BookPageViewVM(IFileService fileService, IApplicationCommands applicationCommands, IEventAggregator eventAggregator)
         {
             _fileService = fileService;
             _eventAggregator = eventAggregator;
+
+            applicationCommands.DrawControlCommand.RegisterCommand(DrawControlCommand);
+
+            _newUI = null;
         }
 
         #endregion Constructor
@@ -110,6 +129,12 @@ namespace Memories.Modules.EditBook.ViewModels
 
         public DelegateCommand<FrameworkElement> DoubleClickCommand =>
             _doubleClickCommand ?? (_doubleClickCommand = new DelegateCommand<FrameworkElement>(ExecuteDoubleClickCommand));
+
+        public DelegateCommand<DrawParameter> DrawControlCommand =>
+            _drawControlCommand ?? (_drawControlCommand = new DelegateCommand<DrawParameter>(ExecuteDrawControlCommand));
+
+        public DelegateCommand<Rectangle> DrawEndCommand =>
+            _drawEndCommand ?? (_drawEndCommand = new DelegateCommand<Rectangle>(ExecuteDrawEndCommand));
 
         #endregion Command
 
@@ -126,6 +151,24 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 ExecuteSelectImageCommand(element);
             }
+        }
+
+        private void ExecuteDrawControlCommand(DrawParameter parameter)
+        {
+            if (NowPage == null)
+            {
+                return;
+            }
+            _newUI = BookUI.GetBookUI(parameter.Type);
+            IsDraw = true;
+        }
+
+        private void ExecuteDrawEndCommand(Rectangle rect)
+        {
+            _newUI.GetPropertyFromRectangle(rect);
+            NowPage.PageControls.Add(_newUI);
+            PageControls = NowPage.ToUIElementCollection();
+            _newUI = null;
         }
 
         private void ExecuteSelectImageCommand(FrameworkElement frameworkElement)

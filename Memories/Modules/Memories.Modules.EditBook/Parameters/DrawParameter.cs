@@ -1,18 +1,18 @@
-﻿using Memories.Modules.EditBook.Enums;
+﻿using Memories.Business.Enums;
 
 namespace Memories.Modules.EditBook.Parameters
 {
-    public class ExportParameter : ParameterBase
+    public class DrawParameter : ParameterBase
     {
-        private ExportType _type;
+        private BookUIEnum _type;
 
-        public ExportType Type
+        public BookUIEnum Type
         {
             get { return _type; }
             set { SetProperty(ref _type, value); }
         }
 
-        public ExportParameter(string title, ExportType type)
+        public DrawParameter(string title, BookUIEnum type)
         {
             Title = title;
             Type = type;

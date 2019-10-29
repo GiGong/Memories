@@ -56,11 +56,23 @@
             <Button Command="{Binding SaveCommand}" ToolTip="저장하기">
                 <iconPacks:PackIconMaterial Kind="ContentSave"/>
             </Button>
-            
             <Button Command="{Binding AddPageCommand}">
                 <iconPacks:PackIconMaterial Kind="BookOpenPageVariant"/>
             </Button>
-            
+
+            <Controls:DropDownButton ItemsSource="{Binding DrawControls}" ToolTip="컨트롤 추가하기">
+                <Controls:DropDownButton.Icon>
+                    <iconPacks:PackIconMaterial Kind="PlusBoxOutline" />
+                </Controls:DropDownButton.Icon>
+                <Controls:DropDownButton.ItemContainerStyle>
+                    <Style TargetType="MenuItem" BasedOn="{StaticResource {x:Type MenuItem}}">
+                        <Setter Property="Header" Value="{Binding Title}"/>
+                        <Setter Property="Command" Value="{Binding DataContext.ApplicationCommands.DrawControlCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}"/>
+                        <Setter Property="CommandParameter" Value="{Binding}"/>
+                    </Style>
+                </Controls:DropDownButton.ItemContainerStyle>
+            </Controls:DropDownButton>
+
             <Controls:DropDownButton ItemsSource="{Binding ExportMenus}" ToolTip="...으로 내보내기">
                 <Controls:DropDownButton.Icon>
                     <iconPacks:PackIconMaterial Kind="Export"/>
