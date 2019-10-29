@@ -26,7 +26,8 @@ namespace Memories.Modules.EditBook.ViewModels
         private byte[] _background;
         private BookPage _nowPage;
 
-        private DelegateCommand<FrameworkElement> _canvasClickCommand;
+        private DelegateCommand<MMRichTextBox> _textBoxGotFocusCommand;
+        private DelegateCommand<FrameworkElement> _doubleClickCommand;
         private DelegateCommand<MMCenterImage> _imageSelectCommand;
 
         private readonly IFileService _fileService;
@@ -48,17 +49,6 @@ namespace Memories.Modules.EditBook.ViewModels
             set
             {
                 SetProperty(ref _pageControls, value);
-
-                if (PageControls != null)
-                {
-                    foreach (var element in PageControls)
-                    {
-                        if (element is MMRichTextBox richTextBox)
-                        {
-                            richTextBox.GotFocus += (s, e) => _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(s as MMRichTextBox);
-                        }
-                    }
-                }
             }
         }
 
@@ -112,17 +102,25 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Command
 
+        public DelegateCommand<MMRichTextBox> TextBoxGotFocusCommand =>
+            _textBoxGotFocusCommand ?? (_textBoxGotFocusCommand = new DelegateCommand<MMRichTextBox>(ExecuteTextBoxGotFocusCommand));
+
         public DelegateCommand<MMCenterImage> ImageSelectCommand =>
             _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<MMCenterImage>(ExecuteSelectImageCommand));
 
-        public DelegateCommand<FrameworkElement> CanvasClickCommand =>
-            _canvasClickCommand ?? (_canvasClickCommand = new DelegateCommand<FrameworkElement>(ExecuteCanvasClickCommand));
+        public DelegateCommand<FrameworkElement> DoubleClickCommand =>
+            _doubleClickCommand ?? (_doubleClickCommand = new DelegateCommand<FrameworkElement>(ExecuteDoubleClickCommand));
 
         #endregion Command
 
         #region Method
 
-        private void ExecuteCanvasClickCommand(FrameworkElement element)
+        private void ExecuteTextBoxGotFocusCommand(MMRichTextBox richTextBox)
+        {
+            _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(richTextBox);
+        }
+
+        private void ExecuteDoubleClickCommand(FrameworkElement element)
         {
             if (element is MMCenterImage || element is Canvas)
             {
