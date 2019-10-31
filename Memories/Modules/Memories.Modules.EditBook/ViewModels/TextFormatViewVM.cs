@@ -67,14 +67,18 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void RichTextBoxSelected(MMRichTextBox newRichTextBox)
         {
-            RichTextBox = newRichTextBox;
-
-            if (RichTextBox == null)
+            if (newRichTextBox == null)
             {
                 ClearFormats();
+                if (RichTextBox != null)
+                {
+                    RichTextBox.SelectionChanged -= RichTextBox_SelectionChanged;
+                }
+                RichTextBox = newRichTextBox;
             }
             else
             {
+                RichTextBox = newRichTextBox;
                 RichTextBox.SelectionChanged += RichTextBox_SelectionChanged;
             }
         }

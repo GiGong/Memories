@@ -6,22 +6,22 @@ namespace Memories.Core.Controls
     public class MMRichTextBox : Xceed.Wpf.Toolkit.RichTextBox
     {
 
-        public static readonly DependencyProperty GotFocusCommandProperty =
-            DependencyProperty.Register("GotFocusCommand", typeof(ICommand), typeof(MMRichTextBox), new PropertyMetadata(null));
+        public static readonly DependencyProperty GotKeyboardFocusCommandProperty =
+            DependencyProperty.Register(nameof(GotKeyboardFocusCommand), typeof(ICommand), typeof(MMRichTextBox), new PropertyMetadata(null));
 
-        public ICommand GotFocusCommand
+        public ICommand GotKeyboardFocusCommand
         {
-            get { return (ICommand)GetValue(GotFocusCommandProperty); }
-            set { SetValue(GotFocusCommandProperty, value); }
+            get { return (ICommand)GetValue(GotKeyboardFocusCommandProperty); }
+            set { SetValue(GotKeyboardFocusCommandProperty, value); }
         }
 
-        protected override void OnGotFocus(RoutedEventArgs e)
+        protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            base.OnGotFocus(e);
+            base.OnGotKeyboardFocus(e);
 
-            if (GotFocusCommand != null && GotFocusCommand.CanExecute(this))
+            if (GotKeyboardFocusCommand != null && GotKeyboardFocusCommand.CanExecute(this))
             {
-                GotFocusCommand.Execute(this);
+                GotKeyboardFocusCommand.Execute(this);
             }
         }
     }

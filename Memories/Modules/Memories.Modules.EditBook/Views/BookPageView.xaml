@@ -9,7 +9,7 @@
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
         <Style TargetType="{x:Type controls:MMRichTextBox}" BasedOn="{StaticResource baseRichTextBox}">
-            <Setter Property="GotFocusCommand" Value="{Binding Path=DataContext.TextBoxGotFocusCommand,
+            <Setter Property="GotKeyboardFocusCommand" Value="{Binding Path=DataContext.TextBoxGotKeyboardFocusCommand,
                 RelativeSource={RelativeSource AncestorType={x:Type Canvas}}}"/>
         </Style>
         <Style TargetType="{x:Type controls:MMCenterImage}">
@@ -21,7 +21,7 @@
         <ItemsControl ItemsSource="{Binding PageControls}" Visibility="{Binding IsEditPage, Converter={StaticResource boolToVisibilityConverter}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <controls:MMBookPageCanvas ClipToBounds="True" DoubleClickCommand="{Binding DoubleClickCommand}">
+                    <controls:MMBookPageCanvas ClipToBounds="True" Command="{Binding CanvasCommand}" DoubleClickCommand="{Binding ImageSelectCommand}">
                         <Canvas.Background>
                             <ImageBrush Stretch="Fill" ImageSource="{Binding Background, Mode=TwoWay, Converter={StaticResource byteSourceConverter}}"/>
                         </Canvas.Background>
@@ -29,6 +29,7 @@
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
         </ItemsControl>
+        
         <controls:DrawableCanvas IsDraw="{Binding IsDraw, Mode=TwoWay}" DrawEndCommand="{Binding DrawEndCommand}"/>
     </Grid>
 </UserControl>

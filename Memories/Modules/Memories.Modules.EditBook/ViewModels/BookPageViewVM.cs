@@ -33,9 +33,9 @@ namespace Memories.Modules.EditBook.ViewModels
         private byte[] _background;
         private BookPage _nowPage;
 
-        private DelegateCommand<MMRichTextBox> _textBoxGotFocusCommand;
-        private DelegateCommand<FrameworkElement> _doubleClickCommand;
-        private DelegateCommand<MMCenterImage> _imageSelectCommand;
+        private DelegateCommand _canvasCommand;
+        private DelegateCommand<MMRichTextBox> _textBoxGotKeyboardFocusCommand;
+        private DelegateCommand<FrameworkElement> _imageSelectCommand;
         private DelegateCommand<DrawParameter> _drawControlCommand;
         private DelegateCommand<Rectangle> _drawEndCommand;
 
@@ -88,18 +88,7 @@ namespace Memories.Modules.EditBook.ViewModels
             {
                 SetProperty(ref _nowPage, value);
 
-                if (NowPage == null)
-                {
-                    IsEditPage = false;
-                    Background = null;
-                    PageControls = null;
-                }
-                else
-                {
-                    IsEditPage = true;
-                    Background = NowPage.Background;
-                    PageControls = NowPage.ToUIElementCollection();
-                }
+                NowPageChanged();
             }
         }
 
@@ -114,6 +103,8 @@ namespace Memories.Modules.EditBook.ViewModels
 
             applicationCommands.DrawControlCommand.RegisterCommand(DrawControlCommand);
 
+            _eventAggregator.GetEvent<DrawControlEndedEvent>().Subscribe(DrawAlreadyEnded);
+
             _newUI = null;
         }
 
@@ -121,14 +112,14 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Command
 
-        public DelegateCommand<MMRichTextBox> TextBoxGotFocusCommand =>
-            _textBoxGotFocusCommand ?? (_textBoxGotFocusCommand = new DelegateCommand<MMRichTextBox>(ExecuteTextBoxGotFocusCommand));
+        public DelegateCommand<MMRichTextBox> TextBoxGotKeyboardFocusCommand =>
+            _textBoxGotKeyboardFocusCommand ?? (_textBoxGotKeyboardFocusCommand = new DelegateCommand<MMRichTextBox>(ExecuteTextBoxGotKeyboardFocusCommand));
 
-        public DelegateCommand<MMCenterImage> ImageSelectCommand =>
-            _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<MMCenterImage>(ExecuteSelectImageCommand));
+        public DelegateCommand CanvasCommand =>
+            _canvasCommand ?? (_canvasCommand = new DelegateCommand(ExecuteCanvasCommand));
 
-        public DelegateCommand<FrameworkElement> DoubleClickCommand =>
-            _doubleClickCommand ?? (_doubleClickCommand = new DelegateCommand<FrameworkElement>(ExecuteDoubleClickCommand));
+        public DelegateCommand<FrameworkElement> ImageSelectCommand =>
+            _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<FrameworkElement>(ExecuteSelectImageCommand, CanExecuteSelectImageCommand));
 
         public DelegateCommand<DrawParameter> DrawControlCommand =>
             _drawControlCommand ?? (_drawControlCommand = new DelegateCommand<DrawParameter>(ExecuteDrawControlCommand));
@@ -140,17 +131,32 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Method
 
-        private void ExecuteTextBoxGotFocusCommand(MMRichTextBox richTextBox)
+        private void NowPageChanged()
+        {
+            _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(null);
+
+            if (NowPage == null)
+            {
+                IsEditPage = false;
+                Background = null;
+                PageControls = null;
+            }
+            else
+            {
+                IsEditPage = true;
+                Background = NowPage.Background;
+                PageControls = NowPage.ToUIElementCollection();
+            }
+        }
+
+        private void ExecuteTextBoxGotKeyboardFocusCommand(MMRichTextBox richTextBox)
         {
             _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(richTextBox);
         }
 
-        private void ExecuteDoubleClickCommand(FrameworkElement element)
+        void ExecuteCanvasCommand()
         {
-            if (element is MMCenterImage || element is Canvas)
-            {
-                ExecuteSelectImageCommand(element);
-            }
+            _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(null);
         }
 
         private void ExecuteDrawControlCommand(DrawParameter parameter)
@@ -169,15 +175,23 @@ namespace Memories.Modules.EditBook.ViewModels
             NowPage.PageControls.Add(_newUI);
             PageControls = NowPage.ToUIElementCollection();
             _newUI = null;
+
+            _eventAggregator.GetEvent<DrawControlEndedEvent>().Publish();
+        }
+
+        private void DrawAlreadyEnded()
+        {
+            IsDraw = false;
+            _newUI = null;
+        }
+
+        private bool CanExecuteSelectImageCommand(FrameworkElement frameworkElement)
+        {
+            return frameworkElement is MMCenterImage || frameworkElement is Canvas;
         }
 
         private void ExecuteSelectImageCommand(FrameworkElement frameworkElement)
         {
-            if (!(frameworkElement is MMCenterImage || frameworkElement is Canvas))
-            {
-                throw new ArgumentException(frameworkElement + " is not image or canvas.");
-            }
-
             string filter = ExtentionFilters.ImageFiles;
             string path = _fileService.OpenFilePath(filter);
 
