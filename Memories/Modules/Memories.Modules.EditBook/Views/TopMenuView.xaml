@@ -15,9 +15,13 @@
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Width" Value="40"/>
             </Style>
+            <Style TargetType="{x:Type iconPacks:PackIconMaterial}">
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="Height" Value="20"/>
+            </Style>
         </StackPanel.Resources>
 
-        <Controls:DropDownButton ArrowVisibility="Collapsed" ToolTip="더 보기">
+        <Controls:DropDownButton ArrowVisibility="Collapsed" ToolTip="메뉴">
             <Controls:DropDownButton.Icon>
                 <iconPacks:PackIconMaterial Kind="ViewGrid" Width="16" Height="16"/>
             </Controls:DropDownButton.Icon>
@@ -41,7 +45,8 @@
         <Button Command="{Binding SaveCommand}" ToolTip="저장하기">
             <iconPacks:PackIconMaterial Kind="ContentSave"/>
         </Button>
-        <Button Command="{Binding AddPageCommand}">
+        
+        <Button Command="{Binding AddPageCommand}" ToolTip="페이지 추가하기">
             <iconPacks:PackIconMaterial Kind="BookOpenPageVariant"/>
         </Button>
 
@@ -57,7 +62,7 @@
             </Controls:DropDownButton.ItemsSource>
         </Controls:DropDownButton>
 
-        <Controls:DropDownButton ToolTip="...으로 내보내기">
+        <Controls:DropDownButton ToolTip="책 내보내기">
             <Controls:DropDownButton.Icon>
                 <iconPacks:PackIconMaterial Kind="Export"/>
             </Controls:DropDownButton.Icon>
