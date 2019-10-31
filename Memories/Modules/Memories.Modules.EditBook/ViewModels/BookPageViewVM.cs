@@ -6,7 +6,6 @@ using Memories.Core.Controls;
 using Memories.Core.Converters;
 using Memories.Core.Events;
 using Memories.Core.Extensions;
-using Memories.Modules.EditBook.Parameters;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Events;
@@ -36,7 +35,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand _canvasCommand;
         private DelegateCommand<MMRichTextBox> _textBoxGotKeyboardFocusCommand;
         private DelegateCommand<FrameworkElement> _imageSelectCommand;
-        private DelegateCommand<DrawParameter> _drawControlCommand;
+        private DelegateCommand<object> _drawControlCommand;
         private DelegateCommand<Rectangle> _drawEndCommand;
 
         private readonly IFileService _fileService;
@@ -121,8 +120,8 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand<FrameworkElement> ImageSelectCommand =>
             _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<FrameworkElement>(ExecuteSelectImageCommand, CanExecuteSelectImageCommand));
 
-        public DelegateCommand<DrawParameter> DrawControlCommand =>
-            _drawControlCommand ?? (_drawControlCommand = new DelegateCommand<DrawParameter>(ExecuteDrawControlCommand));
+        public DelegateCommand<object> DrawControlCommand =>
+            _drawControlCommand ?? (_drawControlCommand = new DelegateCommand<object>(ExecuteDrawControlCommand));
 
         public DelegateCommand<Rectangle> DrawEndCommand =>
             _drawEndCommand ?? (_drawEndCommand = new DelegateCommand<Rectangle>(ExecuteDrawEndCommand));
@@ -159,13 +158,13 @@ namespace Memories.Modules.EditBook.ViewModels
             _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(null);
         }
 
-        private void ExecuteDrawControlCommand(DrawParameter parameter)
+        private void ExecuteDrawControlCommand(object parameter)
         {
             if (NowPage == null)
             {
                 return;
             }
-            _newUI = BookUI.GetBookUI(parameter.Type);
+            _newUI = BookUI.GetBookUI((BookUIEnum)parameter);
             IsDraw = true;
         }
 

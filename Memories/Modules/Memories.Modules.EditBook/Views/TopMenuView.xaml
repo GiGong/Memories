@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="Memories.Modules.EditBook.Views.TopMenuView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:bookEnum="clr-namespace:Memories.Business.Enums;assembly=Memories.Business"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <StackPanel Orientation="Horizontal" Background="White">
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}">
+                <Setter Property="Width" Value="40"/>
+            </Style>
+            <Style TargetType="{x:Type Controls:DropDownButton}">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Width" Value="40"/>
+            </Style>
+        </StackPanel.Resources>
+
+        <Controls:DropDownButton ArrowVisibility="Collapsed" ToolTip="더 보기">
+            <Controls:DropDownButton.Icon>
+                <iconPacks:PackIconMaterial Kind="ViewGrid" Width="16" Height="16"/>
+            </Controls:DropDownButton.Icon>
+            <Controls:DropDownButton.ItemsSource>
+                <x:Array Type="{x:Type Control}">
+                    <MenuItem Header="새 책 만들기" Command="{Binding ApplicationCommands.NewBookCommand}"/>
+                    <MenuItem Header="책 열기" Command="{Binding ApplicationCommands.LoadCommand}"/>
+                    <MenuItem Header="저장" Command="{Binding ApplicationCommands.SaveCommand}"/>
+                    <MenuItem Header="다른 이름으로 저장" Command="{Binding ApplicationCommands.SaveAsCommand}"/>
+                    <MenuItem Header="처음 화면으로" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding BackToStartWindowResult}"/>
+                    <Separator/>
+                    <MenuItem Header="종료" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding CloseResult}"/>
+                </x:Array>
+            </Controls:DropDownButton.ItemsSource>
+        </Controls:DropDownButton>
+
+        <Button Command="{Binding OpenCommand}" ToolTip="책 열기">
+            <iconPacks:PackIconMaterial Kind="FolderOpen"/>
+        </Button>
+
+        <Button Command="{Binding SaveCommand}" ToolTip="저장하기">
+            <iconPacks:PackIconMaterial Kind="ContentSave"/>
+        </Button>
+        <Button Command="{Binding AddPageCommand}">
+            <iconPacks:PackIconMaterial Kind="BookOpenPageVariant"/>
+        </Button>
+
+        <Controls:DropDownButton ToolTip="컨트롤 추가하기">
+            <Controls:DropDownButton.Icon>
+                <iconPacks:PackIconMaterial Kind="PlusBoxOutline" />
+            </Controls:DropDownButton.Icon>
+            <Controls:DropDownButton.ItemsSource>
+                <x:Array Type="{x:Type Control}">
+                    <MenuItem Header="사진 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.ImageUI}"/>
+                    <MenuItem Header="글 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.TextUI}"/>
+                </x:Array>
+            </Controls:DropDownButton.ItemsSource>
+        </Controls:DropDownButton>
+
+        <Controls:DropDownButton ToolTip="...으로 내보내기">
+            <Controls:DropDownButton.Icon>
+                <iconPacks:PackIconMaterial Kind="Export"/>
+            </Controls:DropDownButton.Icon>
+            <Controls:DropDownButton.ItemsSource>
+                <x:Array Type="{x:Type Control}">
+                    <MenuItem Header="이미지로 내보내기" Command="{Binding ExportToImageCommand}"/>
+                    <MenuItem Header="PDF로 내보내기" Command="{Binding ExportToPDFCommand}"/>
+                    <MenuItem Header="출력하기" Command="{Binding PrintCommand}"/>
+                </x:Array>
+            </Controls:DropDownButton.ItemsSource>
+        </Controls:DropDownButton>
+
+    </StackPanel>
+</UserControl>

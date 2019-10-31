@@ -5,7 +5,6 @@ using Memories.Services.Interfaces;
 using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -13,29 +12,22 @@ namespace Memories.Services
 {
     public class ExportToImageService : IExportToImageService
     {
-        public void ExportBookToImage(Book book, ImageFormat format, string path)
+        public void ExportBookToImage(Book book, string path)
         {
-            // Generate new folder
-            string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
-            Directory.CreateDirectory(folderPath);
+            ImageFormat format = ImageFormat.JPEG;
 
-            BookUIPoint imageSize = new BookUIPoint(book.PaperSize.GetWidth() * 10, book.PaperSize.GetHeight() * 10);
-
-            BookPage page = book.FrontCover;
-            string imagePath = Path.Combine(folderPath, 0 + Path.GetExtension(path));
-            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
-
-            for (int i = 0, l = book.BookPages.Count; i < l; i++)
+            switch (Path.GetExtension(path))
             {
-                page = book.BookPages[i];
+                case ".png":
+                    format = ImageFormat.PNG;
+                    break;
 
-                imagePath = Path.Combine(folderPath, (i + 1) + Path.GetExtension(path));
-                VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+                case ".bmp":
+                    format = ImageFormat.BMP;
+                    break;
             }
 
-            page = book.BackCover;
-            imagePath = Path.Combine(folderPath, (book.BookPages.Count + 1) + Path.GetExtension(path));
-            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+            ExportBookToImage(book, format, path);
         }
 
         public void VisualToImage(object visual, BookUIPoint pixelSize, ImageFormat format, string path)
@@ -63,6 +55,31 @@ namespace Memories.Services
             {
                 bitmapEncoder.Save(fs);
             }
+        }
+
+        private void ExportBookToImage(Book book, ImageFormat format, string path)
+        {
+            // Generate new folder
+            string folderPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+            Directory.CreateDirectory(folderPath);
+
+            BookUIPoint imageSize = new BookUIPoint(book.PaperSize.GetWidth() * 10, book.PaperSize.GetHeight() * 10);
+
+            BookPage page = book.FrontCover;
+            string imagePath = Path.Combine(folderPath, 0 + Path.GetExtension(path));
+            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+
+            for (int i = 0, l = book.BookPages.Count; i < l; i++)
+            {
+                page = book.BookPages[i];
+
+                imagePath = Path.Combine(folderPath, (i + 1) + Path.GetExtension(path));
+                VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+            }
+
+            page = book.BackCover;
+            imagePath = Path.Combine(folderPath, (book.BookPages.Count + 1) + Path.GetExtension(path));
+            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
         }
 
         private BitmapEncoder GetEncoderFromFormat(ImageFormat format)

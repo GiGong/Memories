@@ -8,5 +8,6 @@
         public const string LeftPageRegion = "LeftPageRegion";
         public const string RightPageRegion = "RightPageRegion";
         public const string TextFormatRegion = "TextFormatRegion";
+        public const string EditBookTopMenu = "EditBookTopMenu";
     }
 }

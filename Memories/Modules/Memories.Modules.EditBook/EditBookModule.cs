@@ -24,6 +24,7 @@ namespace Memories.Modules.EditBook
             _regionManager.RegisterViewWithRegion(RegionNames.LeftPageRegion, typeof(BookPageView));
             _regionManager.RegisterViewWithRegion(RegionNames.RightPageRegion, typeof(BookPageView));
             _regionManager.RegisterViewWithRegion(RegionNames.TextFormatRegion, typeof(TextFormatView));
+            _regionManager.RegisterViewWithRegion(RegionNames.EditBookTopMenu, typeof(TopMenuView));
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
