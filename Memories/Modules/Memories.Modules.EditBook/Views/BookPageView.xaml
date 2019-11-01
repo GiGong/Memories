@@ -11,6 +11,15 @@
         <Style TargetType="{x:Type controls:MMRichTextBox}" BasedOn="{StaticResource baseRichTextBox}">
             <Setter Property="GotKeyboardFocusCommand" Value="{Binding Path=DataContext.TextBoxGotKeyboardFocusCommand,
                 RelativeSource={RelativeSource AncestorType={x:Type Canvas}}}"/>
+            <Style.Triggers>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsInactiveSelectionHighlightEnabled" Value="True"/>
+                        <Condition Property="IsSelectionActive" Value="False"/>
+                    </MultiTrigger.Conditions>
+                    <Setter Property="SelectionBrush" Value="Gray"/>
+                </MultiTrigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type controls:MMCenterImage}">
             <Setter Property="DoubleClickCommand" Value="{Binding Path=DataContext.DoubleClickCommand,

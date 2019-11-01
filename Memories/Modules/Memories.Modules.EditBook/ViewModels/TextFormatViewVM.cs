@@ -15,6 +15,8 @@ namespace Memories.Modules.EditBook.ViewModels
     {
         #region Field
 
+        private bool _isUpdate;
+
         private string _fontSizeText;
         private string _selectedFontFamily;
 
@@ -25,8 +27,6 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private MMRichTextBox _richTextBox;
         private bool _isRichTextBox;
-
-        private readonly IEventAggregator _eventAggregator;
 
         #endregion Field
 
@@ -54,7 +54,7 @@ namespace Memories.Modules.EditBook.ViewModels
             set
             {
                 SetProperty(ref _fontSizeText, value);
-                if (double.TryParse(FontSizeText, out double fontSize))
+                if (!_isUpdate && double.TryParse(FontSizeText, out double fontSize))
                 {
                     RichTextBox?.Selection.SetFontSize(fontSize);
                 }
@@ -67,7 +67,10 @@ namespace Memories.Modules.EditBook.ViewModels
             set
             {
                 SetProperty(ref _selectedFontFamily, value);
-                RichTextBox?.Selection.SetFontFamily(new FontFamily(SelectedFontFamily ?? string.Empty));
+                if (!_isUpdate && SelectedFontFamily != null)
+                {
+                    RichTextBox.Selection.SetFontFamily(new FontFamily(SelectedFontFamily));
+                }
             }
         }
 
@@ -113,20 +116,22 @@ namespace Memories.Modules.EditBook.ViewModels
 
         public TextFormatViewVM(IEventAggregator eventAggregator)
         {
-            _eventAggregator = eventAggregator;
+            eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Subscribe(RichTextBoxSelected);
 
-            _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Subscribe(RichTextBoxSelected);
+            _isUpdate = false;
 
             var cond = System.Windows.Markup.XmlLanguage.GetLanguage(System.Globalization.CultureInfo.CurrentUICulture.Name);
-            FontFamilies = Fonts.SystemFontFamilies.Select(
+            var list = Fonts.SystemFontFamilies.Select(
                 font =>
                 {
                     if (font.FamilyNames.ContainsKey(cond))
                         return font.FamilyNames[cond];
                     else
                         return font.ToString();
-                }).ToArray();
-            Array.Sort(FontFamilies);
+                }).ToList();
+            list.Insert(0, string.Empty);
+            list.Sort();
+            FontFamilies = list.ToArray();
         }
 
         #endregion Constructor
@@ -143,7 +148,7 @@ namespace Memories.Modules.EditBook.ViewModels
                     RichTextBox.SelectionChanged -= RichTextBox_SelectionChanged;
                 }
                 RichTextBox = newRichTextBox;
-                //IsRichTextBox = false;
+                IsRichTextBox = false;
             }
             else
             {
@@ -155,8 +160,6 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ClearFormats()
         {
-            FontSizeText = string.Empty;
-
             IsBold = false;
             IsItalic = false;
             IsUnderline = false;
@@ -167,15 +170,18 @@ namespace Memories.Modules.EditBook.ViewModels
         private void UpdateFormats()
         {
             var selection = RichTextBox.Selection;
+            _isUpdate = true;
 
-            SelectedFontFamily = selection.GetFontFamily()?.ToString();
-            FontSizeText = selection.GetFontSize()?.ToString();
+            SelectedFontFamily = selection.GetFontFamily().ToString();
+            FontSizeText = selection.GetFontSize().ToString();
 
             IsBold = selection.GetFontWeight() > FontWeights.Normal;
             IsItalic = selection.GetFontStyle() == FontStyles.Italic;
             IsUnderline = selection.GetTextDecorations() == TextDecorations.Underline;
 
             AlignType = selection.GetTextAlignment();
+
+            _isUpdate = false;
         }
 
         private void RichTextBox_SelectionChanged(object sender, RoutedEventArgs e)

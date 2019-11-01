@@ -69,14 +69,14 @@ namespace Memories
 
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MMMessageBox.Show("In UnhandledException" + Environment.NewLine + ((Exception)e.ExceptionObject).Message);
+            MessageBox.Show("In UnhandledException" + Environment.NewLine + ((Exception)e.ExceptionObject).Message);
 
             throw (Exception)e.ExceptionObject;
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MMMessageBox.Show("In DispatcherUnhandledException" + Environment.NewLine + e.Exception.Message);
+            MessageBox.Show("In DispatcherUnhandledException" + Environment.NewLine + e.Exception.Message);
 
             throw e.Exception;
         }

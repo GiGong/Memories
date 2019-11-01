@@ -1,6 +1,7 @@
 ﻿using Memories.Business;
 using Memories.Business.Converters;
 using Memories.Business.Models;
+using Memories.Core.Controls;
 using Memories.Core.Extensions;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -77,14 +78,14 @@ namespace LayoutGenerator
                 }
             };
 
-            foreach (var item in _canvas)
-            {
-                bookLayout.Pages.Add(new BookPage()
-                {
-                    Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
-                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
-                });
-            }
+            //foreach (var item in _canvas)
+            //{
+            //    bookLayout.Pages.Add(new BookPage()
+            //    {
+            //        Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
+            //        PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
+            //    });
+            //}
 
             string json = JsonConvert.SerializeObject(bookLayout);
             //string json = JsonConvert.SerializeObject(bookLayout, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
@@ -104,7 +105,7 @@ namespace LayoutGenerator
                 {
                     bookUIs.Add(image.ToBookImageUI(true));
                 }
-                else if (item is Xceed.Wpf.Toolkit.RichTextBox richTextBok)
+                else if (item is MMRichTextBox richTextBok)
                 {
                     bookUIs.Add(richTextBok.ToBookTextUI(true));
                 }
@@ -119,7 +120,7 @@ namespace LayoutGenerator
             string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Outputs", "Gen.json");
             string json = File.ReadAllText(path);
 
-            BookLayout bookLayout = JsonConvert.DeserializeObject<BookLayout>(json, new BookUIConverter());
+            BookLayout bookLayout = JsonConvert.DeserializeObject<BookLayout>(json, new BookUIJsonConverter());
             //BookLayout bookLayout = JsonConvert.DeserializeObject<BookLayout>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
         }
 
@@ -180,17 +181,19 @@ namespace LayoutGenerator
 
         private void Debug_Click(object sender, RoutedEventArgs e)
         {
-            var rect = new System.Windows.Shapes.Rectangle();
-            rect.Fill = Brushes.Black;
+            //var rect = new System.Windows.Shapes.Rectangle();
+            //rect.Fill = Brushes.Black;
 
-            rect.Width = imgDebug.Width;
-            rect.Height = imgDebug.Height;
+            //rect.Width = imgDebug.Width;
+            //rect.Height = imgDebug.Height;
 
-            rect.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
-            rect.RenderTransform = new MatrixTransform(imgDebug.RenderTransform.Value);
-            
+            //rect.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+            //rect.RenderTransform = new MatrixTransform(imgDebug.RenderTransform.Value);
 
-            gridDebug.Children.Add(rect);
+
+            //gridDebug.Children.Add(rect);
+
+            _ = imgPreview.RenderTransform.Value;
         }
     }
 }

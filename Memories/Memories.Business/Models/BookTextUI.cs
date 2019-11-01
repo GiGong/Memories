@@ -2,8 +2,9 @@
 {
     public class BookTextUI : BookUI
     {
-        private string _document;
-        public string Document
+        private byte[] _document;
+
+        public byte[] Document
         {
             get { return _document; }
             set { SetProperty(ref _document, value); }

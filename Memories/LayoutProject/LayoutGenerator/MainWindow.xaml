@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:LayoutGenerator"
         mc:Ignorable="d"
         Title="MainWindow" Height="887" Width="1074">
@@ -11,69 +10,46 @@
         <Button Content="제작" Width="85" Height="30" Click="Save_Click" Margin="10,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="불러오기" Width="85" Height="30" Click="Load_Click" Margin="10,70,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
 
-        <Grid Width="105" Height="50" HorizontalAlignment="Left" Margin="0,135,0,0" VerticalAlignment="Top">
-            <Image Name="imgPreview" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="imgPreview_MouseLeftButtonDown">
+        <Grid Width="120" Height="161" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top">
+            <Image Name="imgPreview" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="imgPreview_MouseLeftButtonDown" RenderTransformOrigin="0.5,0.5">
                 <Image.Source>
                     <BitmapImage UriSource="W:/[Data]/mushroom.jfif"/>
                 </Image.Source>
             </Image>
         </Grid>
-        <TextBox Text="포트폴리오" Name="textBox" Margin="5,205,966,611"/>
+        <TextBox Text="포트폴리오" Name="textBox" Margin="5,314,966,502"/>
 
         <Viewbox Margin="135,35,831,680">
             <Canvas Name="coverCanvas1" Width="14.8cm" Height="21cm">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="W:/[Data]/cover1.jpg"/>
-                </Canvas.Background>
-
-                <tool:RichTextBox Height="230" Width="492" Canvas.Left="34" Canvas.Top="65"/>
+                <Image Height="380" Width="460" Canvas.Left="50" Canvas.Top="90"/>
             </Canvas>
         </Viewbox>
 
         <Viewbox Margin="240,35,723,680">
             <Canvas Name="coverCanvas2" Width="14.8cm" Height="21cm">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="W:/[Data]/cover2.jpg"/>
-                </Canvas.Background>
-                <Image Height="8.11cm" Width="12.01cm" Canvas.Left="1.41cm" Canvas.Top="1.62cm"/>
-                <tool:RichTextBox Height="161" Width="456" Canvas.Left="44" Canvas.Top="368" />
-                <Image Height="185" Width="248" Canvas.Left="280" Canvas.Top="560"/>
-                <tool:RichTextBox Height="185" Width="200" Canvas.Left="44" Canvas.Top="560" />
+                <!-- White Back Cover -->
             </Canvas>
         </Viewbox>
 
-        <Viewbox Margin="375,50,88,244">
-            <Canvas Name="pageCanvas1" Width="559" Height="794">
-                <Canvas.Background>
-                    <ImageBrush ImageSource="W:/[Data]/polaroid1.jpg"/>
-                </Canvas.Background>
-                <Image Height="175" Canvas.Left="50" Canvas.Top="122" Width="148" RenderTransformOrigin="0.5,0.5">
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <SkewTransform AngleY="9.0879999999999939" AngleX="-0.613"/>
-                            <RotateTransform Angle="8.582"/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-                <Image Height="177" Canvas.Left="242" Canvas.Top="133" Width="129"/>
-                <Image Height="171" Canvas.Left="411" Canvas.Top="125" Width="105" RenderTransformOrigin="0.5,0.5"
-                       Name="imgDebug"
-                       Stretch="Fill">
-                    <Image.RenderTransform>
-                        <TransformGroup>
-                            <SkewTransform AngleY="-13.015"/>
-                            <RotateTransform Angle="-15.605000000000004"/>
-                        </TransformGroup>
-                    </Image.RenderTransform>
-                </Image>
-                <Image Height="250" Canvas.Left="136" Canvas.Top="441" Width="265"/>
-            </Canvas>
-        </Viewbox>
+        <Border BorderThickness="1" BorderBrush="Black" Margin="319,79,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Viewbox Width="420" Height="595">
+                <Canvas Name="pageCanvas1" Width="14.8cm" Height="21cm">
 
+                    <Image Canvas.Left="40" Canvas.Top="126" Width="240" Height="166"/>
+                    <Image Canvas.Left="286" Canvas.Top="126" Width="240" Height="166"/>
+                    <Image Canvas.Left="40" Canvas.Top="333" Width="240" Height="166"/>
+                    <Image Canvas.Left="286" Canvas.Top="333" Width="240" Height="166"/>
+                    <Image Canvas.Left="40" Canvas.Top="539" Width="240" Height="166"/>
+                    <Image Canvas.Left="286" Canvas.Top="539" Width="240" Height="166"/>
+
+
+                </Canvas>
+            </Viewbox>
+        </Border>
         <Button Content="페이지 제작" Width="85" Height="30" Click="SavePage_Click" Margin="10,460,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="불러오기" Width="85" Height="30" Click="LoadPage_Click" Margin="10,495,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="Debug" Width="85" Height="30" Click="Debug_Click" Margin="10,406,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Grid HorizontalAlignment="Left" Height="340" Margin="176,283,0,0" VerticalAlignment="Top" Width="256"
+        <Grid HorizontalAlignment="Left" Height="340" Margin="42,582,0,-66" VerticalAlignment="Top" Width="256"
               Name="gridDebug"/>
 
     </Grid>

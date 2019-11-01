@@ -213,11 +213,11 @@ namespace Memories.Modules.EditBook.ViewModels
             }
             catch (NotSupportedException)
             {
-                MMMessageBox.Show("Not supported file" + Environment.NewLine + "지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Not supported file" + Environment.NewLine + "지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (Exception e)
             {
-                MMMessageBox.Show(e.Message);
+                MessageBox.Show(e.Message);
             }
         }
 

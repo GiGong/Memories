@@ -106,8 +106,8 @@ namespace Memories.Core.Controls
         private void This_LostFocus(object sender, RoutedEventArgs e)
         {
             return;
-            FontFamilyListBox.Visibility = Visibility.Collapsed;
-            SearchTextBox.Text = FontFamilyListBox.SelectedItem?.ToString() ?? string.Empty;
+            //FontFamilyListBox.Visibility = Visibility.Collapsed;
+            //SearchTextBox.Text = FontFamilyListBox.SelectedItem?.ToString() ?? string.Empty;
         }
 
         private void This_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -132,12 +132,12 @@ namespace Memories.Core.Controls
 
 
             return;
-            if (ItemsControl.ContainerFromElement(FontFamilyListBox, e.OriginalSource as DependencyObject) is ListBoxItem item)
-            {
-                SearchTextBox.TextChanged -= TextBox_TextChanged;
-                SearchTextBox.Text = (string)item.Content;
-                SearchTextBox.TextChanged += TextBox_TextChanged;
-            }
+            //if (ItemsControl.ContainerFromElement(FontFamilyListBox, e.OriginalSource as DependencyObject) is ListBoxItem item)
+            //{
+            //    SearchTextBox.TextChanged -= TextBox_TextChanged;
+            //    SearchTextBox.Text = (string)item.Content;
+            //    SearchTextBox.TextChanged += TextBox_TextChanged;
+            //}
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

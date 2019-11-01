@@ -17,7 +17,7 @@ namespace Memories.Core.Extensions
             MMRichTextBox richTextBox = new MMRichTextBox();
 
             BookUIToFE(bookTextUI, richTextBox);
-            richTextBox.SetBinding(MMRichTextBox.TextProperty,
+            richTextBox.SetBinding(MMRichTextBox.DataProperty,
                 new Binding("Document")
                 { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged });
 
@@ -29,7 +29,7 @@ namespace Memories.Core.Extensions
             var bookTextUI = new BookTextUI();
 
             FEToBookUI(richTextBox, bookTextUI);
-            bookTextUI.Document = isLayout ? string.Empty : richTextBox.Text;
+            bookTextUI.Document = isLayout ? null : richTextBox.Data;
 
             return bookTextUI;
         }
