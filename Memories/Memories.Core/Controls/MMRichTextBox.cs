@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Memories.Core.Formatter;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Memories.Core.Controls
@@ -13,6 +14,11 @@ namespace Memories.Core.Controls
         {
             get { return (ICommand)GetValue(GotKeyboardFocusCommandProperty); }
             set { SetValue(GotKeyboardFocusCommandProperty, value); }
+        }
+
+        public MMRichTextBox()
+        {
+            TextFormatter = new RtfUTF8Formatter();
         }
 
         protected override void OnGotKeyboardFocus(KeyboardFocusChangedEventArgs e)

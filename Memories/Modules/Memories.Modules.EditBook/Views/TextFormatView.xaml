@@ -6,50 +6,66 @@
              xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignWidth="200">
-    <Grid>
+             IsEnabled="{Binding IsRichTextBox}">
+    <Grid Background="#A5E9FF">
         <Grid.Resources>
             <converters:EnumToIsCheckedConverter x:Key="enumToIsCheckedConverter"/>
 
             <Style TargetType="{x:Type Button}">
+                <Setter Property="Width" Value="22"/>
+                <Setter Property="Height" Value="22"/>
                 <Setter Property="CommandTarget" Value="{Binding RichTextBox}"/>
                 <Setter Property="Focusable" Value="False"/>
             </Style>
             <Style TargetType="{x:Type ToggleButton}">
+                <Setter Property="Width" Value="22"/>
+                <Setter Property="Height" Value="22"/>
                 <Setter Property="CommandTarget" Value="{Binding RichTextBox}"/>
                 <Setter Property="Focusable" Value="False"/>
             </Style>
             <Style TargetType="{x:Type RadioButton}">
+                <Setter Property="Width" Value="22"/>
+                <Setter Property="Height" Value="22"/>
                 <Setter Property="CommandTarget" Value="{Binding RichTextBox}"/>
                 <Setter Property="Focusable" Value="False"/>
             </Style>
 
         </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="172"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
 
-        <UniformGrid Rows="4" Columns="1" Grid.Row="1" Height="200">
-            <UniformGrid Rows="1">
-                <Button Command="ApplicationCommands.Copy">
-                    <iconPacks:PackIconMaterial Kind="ContentCopy" />
-                </Button>
-                <Button Command="ApplicationCommands.Cut">
-                    <iconPacks:PackIconMaterial Kind="ContentCut" />
-                </Button>
-                <Button Command="ApplicationCommands.Paste">
-                    <iconPacks:PackIconMaterial Kind="ContentPaste" />
-                </Button>
-            </UniformGrid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
 
-            <controls:MMFontFamilySearch Width="175" Height="30" ListBox_Height="200" Panel.ZIndex="1"/>
+            <!--<controls:MMFontFamilySearch Width="170" Height="22" ListBox_Height="200" Panel.ZIndex="1"/>-->
+            <ComboBox Width="170" Height="22" Panel.ZIndex="1" IsEditable="True" IsTextSearchEnabled="True"
+                      ItemsSource="{Binding FontFamilies}" SelectedItem="{Binding SelectedFontFamily, Mode=TwoWay}"/>
 
-            <UniformGrid Rows="1" Height="40">
+            <ComboBox Grid.Row="2" Width="100" HorizontalAlignment="Left" Margin="15,0,0,0" IsTextSearchEnabled="True" IsEditable="True"
+                      PreviewTextInput="FontSize_PreviewTextInput"
+                      ItemsSource="{Binding FontSizes}" Text="{Binding FontSizeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Grid Grid.Row="2" Margin="0,0,15,0" Width="55" HorizontalAlignment="Right">
+                <Button HorizontalAlignment="Left" Command="EditingCommands.IncreaseFontSize">
+                    <iconPacks:PackIconModern Kind="TextSizeUp" />
+                </Button>
+                <Button HorizontalAlignment="Right" Command="EditingCommands.DecreaseFontSize">
+                    <iconPacks:PackIconModern Kind="TextSizeDown" />
+                </Button>
+            </Grid>
+
+            <UniformGrid Grid.Row="4" Rows="1" Width="100" Height="22" HorizontalAlignment="Left" Margin="15,0,0,0">
                 <ToggleButton Command="EditingCommands.ToggleBold" IsChecked="{Binding IsBold, Mode=TwoWay}">
                     <iconPacks:PackIconMaterial Kind="FormatBold" />
                 </ToggleButton>
@@ -61,23 +77,21 @@
                 </ToggleButton>
             </UniformGrid>
 
-            <UniformGrid Rows="1" Height="40">
-                <RadioButton Command="EditingCommands.AlignLeft" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Left}}">
+            <UniformGrid Grid.Row="6" Rows="1" Width="103" Height="22" HorizontalAlignment="Left" Margin="15,0,0,0">
+                <ToggleButton Command="EditingCommands.AlignLeft" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Left}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignLeft" />
-                </RadioButton>
-                <RadioButton Command="EditingCommands.AlignCenter" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Center}}">
+                </ToggleButton>
+                <ToggleButton Command="EditingCommands.AlignCenter" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Center}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignCenter" />
-                </RadioButton>
-                <RadioButton Command="EditingCommands.AlignRight" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Right}}">
+                </ToggleButton>
+                <ToggleButton Command="EditingCommands.AlignRight" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Right}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignRight" />
-                </RadioButton>
-                <RadioButton Command="EditingCommands.AlignJustify" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Justify}}">
+                </ToggleButton>
+                <ToggleButton Command="EditingCommands.AlignJustify" IsChecked="{Binding AlignType, Converter={StaticResource enumToIsCheckedConverter}, ConverterParameter={x:Static TextAlignment.Justify}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignJustify" />
-                </RadioButton>
+                </ToggleButton>
             </UniformGrid>
 
-            <RichTextBox/>
-            
-        </UniformGrid>
+        </Grid>
     </Grid>
 </UserControl>

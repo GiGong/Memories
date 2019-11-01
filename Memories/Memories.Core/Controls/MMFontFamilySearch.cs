@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,8 +29,9 @@ namespace Memories.Core.Controls
             }
         }
 
-        public TextBox SearchTextBox { get; set; }
-        public ListBox FontFamilyListBox { get; set; }
+        public TextBox SearchTextBox { get; }
+        public Button ViewListBoxButton { get;}
+        public ListBox FontFamilyListBox { get; }
 
 
         public FontFamily SelectedFontFamily
@@ -42,7 +44,7 @@ namespace Memories.Core.Controls
             }
         }
 
-        private void SetTextToItem() => SearchTextBox.Text = (string)FontFamilyListBox.SelectedItem ?? SearchTextBox.Text;
+        private void SetTextToItem() => SearchTextBox.Text = FontFamilyListBox.SelectedItem.ToString() ?? SearchTextBox.Text;
 
 
         public MMFontFamilySearch()
@@ -62,10 +64,22 @@ namespace Memories.Core.Controls
             SearchTextBox = new TextBox()
             {
                 VerticalAlignment = VerticalAlignment.Top,
+                BorderThickness = new Thickness(0),
                 DataContext = this
             };
-            SearchTextBox.TextChanged += SearchTextBox_TextChanged;
+            SearchTextBox.TextChanged += TextBox_TextChanged;
+            SearchTextBox.PreviewKeyDown += TextBox_PreviewKeyDown;
+            SearchTextBox.LostKeyboardFocus += This_LostFocus;
 
+            ViewListBoxButton = new Button()
+            {
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Background = Brushes.Transparent,
+                BorderThickness = new Thickness(0),
+                Content = "▽"
+            };
+            ViewListBoxButton.Click += Button_Click;
 
             FontFamilyListBox = new ListBox()
             {
@@ -76,48 +90,33 @@ namespace Memories.Core.Controls
                 DataContext = this
             };
             FontFamilyListBox.SetBinding(ListBox.SelectedItemProperty, new Binding(nameof(SelectedFontFamily)) { Mode = BindingMode.TwoWay });
+            FontFamilyListBox.KeyDown += ListBox_KeyDown;
+            FontFamilyListBox.MouseLeftButtonDown += ListBox_MouseLeftButtonDown;
+            FontFamilyListBox.LostKeyboardFocus += This_LostFocus;
+            FontFamilyListBox.SelectionChanged += ListBox_SelectionChanged;
 
-
-            SearchTextBox.PreviewKeyDown += SearchTextBox_KeyDown;
-            SearchTextBox.GotFocus += FontFamilySearchBox_GotFocus;
-            SearchTextBox.LostFocus += FontFamilySearchBox_LostFocus;
-
-            FontFamilyListBox.KeyDown += FontFamilyListBox_KeyDown;
-            FontFamilyListBox.PreviewMouseLeftButtonDown += FontFamilyListBox_PreviewMouseLeftButtonDown;
-            FontFamilyListBox.GotFocus += FontFamilySearchBox_GotFocus;
-            FontFamilyListBox.LostFocus += FontFamilySearchBox_LostFocus;
-
-            SizeChanged += FontFamilySearchBox_SizeChanged;
-            GotFocus += FontFamilySearchBox_GotFocus;
-            LostFocus += FontFamilySearchBox_LostFocus;
+            SizeChanged += This_SizeChanged;
+            LostKeyboardFocus += This_LostFocus;
 
             Children.Add(SearchTextBox);
+            Children.Add(ViewListBoxButton);
             Children.Add(FontFamilyListBox);
         }
 
-        private void FontFamilySearchBox_GotFocus(object sender, RoutedEventArgs e)
+        private void This_LostFocus(object sender, RoutedEventArgs e)
         {
-            FontFamilyListBox.Visibility = Visibility.Visible;
+            return;
+            FontFamilyListBox.Visibility = Visibility.Collapsed;
+            SearchTextBox.Text = FontFamilyListBox.SelectedItem?.ToString() ?? string.Empty;
         }
 
-        private void FontFamilySearchBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (IsFocused == false
-                && SearchTextBox.IsFocused == false
-                && FontFamilyListBox.IsFocused == false)
-            {
-                FontFamilyListBox.Visibility = Visibility.Collapsed;
-                SearchTextBox.Text = FontFamilyListBox.SelectedItem?.ToString() ?? string.Empty;
-            }
-        }
-
-        private void FontFamilySearchBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void This_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             SearchTextBox.Height = ActualHeight;
             FontFamilyListBox.Margin = new Thickness(0, ActualHeight, 0, -ActualHeight - ListBox_Height);
         }
 
-        private void FontFamilyListBox_KeyDown(object sender, KeyEventArgs e)
+        private void ListBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -128,17 +127,39 @@ namespace Memories.Core.Controls
             SearchTextBox.Focus();
         }
 
-        private void FontFamilyListBox_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void ListBox_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+
+
+            return;
             if (ItemsControl.ContainerFromElement(FontFamilyListBox, e.OriginalSource as DependencyObject) is ListBoxItem item)
             {
-                SearchTextBox.TextChanged -= SearchTextBox_TextChanged;
+                SearchTextBox.TextChanged -= TextBox_TextChanged;
                 SearchTextBox.Text = (string)item.Content;
-                SearchTextBox.TextChanged += SearchTextBox_TextChanged;
+                SearchTextBox.TextChanged += TextBox_TextChanged;
             }
         }
 
-        private void SearchTextBox_KeyDown(object sender, KeyEventArgs e)
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SearchTextBox.TextChanged -= TextBox_TextChanged;
+            SearchTextBox.Text = FontFamilyListBox.SelectedItem.ToString();
+            SearchTextBox.TextChanged += TextBox_TextChanged;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (FontFamilyListBox.Visibility == Visibility.Visible)
+            {
+                FontFamilyListBox.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                FontFamilyListBox.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -146,6 +167,7 @@ namespace Memories.Core.Controls
                     if (!FontFamilyListBox.Items.MoveCurrentToNext())
                     {
                         FontFamilyListBox.Items.MoveCurrentToLast();
+                        e.Handled = true;
                     }
                     break;
 
@@ -153,16 +175,18 @@ namespace Memories.Core.Controls
                     if (!FontFamilyListBox.Items.MoveCurrentToPrevious())
                     {
                         FontFamilyListBox.Items.MoveCurrentToFirst();
+                        e.Handled = true;
                     }
                     break;
 
                 case Key.Enter:
                     SetTextToItem();
                     SearchTextBox.CaretIndex = SearchTextBox.Text.Length;
+                    e.Handled = true;
                     return;
 
                 case Key.Escape:
-                    MoveFocus(new TraversalRequest(FocusNavigationDirection.First));
+                    Keyboard.ClearFocus();
                     return;
 
                 default:
@@ -173,7 +197,7 @@ namespace Memories.Core.Controls
             lbi?.Focus();
         }
 
-        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(SearchTextBox.Text))
             {
