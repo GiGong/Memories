@@ -155,7 +155,6 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ClearFormats()
         {
-            SelectedFontFamily = string.Empty;
             FontSizeText = string.Empty;
 
             IsBold = false;

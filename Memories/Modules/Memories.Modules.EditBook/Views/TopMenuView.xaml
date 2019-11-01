@@ -38,11 +38,11 @@
             </Controls:DropDownButton.ItemsSource>
         </Controls:DropDownButton>
 
-        <Button Command="{Binding OpenCommand}" ToolTip="책 열기">
+        <Button Command="{Binding ApplicationCommands.LoadCommand}" ToolTip="책 열기">
             <iconPacks:PackIconMaterial Kind="FolderOpen"/>
         </Button>
 
-        <Button Command="{Binding SaveCommand}" ToolTip="저장하기">
+        <Button Command="{Binding ApplicationCommands.SaveCommand}" ToolTip="저장하기">
             <iconPacks:PackIconMaterial Kind="ContentSave"/>
         </Button>
         
