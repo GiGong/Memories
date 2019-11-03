@@ -8,6 +8,7 @@
                       Title="{Binding Title}"
                       Visibility="{Binding Visibility, Mode=TwoWay}"
                       ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-                      Height="450" Width="800">
+                      Height="450" Width="800"
+                      WindowTitleBrush="#FF391F10" BorderBrush="#FF391F10">
     <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 </Controls:MetroWindow>

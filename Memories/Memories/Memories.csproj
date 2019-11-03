@@ -238,5 +238,8 @@
   <ItemGroup>
     <Resource Include="Resources\Img\MemoriesEmptyImage.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Img\Icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

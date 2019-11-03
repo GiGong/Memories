@@ -5,11 +5,25 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:converters="clr-namespace:Memories.Modules.EditBook.Converters"
              xmlns:enums="clr-namespace:Memories.Modules.EditBook.Enums"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <converters:BookStateToVisibilityConverter x:Key="bookStateToVisibilityConverter"/>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#3333CC"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontFamily" Value="S-Core Dream 3 Light"/>
+            <Setter Property="Padding" Value="0"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,8 +31,10 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
         <Border Background="White" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0">
@@ -35,21 +51,63 @@
             </Viewbox>
         </Border>
 
-        <Grid Width="200" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
-            <Grid.Resources>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}"/>
-            </Grid.Resources>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top" Margin="0,5,0,0"
+              Visibility="{Binding BookState, Converter={StaticResource bookStateToVisibilityConverter}, ConverterParameter={x:Static enums:BookState.Page}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Height="20" VerticalAlignment="Top"
+                        Text="{Binding LeftNum, StringFormat=\{0\}P}"/>
+            <TextBlock Height="20" VerticalAlignment="Top" Grid.Column="1"
+                       Text="{Binding RightNum, StringFormat=\{0\}P}"
+                       Visibility="{Binding IsRightExist, Converter={StaticResource boolToVisibilityConverter}}"/>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Width="66" Height="20" Command="{Binding PageBackCommand}" Foreground="#3333CC">
+                <Canvas Width="66" Height="20">
+                    <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stretch="Uniform"
+                        Data="M58.5 20.3H6.2C3 20.3.4 17.7.4 14.5V6C.4 2.8 3 .2 6.2.2h52.3c3.2 0 5.8 2.6 5.8 5.8v8.5c0 3.3-2.6 5.8-5.8 5.8z"/>
+                    <Path Fill="White"
+                        Data="M20.1 9.2h-10L13.3 6c.2-.2.2-.4.2-.6 0-.2-.1-.4-.2-.6l-.5-.5c-.2-.2-.4-.2-.6-.2-.2 0-.4.1-.6.2L6.2 9.7c-.2.2-.2.4-.2.6 0 .2.1.4.2.6l5.4 5.4c.2.2.4.2.6.2.2 0 .4-.1.6-.2l.5-.5c.2-.2.2-.4.2-.6 0-.2-.1-.4-.2-.6l-3.2-3.2h10.1c.5 0 .8-.4.8-.8V10c0-.5-.4-.8-.9-.8zM32.2 11.7v4.2h-2.1V4.4h4.6c2.3 0 3.7 1.3 3.7 3.7 0 2.3-1.4 3.7-3.7 3.7h-2.5v-.1zm2.2-1.8c1.2 0 1.9-.7 1.9-1.8s-.6-1.8-1.9-1.8h-2.2V10h2.2v-.1zM45 13.4c-.1-1.2-.6-1.7-1.9-1.7h-2v4.2H39V4.4h4.6c2.4 0 3.7 1.3 3.7 3.5 0 1.5-.7 2.5-2 2.9 1.2.2 1.7.9 1.8 2.4l.1 1.6c0 .4.1.8.2 1h-2.2c-.1-.2-.2-.6-.2-1v-1.4zm-1.8-3.5c1.2 0 1.9-.5 1.9-1.8 0-1.4-.7-1.8-1.9-1.8h-2.1V10h2.1v-.1zM48.2 4.4h7v1.8h-4.9v2.9h4.3v1.8h-4.3v3.2h4.9v1.8h-7.1V4.4h.1z"/>
+                </Canvas>
+            </Button>
+
+            <Button Width="66" Height="20" Command="{Binding PageForwardCommand}" Foreground="#3333CC" Grid.Column="1">
+                <Canvas Width="66" Height="20">
+                    <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                          Data="M58.8 20.3H6.5c-3.2 0-5.8-2.6-5.8-5.8V6C.7 2.8 3.3.2 6.5.2h52.3c3.2 0 5.8 2.6 5.8 5.8v8.5c-.1 3.3-2.6 5.8-5.8 5.8z"/>
+                    <Path Fill="White"
+                        Data="M47.3 11.5h10l-3.2 3.2c-.2.2-.2.4-.2.6 0 .2.1.4.2.6l.5.5c.2.2.4.2.6.2.2 0 .4-.1.6-.2l5.4-5.4c.2-.2.2-.4.2-.6 0-.2-.1-.4-.2-.6l-5.4-5.4c-.2-.2-.4-.2-.6-.2-.2 0-.4.1-.6.2l-.5.5c-.2.2-.2.4-.2.6 0 .2.1.4.2.6l3.2 3.2H47.2c-.5 0-.8.4-.8.8v.7c0 .4.4.7.9.7zM8.1 8.1v7.8H6V4.4h2.2l4 7.8V4.4h2.1v11.5h-2.2l-4-7.8zM15.5 4.4h7v1.8h-4.9v2.9h4.3v1.8h-4.3v3.2h4.9v1.8h-7.1V4.4h.1zM22.6 15.9L26 10l-3.2-5.5h2.3l2.2 4.1 2.2-4.1h2.3L28.6 10l3.5 5.9h-2.3l-2.5-4.5-2.5 4.5h-2.2zM31.9 4.4h8.4v1.8h-3.1v9.7H35V6.2h-3.1V4.4z"/>
+                </Canvas>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="3" Grid.ColumnSpan="2"
+              Visibility="{Binding BookState, Converter={StaticResource bookStateToVisibilityConverter}, ConverterParameter={x:Static enums:BookState.Page}}">
+            <TextBlock Foreground="Black" FontSize="12" FontFamily="S-Core Dream 2 Thin">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}-{1}/{2}p">
+                        <Binding Path="LeftNum" />
+                        <Binding Path="RightNum" />
+                        <Binding Path="TotalNum" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Grid>
+        
+        <Grid Visibility="Collapsed" Width="200" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
-            <Button Command="{Binding PageBackCommand}"  HorizontalAlignment="Left" Grid.RowSpan="2">
-                <iconPacks:PackIconMaterial Kind="ArrowLeftBold"/>
-            </Button>
-            <Button  Command="{Binding PageForwardCommand}" Width="25" HorizontalAlignment="Right" Grid.RowSpan="2">
-                <iconPacks:PackIconMaterial Kind="ArrowRightBold"/>
-            </Button>
 
             <Grid Margin="60,0" Visibility="{Binding BookState, Converter={StaticResource bookStateToVisibilityConverter}, ConverterParameter={x:Static enums:BookState.Page}}">
                 <TextBlock Text="{Binding LeftNum, StringFormat=\{0\}p}" Width="30" Margin="0,0,50,0"/>
