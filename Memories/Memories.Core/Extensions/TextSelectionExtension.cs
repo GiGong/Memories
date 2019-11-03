@@ -6,6 +6,11 @@ namespace Memories.Core.Extensions
 {
     public static class TextSelectionExtension
     {
+        /// <see cref="https://github.com/microsoft/WPF-Samples/tree/master/Sample%20Applications/FontDialog"/>
+        public static double PointsToPixels(double value) => value * (96.0 / 72.0);
+        public static double PixelsToPoints(double value) => value * (72.0 / 96.0);
+
+
         public static FontFamily GetFontFamily(this TextSelection selection)
         {
             var property = selection.GetPropertyValue(TextElement.FontFamilyProperty);
@@ -21,12 +26,12 @@ namespace Memories.Core.Extensions
         {
             double? nullValue = null;
             var property = selection.GetPropertyValue(TextElement.FontSizeProperty);
-            return property is double ? (double)property : nullValue;
+            return property is double ? PixelsToPoints((double)property) : nullValue;
         }
 
         public static void SetFontSize(this TextSelection selection, double fontSize)
         {
-            selection.ApplyPropertyValue(TextElement.FontSizeProperty, fontSize);
+            selection.ApplyPropertyValue(TextElement.FontSizeProperty, PointsToPixels(fontSize));
         }
 
         public static FontWeight GetFontWeight(this TextSelection selection)
