@@ -57,5 +57,28 @@ namespace Memories.Core.Extensions
             var property = selection.GetPropertyValue(Block.TextAlignmentProperty);
             return property is TextAlignment ? (TextAlignment)property : TextAlignment.Left;
         }
+
+
+        public static Brush GetForeground(this TextSelection selection)
+        {
+            var property = selection.GetPropertyValue(TextElement.ForegroundProperty);
+            return property is Brush ? (Brush)property : Brushes.Black;
+        }
+
+        public static void SetForeground(this TextSelection selection, Brush brush)
+        {
+            selection.ApplyPropertyValue(TextElement.ForegroundProperty, brush);
+        }
+
+        public static Brush GetHighlight(this TextSelection selection)
+        {
+            var property = selection.GetPropertyValue(TextElement.BackgroundProperty);
+            return property is Brush ? (Brush)property : Brushes.Transparent;
+        }
+
+        public static void SetHighlight(this TextSelection selection, Brush brush)
+        {
+            selection.ApplyPropertyValue(TextElement.BackgroundProperty, brush);
+        }
     }
 }

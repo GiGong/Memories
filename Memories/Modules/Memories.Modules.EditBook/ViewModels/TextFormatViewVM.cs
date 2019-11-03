@@ -1,12 +1,14 @@
 ﻿using Memories.Core.Controls;
 using Memories.Core.Events;
 using Memories.Core.Extensions;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Media;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -25,18 +27,26 @@ namespace Memories.Modules.EditBook.ViewModels
         private bool _isUnderline;
         private TextAlignment? _alignType;
 
+        private Brush _fontForeground;
+        private Brush _fontHighlight;
+
         private MMRichTextBox _richTextBox;
         private bool _isRichTextBox;
+
+        private DelegateCommand _increaseFontSizeCommand;
+        private DelegateCommand _decreaseFontSizeCommand;
+        private DelegateCommand _fontForegroundCommand;
+        private DelegateCommand _fontHighlightCommand;
 
         #endregion Field
 
         #region Property
 
-        public static double[] FontSizes
+        public static double?[] FontSizes
         {
             get
             {
-                return new double[] {
+                return new double?[] { null,
                     3.0, 4.0, 5.0, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5,
                     10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 15.0,
                     16.0, 17.0, 18.0, 19.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0,
@@ -53,10 +63,14 @@ namespace Memories.Modules.EditBook.ViewModels
             get { return _fontSizeText; }
             set
             {
-                SetProperty(ref _fontSizeText, value);
-                if (!_isUpdate && double.TryParse(FontSizeText, out double fontSize))
+                double fontSize = 10;
+                if (value == null || (double.TryParse(value, out fontSize) && fontSize > 0))
                 {
-                    RichTextBox?.Selection.SetFontSize(fontSize);
+                    SetProperty(ref _fontSizeText, value);
+                    if (!_isUpdate && FontSizeText != null)
+                    {
+                        RichTextBox.Selection.SetFontSize(fontSize);
+                    }
                 }
             }
         }
@@ -98,6 +112,18 @@ namespace Memories.Modules.EditBook.ViewModels
             set { SetProperty(ref _alignType, value); }
         }
 
+        public Brush FontForeground
+        {
+            get { return _fontForeground; }
+            set { SetProperty(ref _fontForeground, value); }
+        }
+
+        public Brush FontHighlight
+        {
+            get { return _fontHighlight; }
+            set { SetProperty(ref _fontHighlight, value); }
+        }
+
         public MMRichTextBox RichTextBox
         {
             get { return _richTextBox; }
@@ -111,6 +137,22 @@ namespace Memories.Modules.EditBook.ViewModels
         }
 
         #endregion Property
+
+        #region Command
+
+        public DelegateCommand IncreaseFontSizeCommand =>
+            _increaseFontSizeCommand ?? (_increaseFontSizeCommand = new DelegateCommand(ExecuteIncreaseFontSizeCommand).ObservesCanExecute(() => IsRichTextBox));
+
+        public DelegateCommand DecreaseFontSizeCommand =>
+            _decreaseFontSizeCommand ?? (_decreaseFontSizeCommand = new DelegateCommand(ExecuteDecreaseFontSizeCommand).ObservesCanExecute(() => IsRichTextBox));
+
+        public DelegateCommand FontForegroundCommand =>
+            _fontForegroundCommand ?? (_fontForegroundCommand = new DelegateCommand(ExecuteFontForegroundCommand).ObservesCanExecute(() => IsRichTextBox));
+
+        public DelegateCommand FontHighlightCommand =>
+            _fontHighlightCommand ?? (_fontHighlightCommand = new DelegateCommand(ExecuteFontHighlightCommand).ObservesCanExecute(() => IsRichTextBox));
+
+        #endregion Command
 
         #region Constructor
 
@@ -129,7 +171,7 @@ namespace Memories.Modules.EditBook.ViewModels
                     else
                         return font.ToString();
                 }).ToList();
-            list.Insert(0, string.Empty);
+            list.Insert(0, null);
             list.Sort();
             FontFamilies = list.ToArray();
         }
@@ -138,17 +180,56 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Method
 
+        private static Color ToMediaColor(System.Drawing.Color color) => Color.FromArgb(color.A, color.R, color.G, color.B);
+
+        #region Command Method
+
+        private void ExecuteIncreaseFontSizeCommand()
+        {
+            FontSizeText = (Math.Ceiling(double.Parse(FontSizeText) * 1.1)).ToString();
+        }
+
+        private void ExecuteDecreaseFontSizeCommand()
+        {
+            FontSizeText = (Math.Floor(double.Parse(FontSizeText) * 0.9)).ToString();
+        }
+
+        private void ExecuteFontForegroundCommand()
+        {
+            // TODO: Change Color Dialog to Custom Dialog.
+            // Cause Color dialog is System.Winforms
+            var dialog = new ColorDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                // Can use Linear Gradation Brush
+                FontForeground = new SolidColorBrush(ToMediaColor(dialog.Color));
+                RichTextBox.Selection.SetForeground(FontForeground);
+            }
+        }
+
+        private void ExecuteFontHighlightCommand()
+        {
+            var dialog = new ColorDialog();
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                FontHighlight = new SolidColorBrush(ToMediaColor(dialog.Color));
+                RichTextBox.Selection.SetHighlight(FontHighlight);
+            }
+        }
+
+        #endregion Command Method
+
         private void RichTextBoxSelected(MMRichTextBox newRichTextBox)
         {
             if (newRichTextBox == null)
             {
-                ClearFormats();
                 if (RichTextBox != null)
                 {
                     RichTextBox.SelectionChanged -= RichTextBox_SelectionChanged;
                 }
                 RichTextBox = newRichTextBox;
                 IsRichTextBox = false;
+                ClearFormats();
             }
             else
             {
@@ -160,11 +241,17 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ClearFormats()
         {
+            SelectedFontFamily = null;
+            FontSizeText = null;
+
             IsBold = false;
             IsItalic = false;
             IsUnderline = false;
 
             AlignType = null;
+
+            FontForeground = Brushes.Black;
+            FontHighlight = Brushes.Yellow;
         }
 
         private void UpdateFormats()
@@ -180,6 +267,9 @@ namespace Memories.Modules.EditBook.ViewModels
             IsUnderline = selection.GetTextDecorations() == TextDecorations.Underline;
 
             AlignType = selection.GetTextAlignment();
+
+            FontForeground = selection.GetForeground();
+            FontHighlight = selection.GetHighlight();
 
             _isUpdate = false;
         }

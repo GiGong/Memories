@@ -8,7 +8,6 @@
         <Style TargetType="Window">
             <Setter Property="Width" Value="1280"/>
             <Setter Property="Height" Value="900"/>
-            <Setter Property="Background" Value="#FFFDFDF5"/>
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid>
@@ -23,6 +22,9 @@
         </Grid.ColumnDefinitions>
 
         <ContentControl Grid.Row="0" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static core:RegionNames.EditBookTopMenu}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
+
+        <!-- TODO: Make Book information view -->
+        <Grid Grid.Row="1" Grid.Column="0" Background="#FFABABAB"/>
 
         <ContentControl Grid.Row="1" Grid.Column="1" Margin ="25,50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
 

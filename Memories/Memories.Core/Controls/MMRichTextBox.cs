@@ -48,6 +48,7 @@ namespace Memories.Core.Controls
             _isTextChanged = false;
 
             IsInactiveSelectionHighlightEnabled = true;
+            AutoWordSelection = false;
         }
 
         #endregion Constructor

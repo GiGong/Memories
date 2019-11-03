@@ -83,11 +83,17 @@
                       ItemsSource="{Binding FontSizes}" Text="{Binding FontSizeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="24,12,0,13.999" d:LayoutOverrides="Height"/>
 
             <Grid Grid.Row="2" Margin="0,14,24,0" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top">
-                <Button HorizontalAlignment="Left" Command="EditingCommands.IncreaseFontSize">
-                    <iconPacks:PackIconModern Kind="TextSizeUp" />
+                <Button HorizontalAlignment="Left" Command="{Binding IncreaseFontSizeCommand}">
+                    <Canvas>
+                        <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" Stretch="Uniform" Width="14" Canvas.Left="-7" Canvas.Top="-8"
+                                Data="M 285.745,77.928 L 266.939,107.932 304.424,108.066 C 325.041,108.139 342.004,108.104 342.121,107.988 342.311,107.797 305.742,49.131 304.902,48.279 304.709,48.084 296.088,61.426 285.745,77.928 M 207.542,234.33 L 207.542,351.625 225.228,351.625 242.913,351.625 242.913,295.969 242.913,240.312 260.338,240.312 277.763,240.312 277.763,225.228 277.763,210.143 260.338,210.143 242.913,210.143 242.913,163.589 242.913,117.035 225.228,117.035 207.542,117.035 207.542,234.33 M 58.257,136.541 L 58.257,151.886 98.57,151.886 138.882,151.886 138.88,167.62 C 138.869,243.276 115.582,285.22 63.459,303.464 L 56.957,305.74 56.82,322.181 C 56.687,338.115 56.713,338.622 57.685,338.622 59.153,338.622 71.666,334.788 78.283,332.311 138.334,309.835 168.75,263.106 173.208,186.476 173.491,181.612 173.724,164.935 173.727,149.415 L 173.732,121.196 115.995,121.196 58.257,121.196 58.257,136.541"/>
+                    </Canvas>
                 </Button>
-                <Button HorizontalAlignment="Right" Command="EditingCommands.DecreaseFontSize">
-                    <iconPacks:PackIconModern Kind="TextSizeDown" />
+                <Button HorizontalAlignment="Right" Command="{Binding DecreaseFontSizeCommand}">
+                    <Canvas>
+                        <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" Stretch="Uniform" Width="14" Canvas.Left="-7" Canvas.Top="-8"
+                                Data="M265.509 70.588 C 266.311 72.678,302.504 129.931,302.821 129.611 C 303.342 129.087,340.182 70.272,340.182 69.964 C 340.182 69.819,323.304 69.701,302.675 69.701 C 267.543 69.701,265.190 69.757,265.509 70.588 M223.667 229.389 L 223.667 325.618 238.231 325.618 L 252.796 325.618 252.796 280.112 L 252.796 234.607 267.230 234.469 L 281.664 234.330 281.664 221.847 L 281.664 209.363 267.230 209.225 L 252.796 209.086 252.796 171.123 L 252.796 133.160 238.231 133.160 L 223.667 133.160 223.667 229.389 M101.430 149.025 L 101.430 161.769 134.524 161.769 L 167.618 161.769 167.328 179.324 C 166.348 238.786,147.103 272.085,105.599 286.135 L 100.390 287.898 100.390 301.556 C 100.390 309.068,100.488 315.215,100.609 315.215 C 108.826 315.215,138.251 301.573,150.325 292.165 C 184.146 265.815,196.079 231.579,196.094 160.858 L 196.099 136.281 148.765 136.281 L 101.430 136.281 101.430 149.025 "/>
+                    </Canvas>
                 </Button>
             </Grid>
 
@@ -108,8 +114,24 @@
             </Grid>
 
             <Grid Grid.Row="3" Width="54" HorizontalAlignment="Right" Margin="0,13,25,22" d:LayoutOverrides="Height">
-                <Button HorizontalAlignment="Left"/>
-                <Button HorizontalAlignment="Right"/>
+                <Button Command="{Binding FontForegroundCommand}" HorizontalAlignment="Left">
+                    <Grid>
+                        <Canvas>
+                            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" Stretch="Uniform" Width="12" Canvas.Top="-7" Canvas.Left="1"
+                                Data="M231.469 168.010 L 231.469 286.086 249.155 286.086 L 266.840 286.086 266.840 230.169 L 266.840 174.252 284.525 174.252 L 302.211 174.252 302.211 158.908 L 302.211 143.563 284.525 143.563 L 266.840 143.563 266.840 96.749 L 266.840 49.935 249.155 49.935 L 231.469 49.935 231.469 168.010 M81.144 69.441 L 81.144 84.785 121.769 84.785 L 162.393 84.785 162.152 106.242 C 161.318 180.546,137.197 221.236,83.615 238.730 L 80.104 239.877 80.104 256.676 L 80.104 273.474 84.655 272.215 C 151.842 253.620,187.914 209.004,195.818 134.720 C 197.156 122.141,197.645 107.642,197.652 80.234 L 197.659 54.096 139.402 54.096 L 81.144 54.096 81.144 69.441 "/>
+                        </Canvas>
+                        <Rectangle Fill="{Binding FontForeground}" Width="14" Height="2" Margin="0,7,0,-6"/>
+                    </Grid>
+                </Button>
+                <Button Command="{Binding FontHighlightCommand}" HorizontalAlignment="Right">
+                    <Grid>
+                        <Rectangle Fill="{Binding FontHighlight}" Width="18" Height="10"/>
+                        <Canvas>
+                            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" Stretch="Uniform" Width="14" Canvas.Top="-2" Canvas.Left="2"
+                                Data="M240.312 199.740 L 240.312 317.815 257.997 317.815 L 275.683 317.815 275.683 261.899 L 275.683 205.982 293.368 205.982 L 311.053 205.982 311.053 190.637 L 311.053 175.293 293.368 175.293 L 275.683 175.293 275.683 128.479 L 275.683 81.664 257.997 81.664 L 240.312 81.664 240.312 199.740 M89.987 101.170 L 89.987 116.515 130.559 116.515 L 171.131 116.515 171.123 131.730 C 171.082 209.247,147.261 251.811,93.888 269.736 L 88.687 271.483 88.549 288.207 L 88.412 304.930 90.110 304.611 C 118.378 299.300,153.311 278.311,171.231 255.871 C 197.359 223.152,205.982 188.499,205.982 116.213 L 205.982 85.826 147.984 85.826 L 89.987 85.826 89.987 101.170"/>
+                        </Canvas>
+                    </Grid>
+                </Button>
             </Grid>
 
 
@@ -134,7 +156,6 @@
                     <iconPacks:PackIconMaterial Kind="FormatAlignJustify" />
                 </ToggleButton>
             </Grid>
-
 
         </Grid>
     </Grid>
