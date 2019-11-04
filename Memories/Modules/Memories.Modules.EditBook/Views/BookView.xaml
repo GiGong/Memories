@@ -15,6 +15,13 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="Transparent"/>
                 </Trigger>
+
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Foreground" Value="#3333CC"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="Transparent"/>
+                </Trigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="{x:Type TextBlock}">
@@ -71,7 +78,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Button Width="66" Height="20" Command="{Binding PageBackCommand}" Foreground="#3333CC">
+            <Button Width="66" Height="20" Command="{Binding PageBackCommand}">
                 <Canvas Width="66" Height="20">
                     <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" Stretch="Uniform"
                         Data="M58.5 20.3H6.2C3 20.3.4 17.7.4 14.5V6C.4 2.8 3 .2 6.2.2h52.3c3.2 0 5.8 2.6 5.8 5.8v8.5c0 3.3-2.6 5.8-5.8 5.8z"/>
@@ -80,7 +87,7 @@
                 </Canvas>
             </Button>
 
-            <Button Width="66" Height="20" Command="{Binding PageForwardCommand}" Foreground="#3333CC" Grid.Column="1">
+            <Button Width="66" Height="20" Command="{Binding PageForwardCommand}" Grid.Column="1">
                 <Canvas Width="66" Height="20">
                     <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
                           Data="M58.8 20.3H6.5c-3.2 0-5.8-2.6-5.8-5.8V6C.7 2.8 3.3.2 6.5.2h52.3c3.2 0 5.8 2.6 5.8 5.8v8.5c-.1 3.3-2.6 5.8-5.8 5.8z"/>
@@ -90,9 +97,9 @@
             </Button>
         </Grid>
 
-        <Grid Grid.Row="3" Grid.ColumnSpan="2"
-              Visibility="{Binding BookState, Converter={StaticResource bookStateToVisibilityConverter}, ConverterParameter={x:Static enums:BookState.Page}}">
-            <TextBlock Foreground="Black" FontSize="12" FontFamily="S-Core Dream 2 Thin">
+        <Grid Grid.Row="3" Grid.ColumnSpan="2">
+            <TextBlock Foreground="Black" FontSize="12" FontFamily="S-Core Dream 2 Thin"
+                       Visibility="{Binding BookState, Converter={StaticResource bookStateToVisibilityConverter}, ConverterParameter={x:Static enums:BookState.Page}}">
                 <TextBlock.Text>
                     <MultiBinding StringFormat="{}{0}-{1}/{2}p">
                         <Binding Path="LeftNum" />
@@ -101,6 +108,10 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
+            <TextBlock Foreground="Black" FontSize="12" FontFamily="S-Core Dream 2 Thin" Text="표 지"
+                       Visibility="{Binding BookState, Converter={StaticResource bookStateToVisibilityConverter}, ConverterParameter={x:Static enums:BookState.FrontCover}}"/>
+            <TextBlock Foreground="Black" FontSize="12" FontFamily="S-Core Dream 2 Thin" Text="뒷 면"
+                       Visibility="{Binding BookState, Converter={StaticResource bookStateToVisibilityConverter}, ConverterParameter={x:Static enums:BookState.BackCover}}"/>
         </Grid>
         
         <Grid Visibility="Collapsed" Width="200" Grid.Row="1" Grid.ColumnSpan="2" Margin="0,10,0,0">

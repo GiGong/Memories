@@ -22,7 +22,9 @@
         </Grid.ColumnDefinitions>
 
         <ContentControl Grid.Row="0" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static core:RegionNames.EditBookTopMenu}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
-
+        
+        <Separator Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0"/>
+        
         <!-- TODO: Make Book information view -->
         <Grid Grid.Row="1" Grid.Column="0" Background="#FFABABAB"/>
 
