@@ -37,6 +37,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand<FrameworkElement> _imageSelectCommand;
         private DelegateCommand<object> _drawControlCommand;
         private DelegateCommand<Rectangle> _drawEndCommand;
+        private DelegateCommand<BookUI> _deleteUICommand;
 
         private readonly IFileService _fileService;
         private readonly IEventAggregator _eventAggregator;
@@ -126,6 +127,9 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand<Rectangle> DrawEndCommand =>
             _drawEndCommand ?? (_drawEndCommand = new DelegateCommand<Rectangle>(ExecuteDrawEndCommand));
 
+        public DelegateCommand<BookUI> DeleteUICommand =>
+            _deleteUICommand ?? (_deleteUICommand = new DelegateCommand<BookUI>(ExecuteDeleteUICommand));
+
         #endregion Command
 
         #region Method
@@ -153,7 +157,7 @@ namespace Memories.Modules.EditBook.ViewModels
             _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(richTextBox);
         }
 
-        void ExecuteCanvasCommand()
+        private void ExecuteCanvasCommand()
         {
             _eventAggregator.GetEvent<RichTextBoxSelectedEvent>().Publish(null);
         }
@@ -218,6 +222,16 @@ namespace Memories.Modules.EditBook.ViewModels
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+            }
+        }
+
+        private void ExecuteDeleteUICommand(BookUI parameter)
+        {
+            if (MessageBox.Show("정말 이 컨트롤을 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                == MessageBoxResult.Yes)
+            {
+                NowPage.PageControls.Remove(parameter);
+                PageControls = NowPage.ToUIElementCollection();
             }
         }
 
