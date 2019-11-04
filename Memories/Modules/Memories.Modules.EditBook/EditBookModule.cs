@@ -31,6 +31,7 @@ namespace Memories.Modules.EditBook
         {
             containerRegistry.RegisterSingleton<IBookPageLayoutService, BookPageLayoutService>();
             containerRegistry.RegisterSingleton<IExportToImageService, ExportToImageService>();
+            containerRegistry.RegisterSingleton<IPrintService, PrintService>();
 
             containerRegistry.RegisterDialog<EditBookView, EditBookViewVM>();
             containerRegistry.RegisterDialog<PageLayoutSelectView, PageLayoutSelectViewVM>();

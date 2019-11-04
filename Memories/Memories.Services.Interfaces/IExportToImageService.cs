@@ -11,8 +11,9 @@ namespace Memories.Services.Interfaces
         /// Visual Export to Image file
         /// </summary>
         /// <param name="visual">Must be System.Windows.Media.Visual</param>
-        /// <param name="printSize">pixel size to print</param>
+        /// <param name="pixelSize">pixel size to print</param>
         /// <param name="format">Jpeg, Png ... etc</param>
+        /// <param name="path">Path to save</param>
         void VisualToImage(object visual, BookUIPoint pixelSize, ImageFormat format, string path);
     }
 }

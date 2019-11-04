@@ -49,7 +49,7 @@ namespace Memories.Core.Extensions
             viewbox.Measure(new Size(width, height));
             viewbox.Arrange(new Rect(0, 0, width, height));
             viewbox.UpdateLayout();
-            
+            viewbox.Child = null;
             return canvas;
         }
 

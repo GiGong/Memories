@@ -2,6 +2,7 @@
 using Memories.Business.Models;
 using Memories.Core;
 using Memories.Core.Controls;
+using Memories.Core.Extensions;
 using Memories.Modules.EditBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
@@ -26,7 +27,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private readonly IFileService _fileService;
         private readonly IDialogService _dialogService;
         private readonly IExportToImageService _exportToImageService;
-
+        private readonly IPrintService _printService;
         private IApplicationCommands _applicationCommands;
 
         #endregion Field
@@ -72,11 +73,13 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public TopMenuViewVM(IFileService fileService, IDialogService dialogService, IExportToImageService exportToImageService, IApplicationCommands applicationCommands)
+        public TopMenuViewVM(IFileService fileService, IDialogService dialogService, IExportToImageService exportToImageService,
+                                IPrintService printService, IApplicationCommands applicationCommands)
         {
             _fileService = fileService;
             _dialogService = dialogService;
             _exportToImageService = exportToImageService;
+            _printService = printService;
 
             ApplicationCommands = applicationCommands;
         }
@@ -172,7 +175,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecutePrintCommand()
         {
-
+            _printService.Print(EditBook.ToFixedDocument().DocumentPaginator);
         }
 
         #endregion Method

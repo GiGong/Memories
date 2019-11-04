@@ -90,6 +90,7 @@
     <Compile Include="DialogViewModelBase.cs" />
     <Compile Include="Events\DrawControlEndedEvent.cs" />
     <Compile Include="Events\RichTextBoxSelectedEvent.cs" />
+    <Compile Include="Extensions\BookExtension.cs" />
     <Compile Include="Extensions\BookPageExtension.cs" />
     <Compile Include="Extensions\BookUIExtension.cs" />
     <Compile Include="Extensions\MatrixExtension.cs" />

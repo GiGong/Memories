@@ -3,6 +3,7 @@ using Memories.Business.Models;
 using Memories.Core.Extensions;
 using Memories.Services.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -34,7 +35,7 @@ namespace Memories.Services
         {
             if (!(visual is Visual target))
             {
-                throw new ArgumentException(visual.GetType().FullName + "is not Visual!" + Environment.NewLine + "In " + nameof(ExportToImageService));
+                throw new ArgumentException(visual.GetType().FullName + "is not Visual!" + Environment.NewLine + "In " + nameof(IExportToImageService));
             }
 
             RenderTargetBitmap rtb = new RenderTargetBitmap((int)pixelSize.X, (int)pixelSize.Y, 96d, 96d, PixelFormats.Default);
@@ -65,21 +66,17 @@ namespace Memories.Services
 
             BookUIPoint imageSize = new BookUIPoint(book.PaperSize.GetWidth() * 10, book.PaperSize.GetHeight() * 10);
 
-            BookPage page = book.FrontCover;
-            string imagePath = Path.Combine(folderPath, 0 + Path.GetExtension(path));
-            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
+            List<BookPage> pages = new List<BookPage>(book.BookPages);
+            pages.Insert(0, book.FrontCover);
+            pages.Add(book.BackCover);
 
-            for (int i = 0, l = book.BookPages.Count; i < l; i++)
+            for (int i = 0, l = pages.Count; i < l; i++)
             {
-                page = book.BookPages[i];
+                BookPage page = pages[i];
 
-                imagePath = Path.Combine(folderPath, (i + 1) + Path.GetExtension(path));
+                string imagePath = Path.Combine(folderPath, i + Path.GetExtension(path));
                 VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
             }
-
-            page = book.BackCover;
-            imagePath = Path.Combine(folderPath, (book.BookPages.Count + 1) + Path.GetExtension(path));
-            VisualToImage(page.ToCanvas(book.PaperSize), imageSize, format, imagePath);
         }
 
         private BitmapEncoder GetEncoderFromFormat(ImageFormat format)
