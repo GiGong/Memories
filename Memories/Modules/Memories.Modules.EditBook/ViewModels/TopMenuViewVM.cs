@@ -1,21 +1,24 @@
 ﻿using Memories.Business;
 using Memories.Business.Models;
 using Memories.Core;
+using Memories.Core.Controls;
 using Memories.Modules.EditBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System.Windows;
 
 namespace Memories.Modules.EditBook.ViewModels
 {
     public class TopMenuViewVM : BindableBase
     {
         #region Field
-        
+
         private Book _editBook;
 
         private DelegateCommand _addPageCommand;
+        private DelegateCommand _deletePageCommand;
         private DelegateCommand _exportToImageCommand;
         private DelegateCommand _exportToPDFCommand;
         private DelegateCommand _printCommand;
@@ -53,6 +56,9 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand AddPageCommand =>
             _addPageCommand ?? (_addPageCommand = new DelegateCommand(ExecuteAddPageCommand));
 
+        public DelegateCommand DeletePageCommand =>
+            _deletePageCommand ?? (_deletePageCommand = new DelegateCommand(ExecuteDeletePageCommand));
+
         public DelegateCommand ExportToImageCommand =>
             _exportToImageCommand ?? (_exportToImageCommand = new DelegateCommand(ExecuteExportToImageCommand, CanBookCommand).ObservesProperty(() => EditBook));
 
@@ -84,7 +90,7 @@ namespace Memories.Modules.EditBook.ViewModels
             return EditBook != null;
         }
 
-        void ExecuteAddPageCommand()
+        private void ExecuteAddPageCommand()
         {
             var param = new DialogParameters
             {
@@ -93,6 +99,45 @@ namespace Memories.Modules.EditBook.ViewModels
 
             _dialogService.ShowDialog(nameof(PageLayoutSelectView), param, PageLayoutSelected);
         }
+
+        private void ExecuteDeletePageCommand()
+        {
+            int count = EditBook.BookPages.Count;
+            if (count < 1)
+            {
+                return;
+            }
+
+            var result = InputDialogWindow.Show("몇번 페이지를 지우시겠습니까?\n"+
+                                                1 + " ~ " + count, "페이지 지우기", MessageBoxImage.Question, true);
+            if (int.TryParse(result, out int num))
+            {
+                int index = num - 1;
+                if (-1 < index && index < count)
+                {
+                    if (MessageBox.Show("정말 " + num + " 페이지를 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                        == MessageBoxResult.Yes)
+                    {
+                        EditBook.BookPages.RemoveAt(index);
+                    }
+                }
+            }
+
+            //TODO: Composite Command로 BookView에 보내서 왼쪽 오른쪽 중 삭제할 수 있게
+            //var result = MessageBox.Show("왼쪽 페이지를 지우시려면 [예]\n오른쪽 페이지를 지우시려면 [아니오]\n지우지 않으려면 [취소]",
+            //    "페이지 삭제", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+            //switch (result)
+            //{
+            //    case MessageBoxResult.Yes:
+            //        break;
+            //    case MessageBoxResult.No:
+            //        break;
+            //    default:
+            //        break;
+            //}
+        }
+
 
         private void PageLayoutSelected(IDialogResult result)
         {

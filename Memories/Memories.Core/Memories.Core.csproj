@@ -75,6 +75,9 @@
   <ItemGroup>
     <Compile Include="ApplicationCommands.cs" />
     <Compile Include="Controls\DrawableCanvas.cs" />
+    <Compile Include="Controls\InputDialogWindow.xaml.cs">
+      <DependentUpon>InputDialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MMCenterImage.cs" />
     <Compile Include="Controls\MMBookPageCanvas.cs" />
     <Compile Include="Controls\MMFontFamilySearch.cs" />
@@ -83,6 +86,7 @@
     <Compile Include="Converters\BookUIMatrixToTransformConverter.cs" />
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="Converters\EnumToIsCheckedConverter.cs" />
+    <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="DialogViewModelBase.cs" />
     <Compile Include="Events\DrawControlEndedEvent.cs" />
     <Compile Include="Events\RichTextBoxSelectedEvent.cs" />
@@ -127,6 +131,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\InputDialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MMDialogWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

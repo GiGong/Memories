@@ -3,6 +3,7 @@ using Memories.Core.Extensions;
 using Memories.Modules.EditBook.Enums;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections.Specialized;
 
 namespace Memories.Modules.EditBook.ViewModels
 {
@@ -119,14 +120,6 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #endregion Property
 
-        #region Constructor
-
-        public BookViewVM()
-        {
-        }
-
-        #endregion Constructor
-
         #region Command
 
         public DelegateCommand PageBackCommand =>
@@ -136,6 +129,14 @@ namespace Memories.Modules.EditBook.ViewModels
             _pageForwardCommand ?? (_pageForwardCommand = new DelegateCommand(PageForward, CanPageForward).ObservesProperty(() => RightNum));
 
         #endregion Command
+
+        #region Constructor
+
+        public BookViewVM()
+        {
+        }
+
+        #endregion Constructor
 
         #region Method
 
@@ -154,33 +155,42 @@ namespace Memories.Modules.EditBook.ViewModels
             PageForwardCommand.RaiseCanExecuteChanged();
         }
 
-        private void BookPages_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void BookPages_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             TotalNum = EditBook.BookPages.Count;
-            LeftNum = LeftNum;
-            RightNum = RightNum;
+
+            if (e.Action == NotifyCollectionChangedAction.Remove
+                && TotalNum % 2 == 0)
+            {
+                PageBack();
+            }
+            else
+            {
+                LeftNum = LeftNum;
+                RightNum = RightNum;
+            }
 
             PageBackCommand.RaiseCanExecuteChanged();
             PageForwardCommand.RaiseCanExecuteChanged();
         }
 
-        bool CanPageBack()
+        private bool CanPageBack()
         {
             return LeftNum > -1;
         }
 
-        void PageBack()
+        private void PageBack()
         {
             LeftNum -= 2;
             RightNum -= 2;
         }
 
-        bool CanPageForward()
+        private bool CanPageForward()
         {
             return RightNum < TotalNum + 2;
         }
 
-        void PageForward()
+        private void PageForward()
         {
             LeftNum += 2;
             RightNum += 2;

@@ -4,10 +4,12 @@
              xmlns:core="clr-namespace:Memories.Core;assembly=Memories.Core"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:converters="clr-namespace:Memories.Modules.EditBook.Converters"
+             xmlns:coreConverters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
              xmlns:enums="clr-namespace:Memories.Modules.EditBook.Enums"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <coreConverters:InverseBooleanToVisibilityConverter x:Key="inverseBoolToVisibilityConverter"/>
         <converters:BookStateToVisibilityConverter x:Key="bookStateToVisibilityConverter"/>
 
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}">
@@ -70,6 +72,9 @@
             <TextBlock Height="20" VerticalAlignment="Top" Grid.Column="1"
                        Text="{Binding RightNum, StringFormat=\{0\}P}"
                        Visibility="{Binding IsRightExist, Converter={StaticResource boolToVisibilityConverter}}"/>
+            <TextBlock Height="20" VerticalAlignment="Top" Grid.Column="1"
+                       Text="빈 쪽"
+                       Visibility="{Binding IsRightExist, Converter={StaticResource inverseBoolToVisibilityConverter}}"/>
         </Grid>
 
         <Grid Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Top">

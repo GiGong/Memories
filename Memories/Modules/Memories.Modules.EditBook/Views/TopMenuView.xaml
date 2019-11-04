@@ -6,22 +6,21 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:bookEnum="clr-namespace:Memories.Business.Enums;assembly=Memories.Business"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+        </Style>
+        <Style TargetType="{x:Type Controls:DropDownButton}">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="40"/>
+        </Style>
+        <Style TargetType="{x:Type iconPacks:PackIconMaterial}">
+            <Setter Property="Width" Value="20"/>
+            <Setter Property="Height" Value="20"/>
+        </Style>
+    </UserControl.Resources>
     <StackPanel Orientation="Horizontal" Background="White">
-        <StackPanel.Resources>
-            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}">
-                <Setter Property="Width" Value="40"/>
-                <Setter Property="Height" Value="40"/>
-            </Style>
-            <Style TargetType="{x:Type Controls:DropDownButton}">
-                <Setter Property="BorderThickness" Value="0"/>
-                <Setter Property="Width" Value="40"/>
-            </Style>
-            <Style TargetType="{x:Type iconPacks:PackIconMaterial}">
-                <Setter Property="Width" Value="20"/>
-                <Setter Property="Height" Value="20"/>
-            </Style>
-        </StackPanel.Resources>
-
         <Controls:DropDownButton ArrowVisibility="Collapsed" ToolTip="메뉴">
             <Controls:DropDownButton.Icon>
                 <Canvas Width="20" Height="18">
@@ -34,22 +33,25 @@
                     <MenuItem Header="책 열기" Command="{Binding ApplicationCommands.LoadCommand}"/>
                     <MenuItem Header="저장" Command="{Binding ApplicationCommands.SaveCommand}"/>
                     <MenuItem Header="다른 이름으로 저장" Command="{Binding ApplicationCommands.SaveAsCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="페이지 지우기" Command="{Binding DeletePageCommand}"/>
+                    <Separator/>
                     <MenuItem Header="처음 화면으로" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding BackToStartWindowResult}"/>
                     <Separator/>
                     <MenuItem Header="종료" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding CloseResult}"/>
                 </x:Array>
             </Controls:DropDownButton.ItemsSource>
         </Controls:DropDownButton>
-        
+
         <Rectangle Width="1" Fill="Black" Height="15"/>
-        
+
         <Button Command="{Binding ApplicationCommands.NewBookCommand}" ToolTip="새 책 만들기">
             <Canvas Width="16" Height="18">
                 <Path Data="M2.6.5C1.6.5.8 1.3.8 2.3v14.4c0 1 .8 1.8 1.8 1.8h10.8c1 0 1.8-.8 1.8-1.8V5.9L9.8.5H2.6z" Fill="Black"/>
                 <Path Data="M9.5 6.2V.8l5.4 5.4H9.5z" Fill="White"/>
             </Canvas>
         </Button>
-        
+
         <Button Command="{Binding ApplicationCommands.LoadCommand}" ToolTip="책 열기">
             <Canvas Width="22" Height="18">
                 <Path Data="M2.9 5.6l-1.2 7.5V4.5h17.7c0-1.1-.8-2-1.9-2H10L8.1.5H2.5c-1 0-1.9.9-1.9 2v12c0 1.1.8 2 1.9 2h15c.9 0 1.6-.6 1.8-1.5h.1l1.2-9.4H2.9z" Fill="Black"/>
@@ -62,14 +64,14 @@
                       Data="M14.3.5h-12c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-12l-4-4zm-5 16c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3zm3-10h-10v-4h10v4z" />
             </Canvas>
         </Button>
-        
+
         <Button Command="{Binding PrintCommand}" ToolTip="출력하기">
             <Canvas Width="20" Height="18">
                 <Path Fill="Black"
                       Data="M17.5 5.3h-14c-1.7 0-3 1.3-3 3v6h4v4h12v-4h4v-6c0-1.6-1.4-3-3-3zm-3 11h-8v-5h8v5zm3-7c-.5 0-1-.4-1-1 0-.5.5-1 1-1 .6 0 1 .5 1 1 0 .6-.5 1-1 1zm-1-9h-12v4h12v-4z" />
             </Canvas>
         </Button>
-        
+
         <Rectangle Width="1" Fill="Black" Height="15"/>
 
         <Button Command="{Binding AddPageCommand}" ToolTip="페이지 추가하기">

@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
              IsEnabled="{Binding IsRichTextBox}" MinWidth="200">
     <UserControl.Resources>
@@ -62,28 +63,28 @@
             </Grid.RowDefinitions>
 
             <Label Content="텍스트 옵션" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                   FontSize="16"
+                   FontSize="18"
                    Foreground="#FF7CB9D2" FontFamily="S-Core Dream 6 Bold"/>
 
 
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Grid.Row="1" Margin="25,-3,0,0" Padding="0"
                    Content="Font"/>
             <!--<controls:MMFontFamilySearch Width="170" Height="22" ListBox_Height="200" Panel.ZIndex="1"/>-->
-            <ComboBox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150"
-                      IsEditable="True"
+            <ComboBox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" IsEditable="True"
+                      Controls:TextBoxHelper.Watermark="글꼴"
                       ItemsSource="{Binding FontFamilies}" Text="{Binding SelectedFontFamily, Mode=TwoWay}"/>
 
 
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Grid.Row="2" Margin="25,-3,0,0" Padding="0"
                 Content="Font Size"/>
 
-            <ComboBox Grid.Row="2" HorizontalAlignment="Left" Width="95" 
-                      IsTextSearchEnabled="True" IsEditable="True"
+            <ComboBox Grid.Row="2" HorizontalAlignment="Left" Width="95" IsTextSearchEnabled="True" IsEditable="True"
                       PreviewTextInput="FontSize_PreviewTextInput"
+                      Controls:TextBoxHelper.Watermark="글자 크기"
                       ItemsSource="{Binding FontSizes}" Text="{Binding FontSizeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="24,12,0,13.999"/>
 
             <Grid Grid.Row="2" Margin="0,14,24,0" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top">
-                <Button HorizontalAlignment="Left" Command="{Binding IncreaseFontSizeCommand}">
+                <Button HorizontalAlignment="Left" Command="{Binding IncreaseFontSizeCommand}" ToolTip="글자 키우기">
                     <Canvas Width="15" Height="16">
                         <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
                               Data="m4.3 6.8v-1h-4v-1.5h5.7999v2.4c0 4.5-1.5999 7.5-5.7999 8.5v-1.7c2.8-0.9 4-3.3 4-6.7zm5.2 1.9h1.8v1.5h-1.8v5.6h-1.8v-11.8h1.8v4.7z"/>
@@ -91,7 +92,7 @@
                               Data="m12.6 3.6h-1.9l0.9-1.6 1-1.5 0.9 1.5 1 1.6h-1.9z"/>
                     </Canvas>
                 </Button>
-                <Button HorizontalAlignment="Right" Command="{Binding DecreaseFontSizeCommand}">
+                <Button HorizontalAlignment="Right" Command="{Binding DecreaseFontSizeCommand}" ToolTip="글자 줄이기">
                     <Canvas Width="12" Height="14">
                         <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}" 
                               Data="m3.6 6.1003v-0.89999h-3.2999v-1.2h4.7v1.9c0 3.6-1.3 6.1-4.7 6.9v-1.4c2.3-0.6 3.2999-2.5 3.2999-5.3zm4.2001 1.5h1.3999v1.2h-1.3999v4.5h-1.4v-9.5h1.4v3.8z"/>
@@ -106,19 +107,23 @@
                    Content="Font Style &amp; Color"/>
 
             <Grid Grid.Row="3" Width="86" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="24,13,0,0">
-                <ToggleButton Command="EditingCommands.ToggleBold" IsChecked="{Binding IsBold, Mode=TwoWay}" HorizontalAlignment="Left">
+                <ToggleButton Command="EditingCommands.ToggleBold" IsChecked="{Binding IsBold, Mode=TwoWay}" HorizontalAlignment="Left"
+                              ToolTip="굵게">
                     <iconPacks:PackIconMaterial Kind="FormatBold" />
                 </ToggleButton>
-                <ToggleButton Command="EditingCommands.ToggleItalic" IsChecked="{Binding IsItalic, Mode=TwoWay}">
+                <ToggleButton Command="EditingCommands.ToggleItalic" IsChecked="{Binding IsItalic, Mode=TwoWay}"
+                              ToolTip="기울임꼴">
                     <iconPacks:PackIconMaterial Kind="FormatItalic" />
                 </ToggleButton>
-                <ToggleButton Command="EditingCommands.ToggleUnderline" IsChecked="{Binding IsUnderline, Mode=TwoWay}" HorizontalAlignment="Right">
+                <ToggleButton Command="EditingCommands.ToggleUnderline" IsChecked="{Binding IsUnderline, Mode=TwoWay}" HorizontalAlignment="Right"
+                              ToolTip="밑줄">
                     <iconPacks:PackIconMaterial Kind="FormatUnderline" />
                 </ToggleButton>
             </Grid>
 
             <Grid Grid.Row="3" Width="54" HorizontalAlignment="Right" Margin="0,13,25,22">
-                <Button Command="{Binding FontForegroundCommand}" HorizontalAlignment="Left">
+                <Button Command="{Binding FontForegroundCommand}" HorizontalAlignment="Left"
+                        ToolTip="글자 색">
                     <Grid Width="16" Height="16">
                         <Canvas Width="12">
                             <Path Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
@@ -127,7 +132,8 @@
                         <Rectangle Fill="{Binding FontForeground}" Height="2" VerticalAlignment="Bottom"/>
                     </Grid>
                 </Button>
-                <Button Command="{Binding FontHighlightCommand}" HorizontalAlignment="Right">
+                <Button Command="{Binding FontHighlightCommand}" HorizontalAlignment="Right"
+                        ToolTip="글자 강조 색">
                     <Grid Width="16" Height="16">
                         <Rectangle Fill="{Binding FontHighlight}" Width="18" Height="14"/>
                         <Canvas Width="12" Height="12">
@@ -143,19 +149,19 @@
                 Content="TextAlign"/>
 
             <Grid Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="24,13,0,2" Width="97" Height="25">
-                <ToggleButton HorizontalAlignment="Left"
+                <ToggleButton HorizontalAlignment="Left" ToolTip="왼쪽 정렬"
                     Command="EditingCommands.AlignLeft" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Left}, Converter={StaticResource enumToIsCheckedConverter}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignLeft" />
                 </ToggleButton>
-                <ToggleButton HorizontalAlignment="Left"
+                <ToggleButton HorizontalAlignment="Left" ToolTip="가운데 정렬"
                     Command="EditingCommands.AlignCenter" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Center}, Converter={StaticResource enumToIsCheckedConverter}}" Margin="25,0,0,0">
                     <iconPacks:PackIconMaterial Kind="FormatAlignCenter" />
                 </ToggleButton>
-                <ToggleButton HorizontalAlignment="Right"
+                <ToggleButton HorizontalAlignment="Right" ToolTip="오른쪽 정렬"
                     Command="EditingCommands.AlignRight" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Right}, Converter={StaticResource enumToIsCheckedConverter}}" Margin="0,0,25,0">
                     <iconPacks:PackIconMaterial Kind="FormatAlignRight" />
                 </ToggleButton>
-                <ToggleButton HorizontalAlignment="Right"
+                <ToggleButton HorizontalAlignment="Right" ToolTip="양쪽 맞춤"
                               Command="EditingCommands.AlignJustify" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Justify}, Converter={StaticResource enumToIsCheckedConverter}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignJustify" />
                 </ToggleButton>
