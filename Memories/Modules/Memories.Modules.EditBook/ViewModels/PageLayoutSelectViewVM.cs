@@ -69,12 +69,12 @@ namespace Memories.Modules.EditBook.ViewModels
             Layouts = new ObservableCollection<BookPageLayout>(_bookPageLayoutService.LoadPageLayoutsFromDirectory(path));
         }
 
-        void ExecuteCheckCommand()
+        private void ExecuteCheckCommand()
         {
             RaiseRequestClose(new DialogResult(ButtonResult.OK, new DialogParameters { { "PageLayout", SelectedItem } }));
         }
 
-        bool CanExecuteCheckCommand()
+        private bool CanExecuteCheckCommand()
         {
             return SelectedItem != null;
         }

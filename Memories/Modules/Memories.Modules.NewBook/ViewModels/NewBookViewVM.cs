@@ -1,4 +1,5 @@
 ﻿using Memories.Core;
+using Memories.Core.Names;
 using Memories.Modules.NewBook.Views;
 using Memories.Services.Interfaces;
 using Prism.Commands;
@@ -92,7 +93,7 @@ namespace Memories.Modules.NewBook.ViewModels
             }
         }
 
-        void Previous()
+        private void Previous()
         {
             RegionManager.RequestNavigate(RegionNames.NewBookRegion, nameof(InputBookInfoView));
         }
@@ -102,7 +103,7 @@ namespace Memories.Modules.NewBook.ViewModels
             return Parameter.NowPage > 0;
         }
 
-        void Next()
+        private void Next()
         {
             RegionManager.RequestNavigate(RegionNames.NewBookRegion, nameof(BookLayoutSelectView));
         }
@@ -112,23 +113,23 @@ namespace Memories.Modules.NewBook.ViewModels
             return Parameter.NowPage < NUM_OF_VIEWS - 1;
         }
 
-        void Cancel()
+        private void Cancel()
         {
             RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
         }
 
-        void Check()
+        private void Check()
         {
             var param = new DialogParameters
             {
-                { "NewBook", Parameter.InputBook.Clone() },
-                { "BookPath", Parameter.BookPath }
+                { ParameterNames.NewBook, Parameter.InputBook.Clone() },
+                { ParameterNames.BookPath, Parameter.BookPath }
             };
 
             RaiseRequestClose(new DialogResult(ButtonResult.OK, param));
         }
 
-        bool CanCheck()
+        private bool CanCheck()
         {
             foreach (var item in Parameter.IsCompleted)
             {

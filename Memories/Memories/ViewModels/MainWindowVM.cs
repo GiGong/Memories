@@ -10,8 +10,8 @@ namespace Memories.ViewModels
         private string _title;
         private Visibility _visibility;
 
-        private DelegateCommand<string> _hideCommand;
-        private DelegateCommand<string> _showCommand;
+        private DelegateCommand _hideCommand;
+        private DelegateCommand _showCommand;
 
         public string Title
         {
@@ -25,11 +25,11 @@ namespace Memories.ViewModels
             set { SetProperty(ref _visibility, value); }
         }
 
-        public DelegateCommand<string> HideCommand =>
-            _hideCommand ?? (_hideCommand = new DelegateCommand<string>(ExecuteHideCommand));
+        public DelegateCommand HideCommand =>
+            _hideCommand ?? (_hideCommand = new DelegateCommand(ExecuteHideCommand));
 
-        public DelegateCommand<string> ShowCommand =>
-            _showCommand ?? (_showCommand = new DelegateCommand<string>(ExecuteShowCommand));
+        public DelegateCommand ShowCommand =>
+            _showCommand ?? (_showCommand = new DelegateCommand(ExecuteShowCommand));
 
 
         public MainWindowVM(IApplicationCommands applicationCommands)
@@ -41,12 +41,12 @@ namespace Memories.ViewModels
             applicationCommands.ShowShellCommand.RegisterCommand(ShowCommand);
         }
 
-        void ExecuteHideCommand(string param)
+        void ExecuteHideCommand()
         {
             Visibility = Visibility.Collapsed;
         }
 
-        void ExecuteShowCommand(string param)
+        void ExecuteShowCommand()
         {
             Visibility = Visibility.Visible;
         }

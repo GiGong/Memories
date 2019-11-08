@@ -1,5 +1,7 @@
 ﻿using Memories.Business.Models;
 using Memories.Core;
+using Memories.Core.Extensions;
+using Memories.Core.Names;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
@@ -22,6 +24,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private readonly IBookService _bookService;
         private readonly IFileService _fileService;
+        private readonly IDialogService _dialogService;
 
         #endregion Field
 
@@ -63,17 +66,18 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public EditBookViewVM(IBookService bookService, IFileService fileService, IApplicationCommands applicationCommands)
+        public EditBookViewVM(IBookService bookService, IFileService fileService, IDialogService dialogService, IApplicationCommands applicationCommands)
         {
             _bookService = bookService;
             _fileService = fileService;
+            _dialogService = dialogService;
 
             applicationCommands.NewBookCommand.RegisterCommand(NewBookCommand);
             applicationCommands.SaveCommand.RegisterCommand(SaveCommand);
             applicationCommands.SaveAsCommand.RegisterCommand(SaveAsCommand);
             applicationCommands.LoadCommand.RegisterCommand(LoadCommand);
             applicationCommands.CloseEditBookViewCommand.RegisterCommand(CloseEditBookViewCommand);
-            
+
             Title = (string)Application.Current.Resources["Designed_Program_Name"];
         }
 
@@ -90,16 +94,16 @@ namespace Memories.Modules.EditBook.ViewModels
                 return;
             }
 
-            BookPath = parameters.GetValue<string>("BookPath");
+            BookPath = parameters.GetValue<string>(ParameterNames.BookPath);
 
-            if (parameters.ContainsKey("NewBook"))
+            if (parameters.ContainsKey(ParameterNames.NewBook))
             {
-                EditBook = parameters.GetValue<Book>("NewBook");
-                _bookService.SaveBook(EditBook, BookPath);
+                EditBook = parameters.GetValue<Book>(ParameterNames.NewBook);
+                ExecuteSaveCommand();
             }
-            else if (parameters.ContainsKey("LoadBook"))
+            else if (parameters.ContainsKey(ParameterNames.LoadBook))
             {
-                EditBook = parameters.GetValue<Book>("LoadBook");
+                EditBook = parameters.GetValue<Book>(ParameterNames.LoadBook);
             }
         }
 
@@ -122,9 +126,27 @@ namespace Memories.Modules.EditBook.ViewModels
             return EditBook != null;
         }
 
-        void ExecuteNewBookCommand()
+        private void ExecuteNewBookCommand()
         {
-            // Call NewBookView using Dialog Service Extension
+            var messageBoxResult = MessageBox.Show("현재 책을 저장하시겠습니까?", "Memories", MessageBoxButton.YesNo);
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                ExecuteSaveCommand();
+            }
+            else if (messageBoxResult == MessageBoxResult.No)
+            {
+                _dialogService.ShowNewBookDialog(null,
+                    (result) =>
+                    {
+                        if (result.Result == ButtonResult.OK)
+                        {
+                            //TODO: Check "save current book"
+                            BookPath = result.Parameters.GetValue<string>(ParameterNames.BookPath);
+                            EditBook = result.Parameters.GetValue<Book>(ParameterNames.NewBook);
+                            ExecuteSaveCommand();
+                        }
+                    });
+            }
         }
 
         void ExecuteLoadCommand()
@@ -138,12 +160,12 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
-        void ExecuteSaveCommand()
+        private void ExecuteSaveCommand()
         {
             _bookService.SaveBook(EditBook, BookPath);
         }
 
-        void ExecuteSaveAsCommand()
+        private void ExecuteSaveAsCommand()
         {
             string path = _fileService.SaveFilePath();
 
@@ -154,7 +176,7 @@ namespace Memories.Modules.EditBook.ViewModels
             }
         }
 
-        void ExecuteCloseEditBookViewCommand(DialogResult result)
+        private void ExecuteCloseEditBookViewCommand(DialogResult result)
         {
             RaiseRequestClose(result);
         }

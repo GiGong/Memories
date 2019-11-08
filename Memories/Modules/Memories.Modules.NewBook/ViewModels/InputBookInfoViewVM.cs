@@ -78,7 +78,7 @@ namespace Memories.Modules.NewBook.ViewModels
 
         private void InputBookInfo_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "SelectedPaperSize")
+            if (e.PropertyName == nameof(SelectedPaperSize))
             {
                 _naviParam.IsCompleted[BookLayoutSelectViewVM.VIEW_INDEX] = false;
             }

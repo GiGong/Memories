@@ -93,12 +93,14 @@
     <Compile Include="Extensions\BookExtension.cs" />
     <Compile Include="Extensions\BookPageExtension.cs" />
     <Compile Include="Extensions\BookUIExtension.cs" />
+    <Compile Include="Extensions\DialogServiceExtension.cs" />
     <Compile Include="Extensions\MatrixExtension.cs" />
     <Compile Include="Extensions\PaperSizeExtension.cs" />
     <Compile Include="Controls\MMDialogWindow.xaml.cs">
       <DependentUpon>MMDialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Extensions\TextSelectionExtension.cs" />
+    <Compile Include="Names\ParameterNames.cs" />
     <Compile Include="NavigationViewModelBase.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Extensions\EnumBindingSourceExtension.cs" />

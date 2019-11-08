@@ -1,4 +1,6 @@
 ﻿using Memories.Core;
+using Memories.Core.Extensions;
+using Memories.Core.Names;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -16,7 +18,7 @@ namespace Memories.Modules.Start.ViewModels
         private DelegateCommand _loadBookCommand;
         private DelegateCommand _debugCommand;
 
-        private IDialogService _dialogService;
+        private readonly IDialogService _dialogService;
         private readonly IApplicationCommands _applicationCommands;
         private readonly IFileService _fileService;
         private readonly IBookService _bookService;
@@ -48,14 +50,13 @@ namespace Memories.Modules.Start.ViewModels
 
         private void NewBook()
         {
-            //TODO: Dialog Service Extension에 옮기기 => 다른 곳에서도 새 책 만들기 부를 수 있음
-            _dialogService.ShowDialog("NewBookView", null,
+            _dialogService.ShowNewBookDialog(null,
                 (result) =>
                 {
                     if (result.Result == ButtonResult.OK)
                     {
-                        _applicationCommands.HideShellCommand.Execute("");
-                        _dialogService.Show("EditBookView", result.Parameters, EditBookView_Closed);
+                        _applicationCommands.HideShellCommand.Execute(null);
+                        _dialogService.ShowEditBook(result.Parameters, EditBookView_Closed);
                     }
                 });
         }
@@ -67,12 +68,12 @@ namespace Memories.Modules.Start.ViewModels
             {
                 var param = new DialogParameters
                 {
-                    { "LoadBook", _bookService.LoadBook(path) },
-                    { "BookPath", path }
+                    { ParameterNames.LoadBook, _bookService.LoadBook(path) },
+                    { ParameterNames.BookPath, path }
                 };
 
-                _applicationCommands.HideShellCommand.Execute("");
-                _dialogService.Show("EditBookView", param, EditBookView_Closed);
+                _applicationCommands.HideShellCommand.Execute(null);
+                _dialogService.ShowEditBook(param, EditBookView_Closed);
             }
         }
 
@@ -84,13 +85,13 @@ namespace Memories.Modules.Start.ViewModels
             }
             else if (result.Result == ButtonResult.Retry)
             {
-                _applicationCommands.ShowShellCommand.Execute("");
+                _applicationCommands.ShowShellCommand.Execute(null);
             }
         }
 
         void ExecuteDebugCommand()
         {
-            _dialogService.Show("EditBookView", null, null);
+            _dialogService.ShowEditBook(null, null);
         }
 
         #endregion Method
