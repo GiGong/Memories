@@ -7,7 +7,7 @@
              xmlns:bookEnum="clr-namespace:Memories.Business.Enums;assembly=Memories.Business"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
-        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource buttonDefault}">
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseButton}">
             <Setter Property="Width" Value="40"/>
             <Setter Property="Height" Value="40"/>
         </Style>
@@ -37,7 +37,6 @@
                     <MenuItem Header="페이지 지우기" Command="{Binding DeletePageCommand}"/>
                     <Separator/>
                     <MenuItem Header="처음 화면으로" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding BackToStartWindowResult}"/>
-                    <Separator/>
                     <MenuItem Header="종료" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding CloseResult}"/>
                 </x:Array>
             </Controls:DropDownButton.ItemsSource>

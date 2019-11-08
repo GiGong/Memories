@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core">
 
-    
     <ItemsPanelTemplate x:Key="listViewLayoutPanelTemplate">
         <UniformGrid Columns="4"/>
     </ItemsPanelTemplate>
@@ -20,12 +19,35 @@
             <TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextAlignment="Center"/>
         </StackPanel>
     </DataTemplate>
+
+    <DataTemplate x:Key="titleBarTemplate">
+        <StackPanel Orientation="Horizontal" Margin="8 -1 8 0">
+            <Canvas Width="13" Height="12">
+                <Path Data="M5.7 11.5L3.4 5.5V11.5H0.700001V0H3.4L6.7 8.7L10 0H12.7V11.5H10V5.5L7.7 11.5H5.7Z" Fill="#999999"/>
+                <Path Data="M5 11.5L2.7 5.5V11.5H0V0H2.6L5.9 8.7L9.3 0H12V11.5H9.3V5.5L7 11.5H5Z" Fill="white"/>
+            </Canvas>
+            <TextBlock Text="{TemplateBinding Content}"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"
+                           FontWeight="Light" />
+        </StackPanel>
+    </DataTemplate>
+
     
-    <Style TargetType="{x:Type ListViewItem}" >
+    <Style TargetType="{x:Type Control}" x:Key="baseControl">
+        <Setter Property="FontFamily" Value="{StaticResource baseFontFamily}"/>
+    </Style>
+
+
+    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource baseControl}">
         <Setter Property="Margin" Value="5"/>
     </Style>
 
-    <Style TargetType="{x:Type Button}" x:Key="buttonDefault">
+    <Style TargetType="{x:Type TextBlock}" x:Key="baseTextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource baseFontFamily}"/>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="baseButton" BasedOn="{StaticResource baseControl}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
@@ -51,6 +73,15 @@
         <Setter Property="Block.LineHeight" Value="1"/>
     </Style>
 
+
+    <Style TargetType="{x:Type Control}" BasedOn="{StaticResource baseButton}"/>
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseButton}"/>
+    <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource baseTextBlock}"/>
     <Style TargetType="{x:Type controls:MMRichTextBox}" BasedOn="{StaticResource baseRichTextBox}"/>
 
+    <!-- If use these styles, TextBoxHelper.Watermark doen't work
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseControl}"/>
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource baseControl}"/>
+    -->
+    
 </ResourceDictionary>

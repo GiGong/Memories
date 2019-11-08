@@ -10,8 +10,8 @@
     <UserControl.Resources>
         <converters:EnumToIsCheckedConverter x:Key="enumToIsCheckedConverter"/>
 
-        <Style TargetType="Label">
-            <Setter Property="FontFamily" Value="S-Core Dream 5 Medium"/>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseControl}">
+            <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="FontSize" Value="10"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="IsEnabled" Value="True"/>
@@ -22,7 +22,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="{x:Type Button}">
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseControl}">
             <Setter Property="Width" Value="22"/>
             <Setter Property="Height" Value="22"/>
             <Setter Property="Padding" Value="0"/>
@@ -31,7 +31,8 @@
             <Setter Property="CommandTarget" Value="{Binding RichTextBox}"/>
             <Setter Property="Focusable" Value="False"/>
         </Style>
-        <Style TargetType="{x:Type ToggleButton}">
+
+        <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource baseControl}">
             <Setter Property="Width" Value="22"/>
             <Setter Property="Height" Value="22"/>
             <Setter Property="Padding" Value="0"/>
@@ -64,13 +65,14 @@
 
             <Label Content="텍스트 옵션" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
                    FontSize="18"
-                   Foreground="#FF7CB9D2" FontFamily="S-Core Dream 6 Bold"/>
+                   Foreground="#FF7CB9D2" FontWeight="Bold"/>
 
 
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Grid.Row="1" Margin="25,-3,0,0" Padding="0"
                    Content="Font"/>
             <!--<controls:MMFontFamilySearch Width="170" Height="22" ListBox_Height="200" Panel.ZIndex="1"/>-->
             <ComboBox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" IsEditable="True"
+                      FontFamily="{StaticResource baseFontFamily}"
                       Controls:TextBoxHelper.Watermark="글꼴"
                       ItemsSource="{Binding FontFamilies}" Text="{Binding SelectedFontFamily, Mode=TwoWay}"/>
 
@@ -79,6 +81,7 @@
                 Content="Font Size"/>
 
             <ComboBox Grid.Row="2" HorizontalAlignment="Left" Width="95" IsTextSearchEnabled="True" IsEditable="True"
+                      FontFamily="{StaticResource baseFontFamily}"
                       PreviewTextInput="FontSize_PreviewTextInput"
                       Controls:TextBoxHelper.Watermark="글자 크기"
                       ItemsSource="{Binding FontSizes}" Text="{Binding FontSizeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="24,12,0,13.999"/>

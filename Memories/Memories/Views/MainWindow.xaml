@@ -5,10 +5,11 @@
                       xmlns:prism="http://prismlibrary.com/"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       prism:ViewModelLocator.AutoWireViewModel="True"
-                      Title="{Binding Title}"
-                      Visibility="{Binding Visibility, Mode=TwoWay}"
+                      Title="{Binding Title}" Visibility="{Binding Visibility, Mode=TwoWay}"
                       ResizeMode="NoResize" WindowStartupLocation="CenterScreen"
-                      Height="450" Width="800"
-                      WindowTitleBrush="#FF391F10" BorderBrush="#FF391F10">
+                      Height="450" Width="800" Icon="{StaticResource Program_Icon}"
+                      TitleCharacterCasing="Normal"
+                      WindowTitleBrush="{StaticResource TitleBarBrush}" BorderBrush="{StaticResource TitleBarBrush}"
+                      TitleTemplate="{StaticResource titleBarTemplate}">
     <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
 </Controls:MetroWindow>

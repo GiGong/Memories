@@ -166,6 +166,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Theme\DefaultTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -202,13 +206,15 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Fonts\Spoqa Han Sans Bold.ttf" />
+    <Resource Include="Resources\Fonts\Spoqa Han Sans Light.ttf" />
+    <Resource Include="Resources\Fonts\Spoqa Han Sans Regular.ttf" />
+    <Resource Include="Resources\Fonts\Spoqa Han Sans Thin.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\Theme\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Memories.Core\Memories.Core.csproj">
       <Project>{33D87DDF-93CE-4FE9-A6FA-963477183DFA}</Project>

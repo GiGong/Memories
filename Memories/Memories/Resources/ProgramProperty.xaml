@@ -3,5 +3,8 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <system:String x:Key="Program_Name">Memories</system:String>
+    <system:String x:Key="Designed_Program_Name">emories</system:String>
+    <BitmapImage x:Key="Program_Icon">pack://application:,,,/Resources/Img/Icon.png</BitmapImage>
+    <FontFamily x:Key="baseFontFamily">pack://application:,,,/Resources/Fonts/#SpoqaHanSans</FontFamily>
 
 </ResourceDictionary>

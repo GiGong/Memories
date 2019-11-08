@@ -34,7 +34,7 @@ namespace Memories.ViewModels
 
         public MainWindowVM(IApplicationCommands applicationCommands)
         {
-            Title = (string)Application.Current.Resources["Program_Name"];
+            Title = (string)Application.Current.Resources["Designed_Program_Name"];
             Visibility = Visibility.Visible;
 
             applicationCommands.HideShellCommand.RegisterCommand(HideCommand);

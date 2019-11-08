@@ -74,7 +74,7 @@ namespace Memories.Modules.EditBook.ViewModels
             applicationCommands.LoadCommand.RegisterCommand(LoadCommand);
             applicationCommands.CloseEditBookViewCommand.RegisterCommand(CloseEditBookViewCommand);
             
-            Title = (string)Application.Current.Resources["Program_Name"];
+            Title = (string)Application.Current.Resources["Designed_Program_Name"];
         }
 
         #endregion Constructor

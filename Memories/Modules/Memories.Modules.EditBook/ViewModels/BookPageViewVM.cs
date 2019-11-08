@@ -33,8 +33,10 @@ namespace Memories.Modules.EditBook.ViewModels
         private BookPage _nowPage;
 
         private DelegateCommand _canvasCommand;
+        private DelegateCommand _backgroundSelectCommand;
+        private DelegateCommand _clearBackgroundCommand;
         private DelegateCommand<MMRichTextBox> _textBoxGotKeyboardFocusCommand;
-        private DelegateCommand<FrameworkElement> _imageSelectCommand;
+        private DelegateCommand<MMCenterImage> _imageSelectCommand;
         private DelegateCommand<object> _drawControlCommand;
         private DelegateCommand<Rectangle> _drawEndCommand;
         private DelegateCommand<BookUI> _deleteUICommand;
@@ -112,14 +114,20 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Command
 
-        public DelegateCommand<MMRichTextBox> TextBoxGotKeyboardFocusCommand =>
-            _textBoxGotKeyboardFocusCommand ?? (_textBoxGotKeyboardFocusCommand = new DelegateCommand<MMRichTextBox>(ExecuteTextBoxGotKeyboardFocusCommand));
-
         public DelegateCommand CanvasCommand =>
             _canvasCommand ?? (_canvasCommand = new DelegateCommand(ExecuteCanvasCommand));
 
-        public DelegateCommand<FrameworkElement> ImageSelectCommand =>
-            _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<FrameworkElement>(ExecuteSelectImageCommand, CanExecuteSelectImageCommand));
+        public DelegateCommand BackgroundSelectCommand =>
+            _backgroundSelectCommand ?? (_backgroundSelectCommand = new DelegateCommand(ExecuteBackgroundSelectCommand));
+
+        public DelegateCommand ClearBackgroundCommand =>
+            _clearBackgroundCommand ?? (_clearBackgroundCommand = new DelegateCommand(ExecuteClearBackgroundCommand));
+
+        public DelegateCommand<MMRichTextBox> TextBoxGotKeyboardFocusCommand =>
+            _textBoxGotKeyboardFocusCommand ?? (_textBoxGotKeyboardFocusCommand = new DelegateCommand<MMRichTextBox>(ExecuteTextBoxGotKeyboardFocusCommand));
+
+        public DelegateCommand<MMCenterImage> ImageSelectCommand =>
+            _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<MMCenterImage>(ExecuteImageSelectCommand));
 
         public DelegateCommand<object> DrawControlCommand =>
             _drawControlCommand ?? (_drawControlCommand = new DelegateCommand<object>(ExecuteDrawControlCommand));
@@ -188,12 +196,22 @@ namespace Memories.Modules.EditBook.ViewModels
             _newUI = null;
         }
 
-        private bool CanExecuteSelectImageCommand(FrameworkElement frameworkElement)
+        private void ExecuteBackgroundSelectCommand()
         {
-            return frameworkElement is MMCenterImage || frameworkElement is Canvas;
+            SelectImage(null);
         }
 
-        private void ExecuteSelectImageCommand(FrameworkElement frameworkElement)
+        private void ExecuteClearBackgroundCommand()
+        {
+            Background = null;
+        }
+
+        private void ExecuteImageSelectCommand(MMCenterImage image)
+        {
+            SelectImage(image);
+        }
+
+        private void SelectImage(FrameworkElement element)
         {
             string filter = ExtentionFilters.ImageFiles;
             string path = _fileService.OpenFilePath(filter);
@@ -206,11 +224,11 @@ namespace Memories.Modules.EditBook.ViewModels
             var bitmap = new BitmapImage(new Uri(path, UriKind.Relative));
             try
             {
-                if (frameworkElement is MMCenterImage image)
+                if (element is MMCenterImage image)
                 {
-                    image.ImageSource = bitmap;
+                    image.ImageSource = bitmap; 
                 }
-                else if (frameworkElement is Canvas canvas)
+                else if (element == null)
                 {
                     Background = ByteArrayToImageSourceConverter.SourceToByteArray(bitmap);
                 }

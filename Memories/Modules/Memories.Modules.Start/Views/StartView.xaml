@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="450" Width="800">
+             Height="450" Width="800"
+             FontFamily="{StaticResource baseFontFamily}">
     <Grid>
         <!-- recent list -->
         <ListView HorizontalAlignment="Left" Width="250"/>
 
-        <Image Margin="500,100,0,0" HorizontalAlignment="Left" Width="100" Height="100" VerticalAlignment="Top"/>
-        <Button Content="새 책 만들기" Command="{Binding NewBookCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,255,0,0"/>
-        <Button Content="책 불러오기" Command="{Binding LoadBookCommand}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,290,0,0"/>
+        <Image Source="{StaticResource Program_Icon}" Margin="450,50,0,0" HorizontalAlignment="Left" Width="200" Height="200" VerticalAlignment="Top"/>
+        <Button Content="만들기" Command="{Binding NewBookCommand}" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,300,0,0" />
+        <Button Content="열기" Command="{Binding LoadBookCommand}" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="510,335,0,0"/>
         <Button Content="Debug" Command="{Binding DebugCommand}" Visibility="Hidden" HorizontalAlignment="Left" Margin="430,355,0,0" VerticalAlignment="Top" Width="75"/>
     </Grid>
 </UserControl>
