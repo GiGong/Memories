@@ -128,25 +128,27 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteNewBookCommand()
         {
-            var messageBoxResult = MessageBox.Show("현재 책을 저장하시겠습니까?", "Memories", MessageBoxButton.YesNo);
-            if (messageBoxResult == MessageBoxResult.Yes)
+            var messageBoxResult = MessageBox.Show("현재 책을 저장하시겠습니까?", "Memories", MessageBoxButton.YesNoCancel);
+
+            if (messageBoxResult == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+            else if (messageBoxResult == MessageBoxResult.Yes)
             {
                 ExecuteSaveCommand();
             }
-            else if (messageBoxResult == MessageBoxResult.No)
-            {
-                _dialogService.ShowNewBookDialog(null,
-                    (result) =>
+
+            _dialogService.ShowNewBookDialog(null,
+                (result) =>
+                {
+                    if (result.Result == ButtonResult.OK)
                     {
-                        if (result.Result == ButtonResult.OK)
-                        {
-                            //TODO: Check "save current book"
-                            BookPath = result.Parameters.GetValue<string>(ParameterNames.BookPath);
-                            EditBook = result.Parameters.GetValue<Book>(ParameterNames.NewBook);
-                            ExecuteSaveCommand();
-                        }
-                    });
-            }
+                        BookPath = result.Parameters.GetValue<string>(ParameterNames.BookPath);
+                        EditBook = result.Parameters.GetValue<Book>(ParameterNames.NewBook);
+                        ExecuteSaveCommand();
+                    }
+                });
         }
 
         void ExecuteLoadCommand()
