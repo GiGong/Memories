@@ -40,9 +40,9 @@ namespace Memories.Services
                 Stream respStream = resp.GetResponseStream();
                 using (StreamReader sr = new StreamReader(respStream))
                 {
-                    JObject json = JObject.Parse(sr.ReadToEnd());
+                    JToken data = JObject.Parse(sr.ReadToEnd()).SelectToken("data");
 
-                    if (!bool.TryParse(json.SelectToken("data").SelectToken("is_valid").ToString(), out bool is_valid))
+                    if (!bool.TryParse(data.SelectToken("is_valid").ToString(), out bool is_valid))
                     {
                         //log json.SelectToken("data")
                         throw new Exception("Debug access token fail!");
