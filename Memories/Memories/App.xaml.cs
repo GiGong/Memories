@@ -1,6 +1,7 @@
 ﻿using Memories.Core;
 using Memories.Core.Controls;
 using Memories.Modules.EditBook;
+using Memories.Modules.Facebook;
 using Memories.Modules.NewBook;
 using Memories.Modules.Start;
 using Memories.Services;
@@ -11,6 +12,7 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using System;
+using System.Configuration;
 using System.Reflection;
 using System.Windows;
 
@@ -30,7 +32,15 @@ namespace Memories
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
 
+            Encrypt();
+
             return Container.Resolve<MainWindow>();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+            ClearFacebookToken();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -38,6 +48,8 @@ namespace Memories
             containerRegistry.RegisterSingleton<IBookService, BookService>();
             containerRegistry.RegisterSingleton<IFileService, FileService>();
             containerRegistry.RegisterSingleton<IFolderService, FolderService>();
+
+            containerRegistry.RegisterSingleton<IFacebookService, FacebookService>();
 
             containerRegistry.RegisterDialogWindow<MMDialogWindow>();
 
@@ -49,6 +61,7 @@ namespace Memories
             moduleCatalog.AddModule<StartModule>();
             moduleCatalog.AddModule<NewBookModule>();
             moduleCatalog.AddModule<EditBookModule>();
+            moduleCatalog.AddModule<FacebookModule>();
         }
 
         /// <summary>
@@ -71,14 +84,37 @@ namespace Memories
         {
             MessageBox.Show("In UnhandledException" + Environment.NewLine + ((Exception)e.ExceptionObject).Message);
 
+            ClearFacebookToken();
+
             throw (Exception)e.ExceptionObject;
+
         }
 
         private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show("In DispatcherUnhandledException" + Environment.NewLine + e.Exception.Message);
 
+            ClearFacebookToken();
+
             throw e.Exception;
+        }
+
+        private void Encrypt()
+        {
+            var config = ConfigurationManager.OpenExeConfiguration
+                                (ConfigurationUserLevel.None);
+
+            if (!config.GetSection("appSettings").SectionInformation.IsProtected)
+            {
+                config.AppSettings.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+
+                config.Save(ConfigurationSaveMode.Full, true);
+            }
+        }
+
+        private void ClearFacebookToken()
+        {
+            Container.Resolve<IFacebookService>().ClearAuthorize();
         }
     }
 }

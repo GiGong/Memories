@@ -232,6 +232,10 @@
       <Project>{8b369745-ffd1-4d23-bdfb-5aae62d67e4f}</Project>
       <Name>Memories.Modules.EditBook</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\Memories.Modules.Facebook\Memories.Modules.Facebook.csproj">
+      <Project>{7B930AEA-DE3C-4389-AA8C-1A8670449A82}</Project>
+      <Name>Memories.Modules.Facebook</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\Memories.Modules.NewBook\Memories.Modules.NewBook.csproj">
       <Project>{1cbc5ef5-e43a-4496-8edb-a9298c18bbde}</Project>
       <Name>Memories.Modules.NewBook</Name>
