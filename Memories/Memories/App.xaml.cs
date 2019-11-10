@@ -3,6 +3,7 @@ using Memories.Core.Controls;
 using Memories.Modules.EditBook;
 using Memories.Modules.Facebook;
 using Memories.Modules.NewBook;
+using Memories.Modules.SelectImage;
 using Memories.Modules.Start;
 using Memories.Services;
 using Memories.Services.Interfaces;
@@ -61,6 +62,7 @@ namespace Memories
             moduleCatalog.AddModule<StartModule>();
             moduleCatalog.AddModule<NewBookModule>();
             moduleCatalog.AddModule<EditBookModule>();
+            moduleCatalog.AddModule<SelectImageModule>();
             moduleCatalog.AddModule<FacebookModule>();
         }
 

@@ -15,6 +15,11 @@ namespace Memories.Core.Extensions
             dialogService.Show("EditBookView", parameters, callBack);
         }
 
+        public static void ShowSelectImageDialog(this IDialogService dialogService, IDialogParameters parameters, Action<IDialogResult> callBack)
+        {
+            dialogService.ShowDialog("SelectImageView", parameters, callBack);
+        }
+
         public static void ShowFacebookLoginDialog(this IDialogService dialogService, IDialogParameters parameters, Action<IDialogResult> callBack)
         {
             dialogService.ShowDialog("FacebookLoginView", parameters, callBack);

@@ -1,17 +1,11 @@
-﻿using Facebook;
-using Memories.Core;
-using Memories.Modules.Facebook.Data;
+﻿using Memories.Core;
 using Memories.Services.Interfaces;
 using Microsoft.Toolkit.Wpf.UI.Controls;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.Linq;
-using System.Text;
 using System.Web;
 using System.Windows;
 
@@ -19,6 +13,12 @@ namespace Memories.Modules.Facebook.ViewModels
 {
     public class FacebookLoginViewVM : DialogViewModelBase
     {
+        #region Cookie JavaScript
+
+        private const string COOKIE_CLEAR = "javascript:void((function(){var a,b,c,e,f;f=0;a=document.cookie.split('; ');for(e=0;e<a.length&&a[e];e++){f++;for(b='.'+location.host;b;b=b.replace(/^(?:%5C.|[^%5C.]+)/,'')){for(c=location.pathname;c;c=c.replace(/.$/,'')){document.cookie=(a[e]+'; domain='+b+'; path='+c+'; expires='+new Date((new Date()).getTime()-1e11).toGMTString());}}}})())";
+
+        #endregion Cookie JavaScript
+
         #region Field
 
         private readonly string _login;
@@ -43,20 +43,13 @@ namespace Memories.Modules.Facebook.ViewModels
 
             _state = (uint)new Random().Next();
 
-            var appSetting = ConfigurationManager.AppSettings;
-            FacebookClient client = new FacebookClient()
+            _login = _facebookService.GetLoginUrl(new
             {
-                Version = appSetting["Version"],
-                AppId = appSetting["App_Id"]
-            };
-
-            _login = client.GetLoginUrl(new
-            {
-                redirect_uri = appSetting["RedirectUri"],
+                redirect_uri = ConfigurationManager.AppSettings["RedirectUri"],
                 state = _state,
                 response_type = "token",
                 scope = "user_photos"
-            }).AbsoluteUri;
+            });
 
             Title = (string)Application.Current.Resources["Designed_Program_Name"];
         }
@@ -67,123 +60,87 @@ namespace Memories.Modules.Facebook.ViewModels
 
         public override void OnDialogOpened(IDialogParameters parameters)
         {
-            base.OnDialogOpened(parameters);
-
             WebView.NavigationCompleted += OnNavigateCompleted;
             WebView.Loaded += (s, e) => WebView.Navigate(_login);
+
+            base.OnDialogOpened(parameters);
+        }
+
+        public override void RaiseRequestClose(IDialogResult dialogResult)
+        {
+            WebView.Navigate(COOKIE_CLEAR);
+            if (dialogResult?.Result == ButtonResult.Cancel)
+            {
+                _facebookService.ClearAuthorize();
+            }
+
+            base.RaiseRequestClose(dialogResult);
         }
 
         internal void OnNavigateCompleted(object sender, Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationCompletedEventArgs e)
         {
             string urlStr = e.Uri.AbsoluteUri;
-            if (!string.IsNullOrWhiteSpace(urlStr) && urlStr.StartsWith(ConfigurationManager.AppSettings["RedirectUri"], StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrWhiteSpace(urlStr))
             {
-                NameValueCollection urlParams = HttpUtility.ParseQueryString(e.Uri.Query + e.Uri.Fragment);
-
-                if (urlParams.Count == 0)
+                if (urlStr.StartsWith(ConfigurationManager.AppSettings["RedirectUri"], StringComparison.OrdinalIgnoreCase))
                 {
-                    RaiseRequestClose(new DialogResult(ButtonResult.OK));
+                    HandleRedirectUri(HttpUtility.ParseQueryString(e.Uri.Query + e.Uri.Fragment));
+                }
+                else if (urlStr == "https://www.facebook.com/dialog/close")
+                {
+                    RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
                     return;
                 }
+            }
+        }
 
-                if (urlParams.AllKeys.Contains("state") && uint.TryParse(urlParams.Get("state"), out uint state) && _state != state)
+        private void HandleRedirectUri(NameValueCollection urlParams)
+        {
+            if (urlParams.AllKeys.Contains("state") && uint.TryParse(urlParams.Get("state"), out uint state) && _state != state)
+            {
+                throw new Exception("Facebook Server Error!");
+            }
+
+            if (urlParams.AllKeys.Contains("#access_token"))
+            {
+                string token = urlParams.Get("#access_token");
+                try
                 {
-                    throw new Exception("Facebook Server Error!" + Environment.NewLine + urlStr + " doesn't return variable!");
+                    _facebookService.Authorize(token);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
 
-                if (urlParams.AllKeys.Contains("#access_token"))
+                var declined = _facebookService.GetDeclinedList(token);
+                if (declined != null && declined.Contains("user_photos"))
                 {
-                    string token = urlParams.Get("#access_token");
-                    try
+                    var result = MessageBox.Show("사진 권한을 허용하지 않으면 앱에서 Facebook을 사용할 수 없습니다." + Environment.NewLine
+                        + "허용하시겠습니까?", "Memories", MessageBoxButton.YesNo);
+                    if (result == MessageBoxResult.Yes)
                     {
-                        _facebookService.Authorize(token);
+                        WebView.Navigate(_facebookService.GetReRequestUrl(declined, token));
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-
-                    FacebookClient client = new FacebookClient(token)
-                    {
-                        Version = ConfigurationManager.AppSettings["Version"]
-                    };
-
-                    string permission = client.Get("me", new { fields = "permissions" }).ToString();
-                    string data = JObject.Parse(permission).SelectToken("permissions").SelectToken("data").ToString();
-                    List<FacebookPermission> permissions = JsonConvert.DeserializeObject<List<FacebookPermission>>(data);
-                    List<string> declined = new List<string>();
-                    foreach (var item in permissions)
-                    {
-                        if (item.Status == "declined")
-                        {
-                            declined.Add(item.Permission);
-                        }
-                    }
-
-                    if (declined.Count > 0)
-                    {
-                        if (declined.Contains("user_photos"))
-                        {
-                            var result = MessageBox.Show("사진 권한을 허용하지 않으면 앱에서 Facebook을 사용할 수 없습니다." + Environment.NewLine
-                                + "허용하시겠습니까?", "Memories", MessageBoxButton.YesNo);
-                            if (result == MessageBoxResult.Yes)
-                            {
-                                ReRequest(declined, token);
-                                return;
-                            }
-                            else
-                            {
-                                _facebookService.ClearAuthorize();
-                                RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
-                                return;
-                            }
-                        }
-                    }
-
-                    string logout = client.GetLogoutUrl(new
-                    {
-                        next = ConfigurationManager.AppSettings["RedirectUri"],
-                        access_token = token
-                    }).AbsoluteUri;
-                    WebView.Navigate(logout);
-                }
-
-                if (urlParams.AllKeys.Contains("error"))
-                {
-                    string error = urlParams.Get("error");
-                    if (error == "access_denied")
+                    else
                     {
                         RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
                         return;
                     }
                 }
+
+                RaiseRequestClose(new DialogResult(ButtonResult.OK));
             }
-        }
-
-        private void ReRequest(List<string> scopes, string token)
-        {
-            var appSetting = ConfigurationManager.AppSettings;
-            FacebookClient client = new FacebookClient(token)
+            else if (urlParams.AllKeys.Contains("error"))
             {
-                Version = ConfigurationManager.AppSettings["Version"],
-                AppId = appSetting["App_Id"]
-            };
-
-            StringBuilder sb = new StringBuilder();
-            foreach (var item in scopes)
-            {
-                sb.Append(item + ",");
+                string error = urlParams.Get("error");
+                if (error == "access_denied")
+                {
+                    RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
+                    return;
+                }
             }
-
-            string request = client.GetLoginUrl(new
-            {
-                redirect_uri = appSetting["RedirectUri"],
-                response_type = "token",
-                auth_type = "rerequest",
-                scope = sb.ToString()
-            }).AbsoluteUri;
-
-            WebView.Navigate(request);
         }
 
         #endregion Method

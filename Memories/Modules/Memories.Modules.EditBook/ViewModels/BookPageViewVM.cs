@@ -6,14 +6,17 @@ using Memories.Core.Controls;
 using Memories.Core.Converters;
 using Memories.Core.Events;
 using Memories.Core.Extensions;
+using Memories.Core.Names;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -42,6 +45,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand<BookUI> _deleteUICommand;
 
         private readonly IFileService _fileService;
+        private readonly IDialogService _dialogService;
         private readonly IEventAggregator _eventAggregator;
 
         #endregion Field
@@ -96,22 +100,6 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #endregion Property
 
-        #region Constructor
-
-        public BookPageViewVM(IFileService fileService, IApplicationCommands applicationCommands, IEventAggregator eventAggregator)
-        {
-            _fileService = fileService;
-            _eventAggregator = eventAggregator;
-
-            applicationCommands.DrawControlCommand.RegisterCommand(DrawControlCommand);
-
-            _eventAggregator.GetEvent<DrawControlEndedEvent>().Subscribe(DrawAlreadyEnded);
-
-            _newUI = null;
-        }
-
-        #endregion Constructor
-
         #region Command
 
         public DelegateCommand CanvasCommand =>
@@ -139,6 +127,24 @@ namespace Memories.Modules.EditBook.ViewModels
             _deleteUICommand ?? (_deleteUICommand = new DelegateCommand<BookUI>(ExecuteDeleteUICommand));
 
         #endregion Command
+
+        #region Constructor
+
+        public BookPageViewVM(IFileService fileService, IDialogService dialogService,
+            IApplicationCommands applicationCommands, IEventAggregator eventAggregator)
+        {
+            _fileService = fileService;
+            _dialogService = dialogService;
+            _eventAggregator = eventAggregator;
+
+            applicationCommands.DrawControlCommand.RegisterCommand(DrawControlCommand);
+
+            _eventAggregator.GetEvent<DrawControlEndedEvent>().Subscribe(DrawAlreadyEnded);
+
+            _newUI = null;
+        }
+
+        #endregion Constructor
 
         #region Method
 
@@ -213,34 +219,38 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void SelectImage(FrameworkElement element)
         {
-            string filter = ExtentionFilters.ImageFiles;
-            string path = _fileService.OpenFilePath(filter);
+            byte[] source;
+            bool isImage = false;
 
-            if (path == null)
+            if (element is MMCenterImage image)
             {
-                return;
+                isImage = true;
+                source = ByteArrayToImageSourceConverter.SourceToByteArray((BitmapSource)image.ImageSource);
+            }
+            else
+            {
+                source = Background;
             }
 
-            var bitmap = new BitmapImage(new Uri(path, UriKind.Relative));
-            try
-            {
-                if (element is MMCenterImage image)
+            _dialogService.ShowSelectImageDialog(new DialogParameters { { ParameterNames.SelectedImage, source } }, 
+                (result) =>
                 {
-                    image.ImageSource = bitmap; 
-                }
-                else if (element == null)
-                {
-                    Background = ByteArrayToImageSourceConverter.SourceToByteArray(bitmap);
-                }
-            }
-            catch (NotSupportedException)
-            {
-                MessageBox.Show("Not supported file" + Environment.NewLine + "지원하지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.Message);
-            }
+                    if (result.Result != ButtonResult.OK)
+                    {
+                        return;
+                    }
+
+                    byte[] selectedImgae = result.Parameters.GetValue<byte[]>(ParameterNames.SelectedImage);
+                    if (isImage)
+                    {
+                        (element as MMCenterImage).ImageSource = (BitmapSource)new ImageSourceConverter().ConvertFrom(selectedImgae);
+                    }
+                    else
+                    {
+                        Background = selectedImgae;
+                    }
+                });
+
         }
 
         private void ExecuteDeleteUICommand(BookUI parameter)

@@ -166,6 +166,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\Templates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Theme\DefaultTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -239,6 +243,10 @@
     <ProjectReference Include="..\Modules\Memories.Modules.NewBook\Memories.Modules.NewBook.csproj">
       <Project>{1cbc5ef5-e43a-4496-8edb-a9298c18bbde}</Project>
       <Name>Memories.Modules.NewBook</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Modules\Memories.Modules.SelectImage\Memories.Modules.SelectImage.csproj">
+      <Project>{71DA58FE-1F33-41EE-AEF9-53F41BCC331F}</Project>
+      <Name>Memories.Modules.SelectImage</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\Memories.Modules.Start\Memories.Modules.Start.csproj">
       <Project>{c094532e-28b2-4a55-807a-701516e28dc3}</Project>

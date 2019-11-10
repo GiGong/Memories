@@ -9,5 +9,7 @@
         public const string RightPageRegion = "RightPageRegion";
         public const string TextFormatRegion = "TextFormatRegion";
         public const string EditBookTopMenu = "EditBookTopMenu";
+        public const string SelectFileView = "SelectFileView";
+        public const string SelectFacebookView = "SelectFacebookView";
     }
 }
