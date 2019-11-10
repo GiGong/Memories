@@ -47,14 +47,14 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <Border Background="White" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0">
+        <Border Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0">
             <Viewbox>
                 <ContentControl Width="{Binding PaperWidth, FallbackValue=148}" Height="{Binding PaperHeight, FallbackValue=210}"
                             prism:RegionManager.RegionName="{x:Static core:RegionNames.LeftPageRegion}" prism:RegionManager.RegionContext="{Binding LeftPage}"/>
             </Viewbox>
         </Border>
 
-        <Border Background="White" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="left" VerticalAlignment="Center" Grid.Column="1">
+        <Border Background="White" BorderBrush="LightGray" BorderThickness="1" HorizontalAlignment="left" VerticalAlignment="Center" Grid.Column="1">
             <Viewbox>
                 <ContentControl Width="{Binding PaperWidth, FallbackValue=148}" Height="{Binding PaperHeight, FallbackValue=210}"
                             prism:RegionManager.RegionName="{x:Static core:RegionNames.RightPageRegion}" prism:RegionManager.RegionContext="{Binding RightPage}"/>

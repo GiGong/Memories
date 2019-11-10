@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="450" Width="800"
-             FontFamily="{StaticResource baseFontFamily}">
+             Height="450" Width="800">
     <Grid>
         <!-- recent list -->
         <ListView HorizontalAlignment="Left" Width="250"/>

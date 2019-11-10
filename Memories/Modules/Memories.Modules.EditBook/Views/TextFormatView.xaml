@@ -13,7 +13,7 @@
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource baseControl}">
             <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="FontSize" Value="10"/>
-            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="IsEnabled" Value="True"/>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="false">
@@ -46,14 +46,14 @@
             <Setter Property="Height" Value="14"/>
         </Style>
     </UserControl.Resources>
-    <Grid Background="#FFABABAB">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="528"/>
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1" Background="#FF383B42">
+        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="67" />
                 <RowDefinition Height="54" />
@@ -71,7 +71,7 @@
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Grid.Row="1" Margin="25,-3,0,0" Padding="0"
                    Content="Font"/>
             <!--<controls:MMFontFamilySearch Width="170" Height="22" ListBox_Height="200" Panel.ZIndex="1"/>-->
-            <ComboBox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150" IsEditable="True"
+            <ComboBox Grid.Row="1" VerticalAlignment="Center" IsEditable="True" Margin="25,0"
                       FontFamily="{StaticResource baseFontFamily}"
                       Controls:TextBoxHelper.Watermark="글꼴"
                       ItemsSource="{Binding FontFamilies}" Text="{Binding SelectedFontFamily, Mode=TwoWay}"/>
@@ -80,11 +80,11 @@
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Grid.Row="2" Margin="25,-3,0,0" Padding="0"
                 Content="Font Size"/>
 
-            <ComboBox Grid.Row="2" HorizontalAlignment="Left" Width="95" IsTextSearchEnabled="True" IsEditable="True"
+            <ComboBox Grid.Row="2" IsTextSearchEnabled="True" IsEditable="True"
                       FontFamily="{StaticResource baseFontFamily}"
                       PreviewTextInput="FontSize_PreviewTextInput"
                       Controls:TextBoxHelper.Watermark="글자 크기"
-                      ItemsSource="{Binding FontSizes}" Text="{Binding FontSizeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="24,12,0,13.999"/>
+                      ItemsSource="{Binding FontSizes}" Text="{Binding FontSizeText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="24,12,81,14"/>
 
             <Grid Grid.Row="2" Margin="0,14,24,0" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top">
                 <Button HorizontalAlignment="Left" Command="{Binding IncreaseFontSizeCommand}" ToolTip="글자 키우기">
@@ -124,7 +124,7 @@
                 </ToggleButton>
             </Grid>
 
-            <Grid Grid.Row="3" Width="54" HorizontalAlignment="Right" Margin="0,13,25,22">
+            <Grid Grid.Row="3" Width="50" HorizontalAlignment="Right" Margin="0,13,25,22">
                 <Button Command="{Binding FontForegroundCommand}" HorizontalAlignment="Left"
                         ToolTip="글자 색">
                     <Grid Width="16" Height="16">
@@ -151,17 +151,17 @@
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Grid.Row="4" Margin="25,-3,0,0" Padding="0"
                 Content="TextAlign"/>
 
-            <Grid Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="24,13,0,2" Width="97" Height="25">
+            <Grid Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="24,13,0,2" Width="118" Height="25">
                 <ToggleButton HorizontalAlignment="Left" ToolTip="왼쪽 정렬"
                     Command="EditingCommands.AlignLeft" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Left}, Converter={StaticResource enumToIsCheckedConverter}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignLeft" />
                 </ToggleButton>
                 <ToggleButton HorizontalAlignment="Left" ToolTip="가운데 정렬"
-                    Command="EditingCommands.AlignCenter" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Center}, Converter={StaticResource enumToIsCheckedConverter}}" Margin="25,0,0,0">
+                    Command="EditingCommands.AlignCenter" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Center}, Converter={StaticResource enumToIsCheckedConverter}}" Margin="32,0,0,0">
                     <iconPacks:PackIconMaterial Kind="FormatAlignCenter" />
                 </ToggleButton>
                 <ToggleButton HorizontalAlignment="Right" ToolTip="오른쪽 정렬"
-                    Command="EditingCommands.AlignRight" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Right}, Converter={StaticResource enumToIsCheckedConverter}}" Margin="0,0,25,0">
+                    Command="EditingCommands.AlignRight" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Right}, Converter={StaticResource enumToIsCheckedConverter}}" Margin="0,0,32,0">
                     <iconPacks:PackIconMaterial Kind="FormatAlignRight" />
                 </ToggleButton>
                 <ToggleButton HorizontalAlignment="Right" ToolTip="양쪽 맞춤"

@@ -16,19 +16,25 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition MinWidth="200" MaxWidth="240"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition MinWidth="200" MaxWidth="240"/>
         </Grid.ColumnDefinitions>
 
         <ContentControl Grid.Row="0" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static core:RegionNames.EditBookTopMenu}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
-        
-        <Separator Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0"/>
-        
+
+        <Rectangle Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0"
+                   Height="2" Fill="Gray"/>
+        <Rectangle Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right"
+                   Width="2" Fill="Gray"/>
+        <Rectangle Grid.Row="1" Grid.Column="2" HorizontalAlignment="Left"
+                   Width="1.5" Fill="Gray"/>
+
         <!-- TODO: Make Book information view -->
-        <Grid Grid.Row="1" Grid.Column="0" Background="#FFABABAB"/>
+        <Grid Grid.Row="1" Grid.Column="0"/>
 
         <ContentControl Grid.Row="1" Grid.Column="1" Margin ="25,50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
+
 
         <ContentControl Grid.Row="1" Grid.Column="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.TextFormatRegion}"/>
     </Grid>
