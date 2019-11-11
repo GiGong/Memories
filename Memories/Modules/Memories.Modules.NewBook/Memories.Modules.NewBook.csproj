@@ -120,7 +120,7 @@
       <Name>Memories.Services.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Memories.Services\Memories.Services.csproj">
-      <Project>{54D70EE3-7075-465F-A5DD-736DC52C2626}</Project>
+      <Project>{ff296b6c-cf1c-4656-86b8-13c34ab132ac}</Project>
       <Name>Memories.Services</Name>
     </ProjectReference>
   </ItemGroup>

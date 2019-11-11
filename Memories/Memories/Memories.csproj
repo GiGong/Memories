@@ -229,7 +229,7 @@
       <Name>Memories.Services.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Memories.Services\Memories.Services.csproj">
-      <Project>{54d70ee3-7075-465f-a5dd-736dc52c2626}</Project>
+      <Project>{ff296b6c-cf1c-4656-86b8-13c34ab132ac}</Project>
       <Name>Memories.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\Memories.Modules.EditBook\Memories.Modules.EditBook.csproj">
