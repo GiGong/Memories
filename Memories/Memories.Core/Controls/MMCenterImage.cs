@@ -13,16 +13,16 @@ namespace Memories.Core.Controls
 
         #region Dependency Property
 
-        public static readonly DependencyProperty DoubleClickCommandProperty =
-            DependencyProperty.Register(nameof(DoubleClickCommand), typeof(ICommand), typeof(MMCenterImage), new PropertyMetadata(null));
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(MMCenterImage), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ImageSourceProperty =
             DependencyProperty.Register(nameof(ImageSource), typeof(ImageSource), typeof(MMCenterImage), new PropertyMetadata(null));
 
-        public ICommand DoubleClickCommand
+        public ICommand Command
         {
-            get { return (ICommand)GetValue(DoubleClickCommandProperty); }
-            set { SetValue(DoubleClickCommandProperty, value); }
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
         }
 
         public ImageSource ImageSource
@@ -70,11 +70,11 @@ namespace Memories.Core.Controls
 
         private void Image_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ClickCount == 2 && DoubleClickCommand != null)
+            if (Command != null)
             {
-                if (DoubleClickCommand.CanExecute(this))
+                if (Command.CanExecute(this))
                 {
-                    DoubleClickCommand.Execute(this);
+                    Command.Execute(this);
                     e.Handled = true;
                 }
             }
