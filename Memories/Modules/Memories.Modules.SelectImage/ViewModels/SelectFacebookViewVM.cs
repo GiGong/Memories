@@ -120,6 +120,7 @@ namespace Memories.Modules.SelectImage.ViewModels
             _facebookService.ClearAuthorize();
             IsLogin = false;
             _photoData = null;
+            Photos = null;
         }
 
         private void LoginCompleted(IDialogResult result)

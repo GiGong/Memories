@@ -1,6 +1,8 @@
-﻿using Memories.Core;
+﻿using CefSharp.Wpf;
+using Memories.Core;
+using Memories.Modules.Facebook.Handler;
 using Memories.Services.Interfaces;
-using Microsoft.Toolkit.Wpf.UI.Controls;
+using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Specialized;
@@ -30,9 +32,13 @@ namespace Memories.Modules.Facebook.ViewModels
 
         #region Property
 
-        public WebView WebView { get; set; }
+        public ChromiumWebBrowser Chromium { get; set; }
 
         #endregion Property
+
+        private DelegateCommand<string> _redirectCommand;
+        public DelegateCommand<string> RedirectCommand =>
+            _redirectCommand ?? (_redirectCommand = new DelegateCommand<string>(HandleRedirectUri));
 
         #region Constructor
 
@@ -60,15 +66,20 @@ namespace Memories.Modules.Facebook.ViewModels
 
         public override void OnDialogOpened(IDialogParameters parameters)
         {
-            WebView.NavigationCompleted += OnNavigateCompleted;
-            WebView.Loaded += (s, e) => WebView.Navigate(_login);
+            Chromium.IsBrowserInitializedChanged += (s, e) =>
+            {
+                if (((bool)e.NewValue) == true)
+                {
+                    Chromium.Load(_login);
+                }
+            };
 
             base.OnDialogOpened(parameters);
         }
 
         public override void RaiseRequestClose(IDialogResult dialogResult)
         {
-            WebView.Navigate(COOKIE_CLEAR);
+            Chromium.Load(COOKIE_CLEAR);
             if (dialogResult?.Result == ButtonResult.Cancel)
             {
                 _facebookService.ClearAuthorize();
@@ -77,25 +88,9 @@ namespace Memories.Modules.Facebook.ViewModels
             base.RaiseRequestClose(dialogResult);
         }
 
-        internal void OnNavigateCompleted(object sender, Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationCompletedEventArgs e)
+        private void HandleRedirectUri(string parameter)
         {
-            string urlStr = e.Uri.AbsoluteUri;
-            if (!string.IsNullOrWhiteSpace(urlStr))
-            {
-                if (urlStr.StartsWith(ConfigurationManager.AppSettings["RedirectUri"], StringComparison.OrdinalIgnoreCase))
-                {
-                    HandleRedirectUri(HttpUtility.ParseQueryString(e.Uri.Query + e.Uri.Fragment));
-                }
-                else if (urlStr == "https://www.facebook.com/dialog/close")
-                {
-                    RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
-                    return;
-                }
-            }
-        }
-
-        private void HandleRedirectUri(NameValueCollection urlParams)
-        {
+            var urlParams = HttpUtility.ParseQueryString(parameter);
             if (urlParams.AllKeys.Contains("state") && uint.TryParse(urlParams.Get("state"), out uint state) && _state != state)
             {
                 throw new Exception("Facebook Server Error!");
@@ -120,7 +115,7 @@ namespace Memories.Modules.Facebook.ViewModels
                         + "허용하시겠습니까?", "Memories", MessageBoxButton.YesNo);
                     if (result == MessageBoxResult.Yes)
                     {
-                        WebView.Navigate(_facebookService.GetReRequestUrl(declined, token));
+                        Chromium.Load(_facebookService.GetReRequestUrl(declined, token));
                         return;
                     }
                     else

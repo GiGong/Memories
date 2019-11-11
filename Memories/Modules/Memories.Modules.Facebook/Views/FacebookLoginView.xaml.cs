@@ -1,4 +1,5 @@
-﻿using Memories.Modules.Facebook.ViewModels;
+﻿using Memories.Modules.Facebook.Handler;
+using Memories.Modules.Facebook.ViewModels;
 using System.Windows.Controls;
 
 namespace Memories.Modules.Facebook.Views
@@ -12,7 +13,8 @@ namespace Memories.Modules.Facebook.Views
         {
             InitializeComponent();
 
-            (DataContext as FacebookLoginViewVM).WebView = web;
+            chrome.RequestHandler = new MMRequestHandler(Dispatcher, DataContext as FacebookLoginViewVM);
+            (DataContext as FacebookLoginViewVM).Chromium = chrome;
         }
     }
 }

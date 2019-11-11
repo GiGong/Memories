@@ -1,4 +1,6 @@
-﻿using Memories.Core;
+﻿using CefSharp;
+using CefSharp.Wpf;
+using Memories.Core;
 using Memories.Core.Controls;
 using Memories.Modules.EditBook;
 using Memories.Modules.Facebook;
@@ -14,7 +16,9 @@ using Prism.Mvvm;
 using Prism.Unity;
 using System;
 using System.Configuration;
+using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Windows;
 
 namespace Memories
@@ -24,6 +28,16 @@ namespace Memories
     /// </summary>
     public partial class App : PrismApplication
     {
+        public App()
+        {
+            //Add Custom assembly resolver
+            AppDomain.CurrentDomain.AssemblyResolve += Resolver;
+
+            //Any CefSharp references have to be in another method with NonInlining
+            // attribute so the assembly rolver has time to do it's thing.
+            InitializeCefSharp();
+        }
+
         protected override Window CreateShell()
         {
 #if DEBUG
@@ -82,6 +96,8 @@ namespace Memories
             });
         }
 
+        #region Custom Exception Handler
+
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             MessageBox.Show("In UnhandledException" + Environment.NewLine + ((Exception)e.ExceptionObject).Message);
@@ -101,6 +117,8 @@ namespace Memories
             throw e.Exception;
         }
 
+        #endregion Custom Exception Handler
+
         private void Encrypt()
         {
             var config = ConfigurationManager.OpenExeConfiguration
@@ -118,5 +136,40 @@ namespace Memories
         {
             Container.Resolve<IFacebookService>().ClearAuthorize();
         }
+
+        #region Cef Sharp
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void InitializeCefSharp()
+        {
+            //Perform dependency check to make sure all relevant resources are in our output directory.
+            var settings = new CefSettings
+            {
+                Locale = "ko"
+            };
+
+            Cef.Initialize(settings, performDependencyCheck: true, browserProcessHandler: null);
+        }
+
+        // Will attempt to load missing assembly from either x86 or x64 subdir
+        // Required by CefSharp to load the unmanaged dependencies when running using AnyCPU
+        private static Assembly Resolver(object sender, ResolveEventArgs args)
+        {
+            if (args.Name.StartsWith("CefSharp"))
+            {
+                string assemblyName = args.Name.Split(new[] { ',' }, 2)[0] + ".dll";
+                string archSpecificPath = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase,
+                                                       Environment.Is64BitProcess ? "x64" : "x86",
+                                                       assemblyName);
+
+                return File.Exists(archSpecificPath)
+                           ? Assembly.LoadFile(archSpecificPath)
+                           : null;
+            }
+
+            return null;
+        }
+
+        #endregion Cef Sharp
     }
 }
