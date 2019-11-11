@@ -255,7 +255,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteDeleteUICommand(BookUI parameter)
         {
-            if (MessageBox.Show("정말 이 컨트롤을 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+            if (MessageBox.Show("정말 이 영역을 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
                 == MessageBoxResult.Yes)
             {
                 NowPage.PageControls.Remove(parameter);

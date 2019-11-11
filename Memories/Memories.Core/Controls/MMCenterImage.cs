@@ -57,6 +57,7 @@ namespace Memories.Core.Controls
             Image = img;
 
             Content = Image;
+            Cursor = Cursors.Hand;
         }
 
         #endregion Constructor
