@@ -4,7 +4,9 @@ using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Linq;
 using System.Windows;
@@ -13,15 +15,21 @@ namespace Memories.Modules.SelectImage.ViewModels
 {
     public class SelectFacebookViewVM : BindableBase
     {
+        private const int PHOTO_TERM = 20;
+
+        IEnumerator<IEnumerable<FacebookPhoto>> _enumerator;
+        private List<FacebookPhoto> _photoData;
+
         private bool _isLogin;
         private string _updatedTime;
         private FacebookPhoto _selectedFacebookPhoto;
-        private List<FacebookPhoto> _photos;
+        private ObservableCollection<FacebookPhoto> _photos;
         private ImageParameter _selectedImage;
 
         private DelegateCommand _loginFacebookCommand;
         private DelegateCommand _refreshCommand;
         private DelegateCommand _logoutCommand;
+        private DelegateCommand _loadPhotoCommand;
 
         private readonly IDialogService _dialogService;
         private readonly IFacebookService _facebookService;
@@ -50,7 +58,7 @@ namespace Memories.Modules.SelectImage.ViewModels
             }
         }
 
-        public List<FacebookPhoto> Photos
+        public ObservableCollection<FacebookPhoto> Photos
         {
             get { return _photos; }
             set { SetProperty(ref _photos, value); }
@@ -74,6 +82,10 @@ namespace Memories.Modules.SelectImage.ViewModels
 
         public DelegateCommand LogoutCommand =>
             _logoutCommand ?? (_logoutCommand = new DelegateCommand(ExecuteLogoutCommand));
+
+        public DelegateCommand LoadPhotoCommand =>
+            _loadPhotoCommand ?? (_loadPhotoCommand = new DelegateCommand(ExecuteLoadPhotoCommand));
+
 
         #endregion Command
 
@@ -107,6 +119,7 @@ namespace Memories.Modules.SelectImage.ViewModels
         {
             _facebookService.ClearAuthorize();
             IsLogin = false;
+            _photoData = null;
         }
 
         private void LoginCompleted(IDialogResult result)
@@ -120,16 +133,16 @@ namespace Memories.Modules.SelectImage.ViewModels
 
         private void GetPhotos(bool isRefresh)
         {
-            if (isRefresh)
-            {
-                //TODO: progress window 고려
-            }
-
-            Photos = _facebookService.GetPhotos(isRefresh)?.ToList();
-            if (Photos == null)
+            _photoData = _facebookService.GetPhotos(isRefresh)?.ToList();
+            if (_photoData == null)
             {
                 MessageBox.Show("사진이 없습니다.");
+                return;
             }
+
+            _enumerator = GetPhotosYield();
+            _enumerator.MoveNext();
+            Photos = new ObservableCollection<FacebookPhoto>(_enumerator.Current);
 
             UpdatedTime = _facebookService.GetPhotoUpdatedTime() + " 기준";
         }
@@ -139,6 +152,30 @@ namespace Memories.Modules.SelectImage.ViewModels
             if (photo != null)
             {
                 SelectedImage.SetSourceFromUrl(photo.SourceImage);
+            }
+        }
+
+        private void ExecuteLoadPhotoCommand()
+        {
+            if (_enumerator?.MoveNext() ?? false)
+            {
+                Photos.AddRange(_enumerator.Current);
+            }
+        }
+
+        private IEnumerator<IEnumerable<FacebookPhoto>> GetPhotosYield()
+        {
+            if (_photoData == null)
+            {
+                yield return null;
+            }
+
+            int index = 0;
+            while (index < _photoData.Count)
+            {
+                List<FacebookPhoto> data = _photoData.GetRange(index, Math.Min(_photoData.Count - index, PHOTO_TERM));
+                index += PHOTO_TERM;
+                yield return data;
             }
         }
     }
