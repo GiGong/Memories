@@ -19,12 +19,18 @@ namespace Memories.Business.Models
             set { SetProperty(ref _pageControls, value); }
         }
 
+        public BookPage()
+        {
+            Background = null;
+            PageControls = new ObservableCollection<BookUI>();
+        }
+
         public BookPage Clone()
         {
             return new BookPage()
             {
                 Background = (byte[])Background?.Clone(),
-                PageControls = PageControls == null ? null : new ObservableCollection<BookUI>(PageControls)
+                PageControls = new ObservableCollection<BookUI>(PageControls)
             };
         }
     }

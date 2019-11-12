@@ -31,5 +31,12 @@
         }
 
         #endregion Property
+
+        public BookPageLayout()
+        {
+            Name = string.Empty;
+            PreviewSource = null;
+            Page = new BookPage();
+        }
     }
 }

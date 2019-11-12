@@ -48,5 +48,18 @@ namespace Memories.Business.Models
         }
 
         #endregion Property
+
+        #region Constructor
+
+        public BookLayout()
+        {
+            Name = string.Empty;
+            PreviewSource = null;
+            Pages = new ObservableCollection<BookPage>();
+            FrontCover = new BookPage();
+            BackCover = new BookPage();
+        }
+
+        #endregion Constructor
     }
 }

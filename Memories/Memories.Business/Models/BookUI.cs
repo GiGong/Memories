@@ -56,6 +56,19 @@ namespace Memories.Business.Models
 
         #endregion Property
 
+        #region Constructor
+
+        public BookUI()
+        {
+            Margin = new BookUIPoint();
+            Width = double.NaN;
+            Height = double.NaN;
+            ZIndex = 0;
+            Transform = new BookUIMatrix();
+        }
+
+        #endregion Constructor
+
         #region Method
 
         public static BookUI GetBookUI(BookUIEnum type)
