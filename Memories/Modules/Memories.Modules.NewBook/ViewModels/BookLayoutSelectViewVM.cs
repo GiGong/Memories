@@ -1,9 +1,12 @@
 ﻿using Memories.Business.Enums;
 using Memories.Business.Models;
 using Memories.Core;
+using Memories.Core.Converters;
 using Memories.Services.Interfaces;
 using Prism.Regions;
+using System;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Imaging;
 
 namespace Memories.Modules.NewBook.ViewModels
 {
@@ -77,13 +80,20 @@ namespace Memories.Modules.NewBook.ViewModels
             _naviParam.NowPage = VIEW_INDEX;
 
             GetLayoutTemplates(paperSize);
-        } 
+        }
 
         private void GetLayoutTemplates(PaperSize paperSize)
         {
             string path = _folderService.GetAppFolder("Layouts", paperSize.ToString());
 
             Layouts = new ObservableCollection<BookLayout>(_bookLayoutService.LoadLayoutsFromDirectory(path));
+
+            BitmapSource image = new BitmapImage(new Uri("pack://application:,,,/Resources/Img/MemoriesWhite.jpg"));
+            Layouts.Insert(0, new BookLayout
+            {
+                Name = "빈 책",
+                PreviewSource = ByteArrayToImageSourceConverter.SourceToByteArray(image)
+            });
         }
 
         #endregion Method

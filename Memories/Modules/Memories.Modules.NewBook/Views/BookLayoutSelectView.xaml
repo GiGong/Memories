@@ -6,6 +6,7 @@
     <Grid>
         <ListView ItemsSource="{Binding Layouts}" ItemTemplate="{StaticResource listViewBookLayoutTemplate}" ItemsPanel="{StaticResource listViewLayoutPanelTemplate}"
                   SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Background="WhiteSmoke"
                   SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

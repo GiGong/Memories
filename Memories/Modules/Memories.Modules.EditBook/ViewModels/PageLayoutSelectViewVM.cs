@@ -1,11 +1,14 @@
 ﻿using Memories.Business.Enums;
 using Memories.Business.Models;
 using Memories.Core;
+using Memories.Core.Converters;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Memories.Modules.EditBook.ViewModels
 {
@@ -67,6 +70,13 @@ namespace Memories.Modules.EditBook.ViewModels
             string path = _folderService.GetAppFolder("Pages", parameters.GetValue<PaperSize>("PaperSize").ToString());
 
             Layouts = new ObservableCollection<BookPageLayout>(_bookPageLayoutService.LoadPageLayoutsFromDirectory(path));
+
+            BitmapSource image = new BitmapImage(new Uri("pack://application:,,,/Resources/Img/MemoriesWhite.jpg"));
+            Layouts.Insert(0, new BookPageLayout
+            {
+                Name = "빈 페이지",
+                PreviewSource = ByteArrayToImageSourceConverter.SourceToByteArray(image)
+            });
         }
 
         private void ExecuteCheckCommand()
