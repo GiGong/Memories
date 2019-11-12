@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
              xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -32,7 +33,9 @@
                 </Button>
             </StackPanel>
 
-            <controls:MMScrollListView Grid.Row="1" ItemsSource="{Binding Photos}" SelectedItem="{Binding SelectedFacebookPhoto, Mode=OneWayToSource}"
+            <mahapps:ProgressRing Grid.Row="1" Panel.ZIndex="1" IsActive="{Binding IsLoading}"/>
+
+            <controls:MMScrollListView Grid.Row="1" ItemsSource="{Binding Photos}" SelectedIndex="{Binding SelectedIndex}"
                                        Command="{Binding LoadPhotoCommand}" BorderThickness="0"
                                        SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                        Margin="5,0,5,50">
@@ -43,7 +46,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Image Source="{Binding PreviewImage}" 
+                        <Image Source="{Binding IsAsync=True}" 
                                Width="140" Height="90" Margin="5, 10" Stretch="Uniform"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>

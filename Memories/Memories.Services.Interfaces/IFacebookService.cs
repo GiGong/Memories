@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Memories.Business.Facebook;
 
 namespace Memories.Services.Interfaces
@@ -12,7 +13,7 @@ namespace Memories.Services.Interfaces
         void ClearAuthorize();
         IEnumerable<string> GetDeclinedList(string token);
         string GetReRequestUrl(IEnumerable<string> scopes, string token);
-        IEnumerable<FacebookPhoto> GetPhotos(bool isRefresh);
+        Task<IEnumerable<FacebookPhoto>> GetPhotosAsync(bool isRefresh);
         string GetPhotoUpdatedTime();
     }
 }

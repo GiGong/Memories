@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Facebook;
+using Memories.Core.Converters;
 using Memories.Core.Extensions;
 using Memories.Services.Interfaces;
 using Prism.Commands;
@@ -7,23 +8,28 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Configuration;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace Memories.Modules.SelectImage.ViewModels
 {
     public class SelectFacebookViewVM : BindableBase
     {
-        private const int PHOTO_TERM = 20;
+        private const int PHOTO_TERM = 15;
+        private bool _isLoading;
 
         IEnumerator<IEnumerable<FacebookPhoto>> _enumerator;
         private List<FacebookPhoto> _photoData;
 
         private bool _isLogin;
         private string _updatedTime;
-        private FacebookPhoto _selectedFacebookPhoto;
-        private ObservableCollection<FacebookPhoto> _photos;
+        private int _selectedIndex;
+        private ObservableCollection<BitmapImage> _photos;
         private ImageParameter _selectedImage;
 
         private DelegateCommand _loginFacebookCommand;
@@ -35,6 +41,12 @@ namespace Memories.Modules.SelectImage.ViewModels
         private readonly IFacebookService _facebookService;
 
         #region Property
+
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
+        }
 
         public bool IsLogin
         {
@@ -48,17 +60,17 @@ namespace Memories.Modules.SelectImage.ViewModels
             set { SetProperty(ref _updatedTime, value); }
         }
 
-        public FacebookPhoto SelectedFacebookPhoto
+        public int SelectedIndex
         {
-            get { return _selectedFacebookPhoto; }
+            get { return _selectedIndex; }
             set
             {
-                SetProperty(ref _selectedFacebookPhoto, value);
-                SelectedFacebookPhotoChanged(SelectedFacebookPhoto);
+                SetProperty(ref _selectedIndex, value);
+                SelectedIndexChanged(SelectedIndex);
             }
         }
 
-        public ObservableCollection<FacebookPhoto> Photos
+        public ObservableCollection<BitmapImage> Photos
         {
             get { return _photos; }
             set { SetProperty(ref _photos, value); }
@@ -132,9 +144,11 @@ namespace Memories.Modules.SelectImage.ViewModels
             }
         }
 
-        private void GetPhotos(bool isRefresh)
+        private async void GetPhotos(bool isRefresh)
         {
-            _photoData = _facebookService.GetPhotos(isRefresh)?.ToList();
+            IsLoading = true;
+            _photoData = (await _facebookService.GetPhotosAsync(isRefresh))?.ToList();
+            IsLoading = false;
             if (_photoData == null)
             {
                 MessageBox.Show("사진이 없습니다.");
@@ -142,25 +156,26 @@ namespace Memories.Modules.SelectImage.ViewModels
             }
 
             _enumerator = GetPhotosYield();
-            _enumerator.MoveNext();
-            Photos = new ObservableCollection<FacebookPhoto>(_enumerator.Current);
+            Photos = new ObservableCollection<BitmapImage>();
+            ExecuteLoadPhotoCommand();
 
             UpdatedTime = _facebookService.GetPhotoUpdatedTime() + " 기준";
         }
 
-        private void SelectedFacebookPhotoChanged(FacebookPhoto photo)
+        private void SelectedIndexChanged(int index)
         {
-            if (photo != null)
+            if (index < 0)
             {
-                SelectedImage.SetSourceFromUrl(photo.SourceImage);
+                return;
             }
+            SelectedImage.SetSourceFromUrl(_photoData[index].SourceImage);
         }
 
         private void ExecuteLoadPhotoCommand()
         {
-            if (_enumerator?.MoveNext() ?? false)
+            if (!IsLoading && (_enumerator?.MoveNext() ?? false))
             {
-                Photos.AddRange(_enumerator.Current);
+                AddPhoto(_enumerator.Current);
             }
         }
 
@@ -178,6 +193,29 @@ namespace Memories.Modules.SelectImage.ViewModels
                 index += PHOTO_TERM;
                 yield return data;
             }
+        }
+
+        private async void AddPhoto(IEnumerable<FacebookPhoto> photos)
+        {
+            IsLoading = true;
+            WebClient wc = new WebClient();
+            foreach (var photo in photos)
+            {
+                byte[] buffer;
+
+                buffer = await wc.DownloadDataTaskAsync(photo.PreviewImage);
+
+                MemoryStream ms = new MemoryStream(buffer);
+                BitmapImage img = new BitmapImage();
+                img.BeginInit();
+                img.CacheOption = BitmapCacheOption.OnLoad;
+                img.StreamSource = ms;
+                img.EndInit();
+
+                Photos.Add(img);
+            }
+            wc.Dispose();
+            IsLoading = false;
         }
     }
 }

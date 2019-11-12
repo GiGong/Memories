@@ -29,10 +29,11 @@ namespace Memories.Modules.SelectImage
             Source = ByteArrayToImageSourceConverter.SourceToByteArray(new BitmapImage(new Uri(path, UriKind.Relative)));
         }
 
-        public void SetSourceFromUrl(string url)
+        public async void SetSourceFromUrl(string url)
         {
             Preview = url;
-            Source = new WebClient().DownloadData(url);
+            WebClient webClient = new WebClient();
+            Source = await webClient.DownloadDataTaskAsync(url);
         }
     }
 }

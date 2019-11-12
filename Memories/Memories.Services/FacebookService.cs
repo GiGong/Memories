@@ -7,8 +7,10 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Memories.Services
 {
@@ -139,7 +141,7 @@ namespace Memories.Services
             }).AbsoluteUri;
         }
 
-        public IEnumerable<FacebookPhoto> GetPhotos(bool isRefresh)
+        public async Task<IEnumerable<FacebookPhoto>> GetPhotosAsync(bool isRefresh)
         {
             if (!isRefresh)
             {
@@ -153,41 +155,73 @@ namespace Memories.Services
                 AppId = appSetting["App_Id"]
             };
             client.SetJsonSerializers(JsonConvert.SerializeObject, JsonConvert.DeserializeObject);
+            SortedList<DateTime, FacebookPhoto> list = new SortedList<DateTime, FacebookPhoto>(100, new RecentComparer());
 
-            string result = client.Get("me", new { fields = "albums{photos{created_time,picture,images}}" }).ToString();
+            string result = (await client.GetTaskAsync("me", new { fields = "albums.limit(10){photos.limit(10){created_time,picture,images}}" })).ToString();
+            _photoUpdatedTime = DateTime.Now;
+
             JObject resultObject = JObject.Parse(result);
             if (!resultObject.ContainsKey("albums"))
             {
                 return null;
             }
-            JArray albumData = resultObject.Value<JObject>("albums").Value<JArray>("data");
-            List<FacebookPhoto> photos = new List<FacebookPhoto>(100);
-            _photoUpdatedTime = DateTime.Now;
+            JObject albums = resultObject.Value<JObject>("albums");
 
-            foreach (JObject album in albumData)
+            while (true)
             {
-                JArray photoData = album.Value<JObject>("photos").Value<JArray>("data");
-
-                foreach (JObject photo in photoData)
+                foreach (JObject album in albums.Value<JArray>("data"))
                 {
-                    photos.Add(new FacebookPhoto
-                    {
-                        Id = photo.Value<string>("id"),
-                        Created_Time = photo.Value<DateTime>("created_time"),
-                        PreviewImage = photo.Value<string>("picture"),
-                        SourceImage = photo.Value<JArray>("images")[0].Value<string>("source")
-                    });
-                }
-            }
-            photos.Sort(delegate (FacebookPhoto x , FacebookPhoto y) { return y.Created_Time.CompareTo(x.Created_Time); });
+                    JObject photos = album.Value<JObject>("photos");
 
-            _facebookPhotos = photos;
-            return _facebookPhotos;
+                    while (true)
+                    {
+                        foreach (JObject photo in photos.Value<JArray>("data"))
+                        {
+                            var fb = new FacebookPhoto
+                            {
+                                Id = photo.Value<string>("id"),
+                                Created_Time = photo.Value<DateTime>("created_time"),
+                                PreviewImage = photo.Value<string>("picture"),
+                                SourceImage = photo.Value<JArray>("images")[0].Value<string>("source")
+                            };
+                            if (!list.ContainsKey(fb.Created_Time))
+                            {
+                                list.Add(fb.Created_Time, fb);
+                            }
+                        }
+
+                        if (!photos.Value<JObject>("paging").ContainsKey("next"))
+                        {
+                            break;
+                        }
+                        result = (await client.GetTaskAsync(photos.Value<JObject>("paging").Value<string>("next"))).ToString();
+                        photos = JObject.Parse(result);
+                    }
+                }
+
+                if (!albums.Value<JObject>("paging").ContainsKey("next"))
+                {
+                    break;
+                }
+                result = (await client.GetTaskAsync(albums.Value<JObject>("paging").Value<string>("next"))).ToString();
+                albums = JObject.Parse(result);
+            }
+
+            _facebookPhotos = list.Values.ToList();
+            return _facebookPhotos.Count > 0 ? _facebookPhotos : null;
         }
 
         public string GetPhotoUpdatedTime()
         {
             return _photoUpdatedTime.ToString("yyyy-MM-dd tt h:mm");
+        }
+    }
+
+    internal class RecentComparer : IComparer<DateTime>
+    {
+        public int Compare(DateTime x, DateTime y)
+        {
+            return y.CompareTo(x);
         }
     }
 }

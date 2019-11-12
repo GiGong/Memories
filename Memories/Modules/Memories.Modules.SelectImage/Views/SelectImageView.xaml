@@ -34,7 +34,7 @@
             <Image Stretch="Uniform">
                 <Image.Style>
                     <Style TargetType="{x:Type Image}">
-                        <Setter Property="Source" Value="{Binding SelectedImage.Preview}" />
+                        <Setter Property="Source" Value="{Binding SelectedImage.Preview, IsAsync=True}" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding SelectedImage.Preview}" Value="{x:Null}">
                                 <Setter Property="Source" Value="{Binding OriginalImage, Converter={StaticResource byteSourceConverter}}" />
