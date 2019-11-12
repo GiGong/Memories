@@ -1,4 +1,5 @@
 ﻿using Memories.Business.Models;
+using Memories.Core;
 using Memories.Core.Extensions;
 using Memories.Modules.EditBook.Enums;
 using Prism.Commands;
@@ -29,6 +30,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private DelegateCommand _pageBackCommand;
         private DelegateCommand _pageForwardCommand;
+        private DelegateCommand<int?> _pageMoveCommand;
 
         #endregion Field
 
@@ -128,12 +130,16 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand PageForwardCommand =>
             _pageForwardCommand ?? (_pageForwardCommand = new DelegateCommand(PageForward, CanPageForward).ObservesProperty(() => RightNum));
 
+        public DelegateCommand<int?> PageMoveCommand =>
+            _pageMoveCommand ?? (_pageMoveCommand = new DelegateCommand<int?>(ExecutePageMoveCommand, CanExecutePageMoveCommand));
+
         #endregion Command
 
         #region Constructor
 
-        public BookViewVM()
+        public BookViewVM(IApplicationCommands applicationCommands)
         {
+            applicationCommands.PageMoveCommand.RegisterCommand(PageMoveCommand);
         }
 
         #endregion Constructor
@@ -196,6 +202,31 @@ namespace Memories.Modules.EditBook.ViewModels
             RightNum += 2;
         }
 
+        private bool CanExecutePageMoveCommand(int? parameter)
+        {
+            return -1 < parameter && parameter < TotalNum + 2;
+        }
+
+        private void ExecutePageMoveCommand(int? parameter)
+        {
+            int value = parameter.Value;
+            if (value > TotalNum)
+            {
+                LeftNum = value;
+                RightNum = value + 1;
+            }
+            else if (value % 2 == 0)
+            {
+                LeftNum = value - 1;
+                RightNum = value;
+            }
+            else
+            {
+                LeftNum = value;
+                RightNum = value + 1;
+            }
+        }
+
         private void PageLeftNumSet()
         {
             if (LeftNum < 1)
@@ -213,7 +244,6 @@ namespace Memories.Modules.EditBook.ViewModels
                 LeftPage = EditBook.BookPages[LeftNum - 1];
                 BookState = BookState.Page;
             }
-
         }
 
         private void PageRightNumSet()

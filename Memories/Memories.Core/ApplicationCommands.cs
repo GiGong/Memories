@@ -14,6 +14,9 @@ namespace Memories.Core
         CompositeCommand LoadCommand { get; }
 
         CompositeCommand CloseEditBookViewCommand { get; }
+
+        //Should this stay here?
+        CompositeCommand PageMoveCommand { get; }
     }
 
     public class ApplicationCommands : IApplicationCommands
@@ -33,5 +36,7 @@ namespace Memories.Core
         public CompositeCommand LoadCommand { get; } = new CompositeCommand();
 
         public CompositeCommand CloseEditBookViewCommand { get; } = new CompositeCommand();
+
+        public CompositeCommand PageMoveCommand { get; } = new CompositeCommand();
     }
 }

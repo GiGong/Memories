@@ -54,7 +54,11 @@
     <Compile Include="Converters\BookStateToVisibilityConverter.cs" />
     <Compile Include="EditBookModule.cs" />
     <Compile Include="Enums\BookState.cs" />
+    <Compile Include="ViewModels\PreviewViewVM.cs" />
     <Compile Include="ViewModels\TopMenuViewVM.cs" />
+    <Compile Include="Views\PreviewView.xaml.cs">
+      <DependentUpon>PreviewView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TopMenuView.xaml.cs">
       <DependentUpon>TopMenuView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +106,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\PreviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TopMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

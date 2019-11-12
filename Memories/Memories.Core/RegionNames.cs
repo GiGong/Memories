@@ -11,5 +11,6 @@
         public const string EditBookTopMenu = "EditBookTopMenu";
         public const string SelectFileView = "SelectFileView";
         public const string SelectFacebookView = "SelectFacebookView";
+        public const string PreviewView = "PreviewView";
     }
 }
