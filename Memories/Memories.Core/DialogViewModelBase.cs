@@ -1,6 +1,7 @@
 ﻿using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Windows;
 
 namespace Memories.Core
 {
@@ -22,6 +23,15 @@ namespace Memories.Core
 
         public event Action<IDialogResult> RequestClose;
 
+        public DialogViewModelBase()
+        {
+            Title = (string)Application.Current.Resources["Program_Name"];
+        }
+        public virtual void OnDialogOpened(IDialogParameters parameters)
+        {
+
+        }
+
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
         {
             RequestClose?.Invoke(dialogResult);
@@ -33,11 +43,6 @@ namespace Memories.Core
         }
 
         public virtual void OnDialogClosed()
-        {
-
-        }
-
-        public virtual void OnDialogOpened(IDialogParameters parameters)
         {
 
         }

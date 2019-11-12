@@ -35,7 +35,7 @@ namespace Memories.Modules.SelectImage.ViewModels
 
         public SelectImageViewVM()
         {
-            Title = (string)Application.Current.Resources["Designed_Program_Name"];
+
         }
 
         public override void OnDialogOpened(IDialogParameters parameters)

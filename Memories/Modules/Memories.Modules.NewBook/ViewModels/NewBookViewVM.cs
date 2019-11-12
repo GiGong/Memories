@@ -61,8 +61,6 @@ namespace Memories.Modules.NewBook.ViewModels
 
         public NewBookViewVM(IBookService bookService)
         {
-            Title = (string)Application.Current.Resources["Program_Name"];
-
             _bookService = bookService;
 
             Parameter = new NewBookNavigationParameter() { NowPage = 0, InputBook = _bookService.GetEmptyBook() };

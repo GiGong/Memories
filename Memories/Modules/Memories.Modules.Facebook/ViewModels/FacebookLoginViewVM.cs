@@ -1,11 +1,9 @@
 ﻿using CefSharp.Wpf;
 using Memories.Core;
-using Memories.Modules.Facebook.Handler;
 using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Specialized;
 using System.Configuration;
 using System.Linq;
 using System.Web;
@@ -56,8 +54,6 @@ namespace Memories.Modules.Facebook.ViewModels
                 response_type = "token",
                 scope = "user_photos"
             });
-
-            Title = (string)Application.Current.Resources["Designed_Program_Name"];
         }
 
         #endregion Constructor
