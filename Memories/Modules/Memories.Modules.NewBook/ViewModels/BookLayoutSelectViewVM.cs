@@ -78,6 +78,7 @@ namespace Memories.Modules.NewBook.ViewModels
             var paperSize = (PaperSize)navigationContext.Parameters[nameof(PaperSize)];
             _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigationParameter;
             _naviParam.NowPage = VIEW_INDEX;
+            _naviParam.ControlState = "템플릿 선택하기";
 
             GetLayoutTemplates(paperSize);
         }

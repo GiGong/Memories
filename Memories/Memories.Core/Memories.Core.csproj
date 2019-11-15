@@ -88,6 +88,7 @@
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="Converters\EnumToIsCheckedConverter.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\TitleDesignConverter.cs" />
     <Compile Include="DialogViewModelBase.cs" />
     <Compile Include="Events\DrawControlEndedEvent.cs" />
     <Compile Include="Events\RichTextBoxSelectedEvent.cs" />

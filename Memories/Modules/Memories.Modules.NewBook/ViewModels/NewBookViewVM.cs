@@ -63,7 +63,12 @@ namespace Memories.Modules.NewBook.ViewModels
         {
             _bookService = bookService;
 
-            Parameter = new NewBookNavigationParameter() { NowPage = 0, InputBook = _bookService.GetEmptyBook() };
+            Parameter = new NewBookNavigationParameter()
+            {
+                ControlState = "새 책 만들기",
+                NowPage = 0,
+                InputBook = _bookService.GetEmptyBook()
+            };
             Parameter.IsCompleted.CollectionChanged += IsCompleted_CollectionChanged;
         }
 

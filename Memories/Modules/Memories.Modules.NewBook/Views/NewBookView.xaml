@@ -13,13 +13,25 @@
             <Setter Property="ShowInTaskbar" Value="False"/>
         </Style>
     </prism:Dialog.WindowStyle>
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseButton}">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="LightGray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="4*"/>
         </Grid.RowDefinitions>
-        <Rectangle Grid.Row="0" Fill="WhiteSmoke"/>
-        <Label Content="" Margin="50,30,300,30" VerticalContentAlignment="Center"/>
+        <Grid Grid.Row="0" Background="WhiteSmoke">
+            <Label Content="{Binding Parameter.ControlState, FallbackValue=새 책 만들기}" Margin="50,30,300,30" VerticalContentAlignment="Center"
+               FontWeight="Medium" FontSize="18"/>
+            <Image Source="{StaticResource Program_Logo}" Width="75" Height="75" Margin="0,20,30,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+        </Grid>
 
         <Controls:TransitioningContentControl Margin="50,50,50,75" Grid.Row="1" 
                         prism:RegionManager.RegionName="{x:Static core:RegionNames.NewBookRegion}"/>

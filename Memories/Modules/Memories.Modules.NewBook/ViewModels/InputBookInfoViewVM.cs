@@ -115,6 +115,7 @@ namespace Memories.Modules.NewBook.ViewModels
         {
             _naviParam = navigationContext.Parameters["Parameter"] as NewBookNavigationParameter;
             _naviParam.NowPage = VIEW_INDEX;
+            _naviParam.ControlState = "책 정보 입력";
         }
 
         #endregion Method

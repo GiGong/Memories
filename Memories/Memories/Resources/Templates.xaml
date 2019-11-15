@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core">
+    <converters:TitleDesignConverter x:Key="titleDesignConverter"/>
+    
     <ItemsPanelTemplate x:Key="listViewLayoutPanelTemplate">
         <WrapPanel/>
     </ItemsPanelTemplate>
@@ -25,10 +27,8 @@
                 <Path Data="M5.7 11.5L3.4 5.5V11.5H0.700001V0H3.4L6.7 8.7L10 0H12.7V11.5H10V5.5L7.7 11.5H5.7Z" Fill="#999999"/>
                 <Path Data="M5 11.5L2.7 5.5V11.5H0V0H2.6L5.9 8.7L9.3 0H12V11.5H9.3V5.5L7 11.5H5Z" Fill="white"/>
             </Canvas>
-            <TextBlock Text="{TemplateBinding Content}"
-                           TextTrimming="CharacterEllipsis"
-                           VerticalAlignment="Center"
-                           FontWeight="Light" />
+            <TextBlock Text="{TemplateBinding Content, Converter={StaticResource titleDesignConverter}}"
+                       TextTrimming="CharacterEllipsis" VerticalAlignment="Center" FontWeight="Light"/>
         </StackPanel>
     </DataTemplate>
     

@@ -8,13 +8,13 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="15"/>
-            <RowDefinition Height="25"/>
-            <RowDefinition Height="15"/>
-            <RowDefinition Height="25"/>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="25"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="75"/>
@@ -41,9 +41,11 @@
                 <ColumnDefinition Width="20"/>
                 <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
-            <TextBox Text="{Binding FilePath, Mode=TwoWay}" IsReadOnly="True" Controls:TextBoxHelper.Watermark="우측 버튼을 눌러서 경로를 지정해주세요."
-                     FontFamily="{StaticResource baseFontFamily}"/>
-            <Button Content="..." Grid.Column="2" Height="20" Command="{Binding SelectFilePathCommand}"/>
+            <TextBox Text="{Binding FilePath, Mode=TwoWay}" IsReadOnly="True" 
+                     FontFamily="{StaticResource baseFontFamily}"
+                     Controls:TextBoxHelper.Watermark="우측 버튼을 눌러서 경로를 지정해주세요."/>
+            <Button Content="..." Grid.Column="2" Height="25" BorderThickness="1" BorderBrush="Black"
+                    Command="{Binding SelectFilePathCommand}"/>
         </Grid>
     </Grid>
 </UserControl>
