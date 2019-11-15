@@ -1,8 +1,11 @@
 ﻿using Memories.Business.Models;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Memories.Core.Extensions
 {
@@ -19,7 +22,7 @@ namespace Memories.Core.Extensions
             pages.Insert(0, book.FrontCover);
             pages.Add(book.BackCover);
 
-            foreach (var item in pages)
+            foreach (var page in pages)
             {
                 var fixedPage = new FixedPage
                 {
@@ -27,7 +30,11 @@ namespace Memories.Core.Extensions
                     Height = pageSize.Height
                 };
 
-                var visual = item.ToCanvas(book.PaperSize);
+                var visual = page.ToCanvas(book.PaperSize);
+                if (page.Background != null)
+                {
+                    visual.Background = new ImageBrush(Convert(page.Background));
+                }
                 fixedPage.Children.Add(visual);
 
                 var pageContent = new PageContent();
@@ -36,6 +43,16 @@ namespace Memories.Core.Extensions
             }
 
             return document;
+        }
+
+        // https://stackoverflow.com/a/36457610/7990500
+        private static BitmapSource Convert(byte[] data)
+        {
+            using (var ms = new MemoryStream(data))
+            {
+                return BitmapFrame.Create(
+                    BitmapFrame.Create(ms, BitmapCreateOptions.None, BitmapCacheOption.OnLoad));
+            }
         }
     }
 }
