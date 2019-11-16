@@ -11,7 +11,7 @@ namespace Memories.Core.Controls
     /// <summary>
     /// Interaction logic for InputDialogWindow.xaml
     /// </summary>
-    public partial class InputDialogWindow : Window
+    public partial class InputDialogWindow
     {
         private static readonly Regex _regex = new Regex("[^0-9]+");
 
@@ -38,6 +38,7 @@ namespace Memories.Core.Controls
         {
             InitializeComponent();
 
+            Title = string.Empty;
             IsNum = false;
             textBox.Focus();
         }
