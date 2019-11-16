@@ -12,7 +12,7 @@
     </prism:Dialog.WindowStyle>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -24,12 +24,8 @@
         <ContentControl Grid.Row="0" Grid.ColumnSpan="3" prism:RegionManager.RegionName="{x:Static core:RegionNames.EditBookTopMenu}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
 
         <Grid Grid.Row="1" Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="5*"/>
-            </Grid.RowDefinitions>
             
-            <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.PreviewView}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
+            <ContentControl Margin="0,25,0,0" prism:RegionManager.RegionName="{x:Static core:RegionNames.PreviewView}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
         </Grid>
         
 

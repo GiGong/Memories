@@ -10,24 +10,39 @@
         <KeyBinding Key="Esc" Command="{Binding ApplicationCommands.DrawCancelCommand}"/>
     </UserControl.InputBindings>
     <UserControl.Resources>
+        <Style TargetType="{x:Type Rectangle}">
+            <Setter Property="Margin" Value="7,0"/>
+            <Setter Property="Width" Value="2"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Fill" Value="Black"/>
+        </Style>
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseButton}">
             <Setter Property="Width" Value="40"/>
             <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="2,0"/>
         </Style>
         <Style TargetType="{x:Type Controls:DropDownButton}">
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Width" Value="40"/>
         </Style>
         <Style TargetType="{x:Type iconPacks:PackIconMaterial}">
-            <Setter Property="Width" Value="20"/>
-            <Setter Property="Height" Value="20"/>
+            <Setter Property="Height" Value="30"/>
         </Style>
+        <Style TargetType="{x:Type iconPacks:PackIconModern}">
+            <Setter Property="Height" Value="30"/>
+        </Style>
+        <Style TargetType="{x:Type iconPacks:PackIconMaterialLight}">
+            <Setter Property="Height" Value="30"/>
+        </Style>
+
     </UserControl.Resources>
+    
+    
     <StackPanel Orientation="Horizontal" Background="White">
         <Controls:DropDownButton ArrowVisibility="Collapsed" ToolTip="메뉴">
             <Controls:DropDownButton.Icon>
-                <Canvas Width="20" Height="18">
-                    <Path Data="M8.2 20.1l-3.8-10v10H0V.9h4.4L10 15.6 15.5.9h4.4v19.3h-4.4v-10l-3.8 10H8.2v-.1z" Fill="Black"/>
+                <Canvas Width="25" Height="24">
+                    <Path Data="M10.1969 23.8756L5.4715 11.4404V23.8756H0V0H5.4715L12.4352 18.2798L19.2746 0H24.7461V24H19.2746V11.5648L14.5492 24H10.1969V23.8756Z" Fill="Black"/>
                 </Canvas>
             </Controls:DropDownButton.Icon>
             <Controls:DropDownButton.ItemsSource>
@@ -43,80 +58,61 @@
             </Controls:DropDownButton.ItemsSource>
         </Controls:DropDownButton>
 
-        <Rectangle Width="1" Fill="Black" Height="15"/>
+        <Rectangle />
 
         <Button Command="{Binding ApplicationCommands.NewBookCommand}" ToolTip="새 책 만들기">
-            <Canvas Width="16" Height="18">
-                <Path Data="M2.6.5C1.6.5.8 1.3.8 2.3v14.4c0 1 .8 1.8 1.8 1.8h10.8c1 0 1.8-.8 1.8-1.8V5.9L9.8.5H2.6z" Fill="Black"/>
-                <Path Data="M9.5 6.2V.8l5.4 5.4H9.5z" Fill="White"/>
+            <Canvas Width="24" Height="30">
+                <Path Data="M2.99999 0C1.33333 0 0 1.33333 0 3V27C0 28.6667 1.33333 30 2.99999 30H21C22.6667 30 24 28.6667 24 27V9L15 0H2.99999Z" Fill="Black"/>
+                <Path Data="M14.5 9.5V0.5L23.5 9.5H14.5Z" Fill="White"/>
             </Canvas>
         </Button>
 
         <Button Command="{Binding ApplicationCommands.LoadCommand}" ToolTip="책 열기">
-            <Canvas Width="22" Height="18">
-                <Path Data="M2.9 5.6l-1.2 7.5V4.5h17.7c0-1.1-.8-2-1.9-2H10L8.1.5H2.5c-1 0-1.9.9-1.9 2v12c0 1.1.8 2 1.9 2h15c.9 0 1.6-.6 1.8-1.5h.1l1.2-9.4H2.9z" Fill="Black"/>
+            <Canvas Width="30" Height="24">
+                <Path Data="M3.45 7.54934L1.65 18.6513V5.92105H28.2C28.2 4.29276 27 2.96053 25.35 2.96053H14.1L11.25 0H2.85C1.35 0 0 1.33224 0 2.96053V20.7237C0 22.352 1.2 23.6842 2.85 23.6842H25.35C26.7 23.6842 27.75 22.7961 28.05 21.4638H28.2L30 7.54934H3.45Z" Fill="Black"/>
             </Canvas>
         </Button>
 
         <Button Command="{Binding ApplicationCommands.SaveCommand}" ToolTip="저장하기">
-            <Canvas Width="18" Height="18">
+            <Canvas Width="28" Height="28">
                 <Path Fill="Black"
-                      Data="M14.3.5h-12c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-12l-4-4zm-5 16c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3zm3-10h-10v-4h10v4z" />
+                      Data="M21.7778 0H3.11111C1.4 0 0 1.4 0 3.11111V24.8889C0 26.6 1.4 28 3.11111 28H24.8889C26.6 28 28 26.6 28 24.8889V6.22222L21.7778 0ZM14 24.8889C11.3556 24.8889 9.33333 22.8667 9.33333 20.2222C9.33333 17.5778 11.3556 15.5556 14 15.5556C16.6444 15.5556 18.6667 17.5778 18.6667 20.2222C18.6667 22.8667 16.6444 24.8889 14 24.8889ZM18.6667 9.33333H3.11111V3.11111H18.6667V9.33333Z" />
             </Canvas>
         </Button>
 
         <Button Command="{Binding PrintCommand}" ToolTip="출력하기">
-            <Canvas Width="20" Height="18">
+            <Canvas Width="30" Height="27">
                 <Path Fill="Black"
-                      Data="M17.5 5.3h-14c-1.7 0-3 1.3-3 3v6h4v4h12v-4h4v-6c0-1.6-1.4-3-3-3zm-3 11h-8v-5h8v5zm3-7c-.5 0-1-.4-1-1 0-.5.5-1 1-1 .6 0 1 .5 1 1 0 .6-.5 1-1 1zm-1-9h-12v4h12v-4z" />
+                      Data="M25.5 7.5H4.5C1.95 7.5 0 9.45 0 12V21H6V27H24V21H30V12C30 9.6 27.9 7.5 25.5 7.5ZM21 24H9V16.5H21V24ZM25.5 13.5C24.75 13.5 24 12.9 24 12C24 11.25 24.75 10.5 25.5 10.5C26.4 10.5 27 11.25 27 12C27 12.9 26.25 13.5 25.5 13.5ZM24 0H6V6H24V0Z" />
             </Canvas>
         </Button>
 
-        <Rectangle Width="1" Fill="Black" Height="15"/>
+        <Rectangle />
 
-        <Controls:DropDownButton ToolTip="페이지 관리하기">
-            <Controls:DropDownButton.Icon>
-                <Canvas Width="22" Height="18">
-                    <Path Data="M20.2.5h-18c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-14c0-1.1-.9-2-2-2z" Fill="#000"/>
-                    <Path Data="M4.9 3.9c.8-.2 1.6-.4 2.5-.4 1.4 0 2.9.3 3.9 1.1 1-.8 2.5-1.1 3.9-1.1s2.9.3 3.9 1.1v10.3c0 .2-.2.4-.4.4h-.2c-1-.5-2.3-.8-3.4-.8-1.4 0-2.9.3-3.9 1.1-1-.6-2.7-1.1-3.9-1.1-1.2 0-2.4.2-3.4.7h-.2c-.2 0-.4-.2-.4-.4V4.6c.6-.4 1-.6 1.6-.7zm0 9.5c.8-.2 1.6-.4 2.5-.4 1.2 0 2.9.5 3.9 1.1V6c-1-.6-2.7-1.1-3.9-1.1-.8 0-1.7.1-2.5.4v8.1z" Fill="#fff"/>
-                    <Path Data="M7.1 7.8c-.6 0-1.2.1-1.8.2V6.9c.6-.1 1.2-.2 1.8-.2 1.2 0 2.3.2 3.2.6v1.2c-.8-.5-1.9-.7-3.2-.7zM10.3 9.2v1.2c-.8-.5-1.9-.7-3.2-.7-.6 0-1.2.1-1.8.2V8.8c.6-.1 1.2-.2 1.8-.2 1.2 0 2.3.2 3.2.6zM7.1 10.5c1.2 0 2.3.2 3.2.6v1.2c-.8-.5-1.9-.7-3.2-.7-.6 0-1.2.1-1.8.2v-1.1c.6-.1 1.2-.2 1.8-.2z" Fill="#fff"/>
-                    <Path Data="M17.3 9.2h-1.7V7.4h-.9v1.8h-1.8v.8h1.8v1.8h.9V10h1.7v-.8z" Fill="#000"/>
-                </Canvas>
-            </Controls:DropDownButton.Icon>
-            <Controls:DropDownButton.ItemsSource>
-                <x:Array Type="{x:Type Control}">
-                    <MenuItem Header="페이지 추가하기" Command="{Binding AddPageCommand}"/>
-                    <MenuItem Header="페이지 여러장 추가하기" Command="{Binding AddManyPageCommand}"/>
-                    <MenuItem Header="페이지 삭제하기" Command="{Binding RemovePageCommand}"/>
-                </x:Array>
-            </Controls:DropDownButton.ItemsSource>
-        </Controls:DropDownButton>
-
+        <Button Command="{Binding AddPageCommand}" ToolTip="페이지 추가하기">
+            <iconPacks:PackIconModern Kind="PageAdd" Width="26"/>
+        </Button>
+        <Button Command="{Binding AddManyPageCommand}" ToolTip="페이지 여러장 추가하기">
+            <iconPacks:PackIconModern Kind="PageLocationAdd" Width="26"/>
+        </Button>
+        <Button Command="{Binding RemovePageCommand}" ToolTip="페이지 삭제하기">
+            <iconPacks:PackIconModern Kind="PageDelete" Width="26"/>
+        </Button>
         
-        <Controls:DropDownButton ToolTip="영역 추가하기">
-            <Controls:DropDownButton.Icon>
-                <iconPacks:PackIconMaterial Kind="Plus" />
-            </Controls:DropDownButton.Icon>
-            <Controls:DropDownButton.ItemsSource>
-                <x:Array Type="{x:Type Control}">
-                    <MenuItem Header="사진 영역 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.ImageUI}"/>
-                    <MenuItem Header="글 영역 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.TextUI}"/>
-                </x:Array>
-            </Controls:DropDownButton.ItemsSource>
-        </Controls:DropDownButton>
+        
+        <Button Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.ImageUI}" ToolTip="사진 영역 추가하기">
+            <iconPacks:PackIconModern Kind="Image" Width="28"/>
+        </Button>
+        <Button Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.TextUI}" ToolTip="글 영역 추가하기">
+            <iconPacks:PackIconMaterialLight Kind="NoteText" Width="28"/>
+        </Button>
 
-        <Controls:DropDownButton ToolTip="책 내보내기">
-            <Controls:DropDownButton.Icon>
-                <iconPacks:PackIconEntypo Kind="Export" Width="22" Height="22"/>
-            </Controls:DropDownButton.Icon>
-            <Controls:DropDownButton.ItemsSource>
-                <x:Array Type="{x:Type Control}">
-                    <MenuItem Header="이미지로 내보내기" Command="{Binding ExportToImageCommand}"/>
-                    <MenuItem Header="PDF로 내보내기" Command="{Binding ExportToPDFCommand}"/>
-                    <MenuItem Header="출력하기" Command="{Binding PrintCommand}"/>
-                </x:Array>
-            </Controls:DropDownButton.ItemsSource>
-        </Controls:DropDownButton>
+        <Button Command="{Binding ExportToImageCommand}" ToolTip="이미지로 내보내기">
+            <iconPacks:PackIconModern Kind="ImageExport" Width="36" Height="30"/>
+        </Button>
+        <Button Command="{Binding ExportToPDFCommand}" ToolTip="PDF로 내보내기">
+            <iconPacks:PackIconMaterial Kind="FilePdf" Width="28"/>
+        </Button>
 
         <Button Command="{Binding ApplicationCommands.DrawCancelCommand}" ToolTip="그리기 취소">
             <Button.Resources>
@@ -130,7 +126,7 @@
                     </Style.Triggers>
                 </Style>
             </Button.Resources>
-            <iconPacks:PackIconModern Kind="AxisXLetter" Width="22" Height="22"/>
+            <iconPacks:PackIconOcticons Kind="X" Width="22" Height="22"/>
         </Button>
 
     </StackPanel>
