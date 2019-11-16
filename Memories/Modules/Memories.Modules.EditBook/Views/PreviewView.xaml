@@ -7,12 +7,22 @@
               SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         <ListView.ItemsPanel>
             <ItemsPanelTemplate>
-                <WrapPanel HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center"/>
             </ItemsPanelTemplate>
         </ListView.ItemsPanel>
         <ListView.ItemTemplate>
             <DataTemplate>
-                <Image Source="{Binding}" Stretch="Uniform" Width="100"/>
+                <Grid Margin="5,10,10,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="35"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition MinWidth="100"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Text="{Binding Number}" FontSize="14pt" VerticalAlignment="Top" TextAlignment="Right"/>
+                    <Border Grid.Column="2" HorizontalAlignment="Center" BorderBrush="Gray" BorderThickness="1">
+                        <Image Source="{Binding Source, IsAsync=True}" Stretch="Uniform"/>
+                    </Border>
+                </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>
     </ListView>
