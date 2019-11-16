@@ -7,6 +7,7 @@ namespace Memories.Core
         CompositeCommand HideShellCommand { get; }
         CompositeCommand ShowShellCommand { get; }
         CompositeCommand DrawControlCommand { get; }
+        CompositeCommand DrawCancelCommand { get; }
 
         CompositeCommand NewBookCommand { get; }
         CompositeCommand SaveCommand { get; }
@@ -27,6 +28,8 @@ namespace Memories.Core
 
         public CompositeCommand DrawControlCommand { get; } = new CompositeCommand();
 
+        public CompositeCommand DrawCancelCommand { get; } = new CompositeCommand();
+
         public CompositeCommand NewBookCommand { get; } = new CompositeCommand();
 
         public CompositeCommand SaveCommand { get; } = new CompositeCommand();
@@ -38,5 +41,6 @@ namespace Memories.Core
         public CompositeCommand CloseEditBookViewCommand { get; } = new CompositeCommand();
 
         public CompositeCommand PageMoveCommand { get; } = new CompositeCommand();
+
     }
 }

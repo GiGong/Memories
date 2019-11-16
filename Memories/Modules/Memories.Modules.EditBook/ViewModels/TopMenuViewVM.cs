@@ -8,6 +8,10 @@ using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -19,7 +23,8 @@ namespace Memories.Modules.EditBook.ViewModels
         private Book _editBook;
 
         private DelegateCommand _addPageCommand;
-        private DelegateCommand _deletePageCommand;
+        private DelegateCommand _addManyPageCommand;
+        private DelegateCommand _removePageCommand;
         private DelegateCommand _exportToImageCommand;
         private DelegateCommand _exportToPDFCommand;
         private DelegateCommand _printCommand;
@@ -57,8 +62,11 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand AddPageCommand =>
             _addPageCommand ?? (_addPageCommand = new DelegateCommand(ExecuteAddPageCommand));
 
-        public DelegateCommand DeletePageCommand =>
-            _deletePageCommand ?? (_deletePageCommand = new DelegateCommand(ExecuteDeletePageCommand));
+        public DelegateCommand AddManyPageCommand =>
+            _addManyPageCommand ?? (_addManyPageCommand = new DelegateCommand(ExecuteAddManyPageCommand));
+
+        public DelegateCommand RemovePageCommand =>
+            _removePageCommand ?? (_removePageCommand = new DelegateCommand(ExecuteRemovePageCommand));
 
         public DelegateCommand ExportToImageCommand =>
             _exportToImageCommand ?? (_exportToImageCommand = new DelegateCommand(ExecuteExportToImageCommand, CanBookCommand).ObservesProperty(() => EditBook));
@@ -95,15 +103,57 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteAddPageCommand()
         {
+            AddPage(false);
+        }
+
+        private void ExecuteAddManyPageCommand()
+        {
+            AddPage(true);
+        }
+
+        private void AddPage(bool isMany)
+        {
             var param = new DialogParameters
             {
                 { "PaperSize", EditBook.PaperSize}
             };
 
-            _dialogService.ShowDialog(nameof(PageLayoutSelectView), param, PageLayoutSelected);
+            int pageCount = EditBook.BookPages.Count;
+            int count = 1;
+            var targetString = InputDialogWindow.Show("어디에 추가하시겠습니까?" + Environment.NewLine +
+                                    "범위 : " + 1 + " ~ " + pageCount, "페이지 추가하기", MessageBoxImage.Question, true);
+
+            if (int.TryParse(targetString, out int target) && (0 < target && target < pageCount + 1))
+            {
+                if (isMany)
+                {
+                    var countString = InputDialogWindow.Show("몇 장 추가하시겠습니까??", "페이지 추가하기", MessageBoxImage.Question, true);
+                    if (!int.TryParse(countString, out count) || count < 1)
+                    {
+                        MessageBox.Show("잘못된 입력입니다!", "Memories", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return;
+                    }
+                }
+
+                _dialogService.ShowDialog(nameof(PageLayoutSelectView), param,
+                (result) =>
+                {
+                    if (result.Result != ButtonResult.OK)
+                    {
+                        return;
+                    }
+
+                    var layout = result.Parameters.GetValue<BookPageLayout>("PageLayout");
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        EditBook.BookPages.Insert(target - 1 /* using for ordered inserting + i*/, layout.Page);
+                    }
+                });
+            }
         }
 
-        private void ExecuteDeletePageCommand()
+        private void ExecuteRemovePageCommand()
         {
             int count = EditBook.BookPages.Count;
             if (count < 1)
@@ -111,46 +161,16 @@ namespace Memories.Modules.EditBook.ViewModels
                 return;
             }
 
-            var result = InputDialogWindow.Show("몇번 페이지를 지우시겠습니까?\n"+
-                                                1 + " ~ " + count, "페이지 지우기", MessageBoxImage.Question, true);
-            if (int.TryParse(result, out int num))
+            var result = InputDialogWindow.Show("몇번 페이지를 지우시겠습니까?" + Environment.NewLine +
+                                                "범위 : " + 1 + " ~ " + count, "페이지 지우기", MessageBoxImage.Question, true);
+            if (int.TryParse(result, out int num) && (0 < num && num < count + 1))
             {
-                int index = num - 1;
-                if (-1 < index && index < count)
+                if (MessageBox.Show("정말 " + num + " 페이지를 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                    == MessageBoxResult.Yes)
                 {
-                    if (MessageBox.Show("정말 " + num + " 페이지를 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
-                        == MessageBoxResult.Yes)
-                    {
-                        EditBook.BookPages.RemoveAt(index);
-                    }
+                    EditBook.BookPages.RemoveAt(num - 1);
                 }
             }
-
-            //TODO: Composite Command로 BookView에 보내서 왼쪽 오른쪽 중 삭제할 수 있게
-            //var result = MessageBox.Show("왼쪽 페이지를 지우시려면 [예]\n오른쪽 페이지를 지우시려면 [아니오]\n지우지 않으려면 [취소]",
-            //    "페이지 삭제", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-
-            //switch (result)
-            //{
-            //    case MessageBoxResult.Yes:
-            //        break;
-            //    case MessageBoxResult.No:
-            //        break;
-            //    default:
-            //        break;
-            //}
-        }
-
-
-        private void PageLayoutSelected(IDialogResult result)
-        {
-            if (result.Result != ButtonResult.OK)
-            {
-                return;
-            }
-
-            var layout = result.Parameters.GetValue<BookPageLayout>("PageLayout");
-            EditBook.BookPages.Add(layout.Page);
         }
 
         private void ExecuteExportToImageCommand()

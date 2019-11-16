@@ -6,6 +6,9 @@
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:bookEnum="clr-namespace:Memories.Business.Enums;assembly=Memories.Business"
              prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding ApplicationCommands.DrawCancelCommand}"/>
+    </UserControl.InputBindings>
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseButton}">
             <Setter Property="Width" Value="40"/>
@@ -33,8 +36,6 @@
                     <MenuItem Header="책 열기" Command="{Binding ApplicationCommands.LoadCommand}"/>
                     <MenuItem Header="저장" Command="{Binding ApplicationCommands.SaveCommand}"/>
                     <MenuItem Header="다른 이름으로 저장" Command="{Binding ApplicationCommands.SaveAsCommand}"/>
-                    <Separator/>
-                    <MenuItem Header="페이지 지우기" Command="{Binding DeletePageCommand}"/>
                     <Separator/>
                     <MenuItem Header="처음 화면으로" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding BackToStartWindowResult}"/>
                     <MenuItem Header="종료" Command="{Binding ApplicationCommands.CloseEditBookViewCommand}" CommandParameter="{Binding CloseResult}"/>
@@ -73,30 +74,40 @@
 
         <Rectangle Width="1" Fill="Black" Height="15"/>
 
-        <Button Command="{Binding AddPageCommand}" ToolTip="페이지 추가하기">
-            <Canvas Width="22" Height="18">
-                <Path Data="M20.2.5h-18c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-14c0-1.1-.9-2-2-2z" Fill="#000"/>
-                <Path Data="M4.9 3.9c.8-.2 1.6-.4 2.5-.4 1.4 0 2.9.3 3.9 1.1 1-.8 2.5-1.1 3.9-1.1s2.9.3 3.9 1.1v10.3c0 .2-.2.4-.4.4h-.2c-1-.5-2.3-.8-3.4-.8-1.4 0-2.9.3-3.9 1.1-1-.6-2.7-1.1-3.9-1.1-1.2 0-2.4.2-3.4.7h-.2c-.2 0-.4-.2-.4-.4V4.6c.6-.4 1-.6 1.6-.7zm0 9.5c.8-.2 1.6-.4 2.5-.4 1.2 0 2.9.5 3.9 1.1V6c-1-.6-2.7-1.1-3.9-1.1-.8 0-1.7.1-2.5.4v8.1z" Fill="#fff"/>
-                <Path Data="M7.1 7.8c-.6 0-1.2.1-1.8.2V6.9c.6-.1 1.2-.2 1.8-.2 1.2 0 2.3.2 3.2.6v1.2c-.8-.5-1.9-.7-3.2-.7zM10.3 9.2v1.2c-.8-.5-1.9-.7-3.2-.7-.6 0-1.2.1-1.8.2V8.8c.6-.1 1.2-.2 1.8-.2 1.2 0 2.3.2 3.2.6zM7.1 10.5c1.2 0 2.3.2 3.2.6v1.2c-.8-.5-1.9-.7-3.2-.7-.6 0-1.2.1-1.8.2v-1.1c.6-.1 1.2-.2 1.8-.2z" Fill="#fff"/>
-                <Path Data="M17.3 9.2h-1.7V7.4h-.9v1.8h-1.8v.8h1.8v1.8h.9V10h1.7v-.8z" Fill="#000"/>
-            </Canvas>
-        </Button>
-
-        <Controls:DropDownButton ToolTip="컨트롤 추가하기">
+        <Controls:DropDownButton ToolTip="페이지 관리하기">
             <Controls:DropDownButton.Icon>
-                <iconPacks:PackIconMaterial Kind="PlusBoxOutline" />
+                <Canvas Width="22" Height="18">
+                    <Path Data="M20.2.5h-18c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2v-14c0-1.1-.9-2-2-2z" Fill="#000"/>
+                    <Path Data="M4.9 3.9c.8-.2 1.6-.4 2.5-.4 1.4 0 2.9.3 3.9 1.1 1-.8 2.5-1.1 3.9-1.1s2.9.3 3.9 1.1v10.3c0 .2-.2.4-.4.4h-.2c-1-.5-2.3-.8-3.4-.8-1.4 0-2.9.3-3.9 1.1-1-.6-2.7-1.1-3.9-1.1-1.2 0-2.4.2-3.4.7h-.2c-.2 0-.4-.2-.4-.4V4.6c.6-.4 1-.6 1.6-.7zm0 9.5c.8-.2 1.6-.4 2.5-.4 1.2 0 2.9.5 3.9 1.1V6c-1-.6-2.7-1.1-3.9-1.1-.8 0-1.7.1-2.5.4v8.1z" Fill="#fff"/>
+                    <Path Data="M7.1 7.8c-.6 0-1.2.1-1.8.2V6.9c.6-.1 1.2-.2 1.8-.2 1.2 0 2.3.2 3.2.6v1.2c-.8-.5-1.9-.7-3.2-.7zM10.3 9.2v1.2c-.8-.5-1.9-.7-3.2-.7-.6 0-1.2.1-1.8.2V8.8c.6-.1 1.2-.2 1.8-.2 1.2 0 2.3.2 3.2.6zM7.1 10.5c1.2 0 2.3.2 3.2.6v1.2c-.8-.5-1.9-.7-3.2-.7-.6 0-1.2.1-1.8.2v-1.1c.6-.1 1.2-.2 1.8-.2z" Fill="#fff"/>
+                    <Path Data="M17.3 9.2h-1.7V7.4h-.9v1.8h-1.8v.8h1.8v1.8h.9V10h1.7v-.8z" Fill="#000"/>
+                </Canvas>
             </Controls:DropDownButton.Icon>
             <Controls:DropDownButton.ItemsSource>
                 <x:Array Type="{x:Type Control}">
-                    <MenuItem Header="사진 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.ImageUI}"/>
-                    <MenuItem Header="글 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.TextUI}"/>
+                    <MenuItem Header="페이지 추가하기" Command="{Binding AddPageCommand}"/>
+                    <MenuItem Header="페이지 여러장 추가하기" Command="{Binding AddManyPageCommand}"/>
+                    <MenuItem Header="페이지 삭제하기" Command="{Binding RemovePageCommand}"/>
+                </x:Array>
+            </Controls:DropDownButton.ItemsSource>
+        </Controls:DropDownButton>
+
+        
+        <Controls:DropDownButton ToolTip="영역 추가하기">
+            <Controls:DropDownButton.Icon>
+                <iconPacks:PackIconMaterial Kind="Plus" />
+            </Controls:DropDownButton.Icon>
+            <Controls:DropDownButton.ItemsSource>
+                <x:Array Type="{x:Type Control}">
+                    <MenuItem Header="사진 영역 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.ImageUI}"/>
+                    <MenuItem Header="글 영역 추가하기" Command="{Binding ApplicationCommands.DrawControlCommand}" CommandParameter="{x:Static bookEnum:BookUIEnum.TextUI}"/>
                 </x:Array>
             </Controls:DropDownButton.ItemsSource>
         </Controls:DropDownButton>
 
         <Controls:DropDownButton ToolTip="책 내보내기">
             <Controls:DropDownButton.Icon>
-                <iconPacks:PackIconMaterial Kind="Export"/>
+                <iconPacks:PackIconEntypo Kind="Export" Width="22" Height="22"/>
             </Controls:DropDownButton.Icon>
             <Controls:DropDownButton.ItemsSource>
                 <x:Array Type="{x:Type Control}">
@@ -106,6 +117,21 @@
                 </x:Array>
             </Controls:DropDownButton.ItemsSource>
         </Controls:DropDownButton>
+
+        <Button Command="{Binding ApplicationCommands.DrawCancelCommand}" ToolTip="그리기 취소">
+            <Button.Resources>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseButton}">
+                    <Setter Property="Width" Value="40"/>
+                    <Setter Property="Height" Value="40"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Resources>
+            <iconPacks:PackIconModern Kind="AxisXLetter" Width="22" Height="22"/>
+        </Button>
 
     </StackPanel>
 </UserControl>

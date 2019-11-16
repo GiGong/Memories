@@ -1,5 +1,4 @@
-﻿using Memories.Business;
-using Memories.Business.Enums;
+﻿using Memories.Business.Enums;
 using Memories.Business.Models;
 using Memories.Core;
 using Memories.Core.Controls;
@@ -7,15 +6,12 @@ using Memories.Core.Converters;
 using Memories.Core.Events;
 using Memories.Core.Extensions;
 using Memories.Core.Names;
-using Memories.Services.Interfaces;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -26,7 +22,7 @@ namespace Memories.Modules.EditBook.ViewModels
     {
         #region Field
 
-        BookUI _newUI;
+        private BookUI _newUI;
 
         private bool _isEditPage;
         private bool _isDraw;
@@ -40,11 +36,12 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand _clearBackgroundCommand;
         private DelegateCommand<MMRichTextBox> _textBoxGotKeyboardFocusCommand;
         private DelegateCommand<MMCenterImage> _imageSelectCommand;
+        private DelegateCommand<BookImageUI> _imageRemoveCommand;
         private DelegateCommand<object> _drawControlCommand;
+        private DelegateCommand _drawCancelCommand;
         private DelegateCommand<Rectangle> _drawEndCommand;
         private DelegateCommand<BookUI> _deleteUICommand;
 
-        private readonly IFileService _fileService;
         private readonly IDialogService _dialogService;
         private readonly IEventAggregator _eventAggregator;
 
@@ -117,8 +114,14 @@ namespace Memories.Modules.EditBook.ViewModels
         public DelegateCommand<MMCenterImage> ImageSelectCommand =>
             _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<MMCenterImage>(ExecuteImageSelectCommand));
 
+        public DelegateCommand<BookImageUI> ImageRemoveCommand =>
+            _imageRemoveCommand ?? (_imageRemoveCommand = new DelegateCommand<BookImageUI>(ExecuteImageRemoveCommand));
+
         public DelegateCommand<object> DrawControlCommand =>
             _drawControlCommand ?? (_drawControlCommand = new DelegateCommand<object>(ExecuteDrawControlCommand));
+
+        public DelegateCommand DrawCancelCommand =>
+            _drawCancelCommand ?? (_drawCancelCommand = new DelegateCommand(ExecuteDrawCancelCommand, CanExecuteDrawCancelCommand).ObservesProperty(() => IsDraw));
 
         public DelegateCommand<Rectangle> DrawEndCommand =>
             _drawEndCommand ?? (_drawEndCommand = new DelegateCommand<Rectangle>(ExecuteDrawEndCommand));
@@ -130,14 +133,14 @@ namespace Memories.Modules.EditBook.ViewModels
 
         #region Constructor
 
-        public BookPageViewVM(IFileService fileService, IDialogService dialogService,
+        public BookPageViewVM(IDialogService dialogService,
             IApplicationCommands applicationCommands, IEventAggregator eventAggregator)
         {
-            _fileService = fileService;
             _dialogService = dialogService;
             _eventAggregator = eventAggregator;
 
             applicationCommands.DrawControlCommand.RegisterCommand(DrawControlCommand);
+            applicationCommands.DrawCancelCommand.RegisterCommand(DrawCancelCommand);
 
             _eventAggregator.GetEvent<DrawControlEndedEvent>().Subscribe(DrawAlreadyEnded);
 
@@ -163,6 +166,8 @@ namespace Memories.Modules.EditBook.ViewModels
                 IsEditPage = true;
                 Background = NowPage.Background;
                 PageControls = NowPage.ToUIElementCollection();
+                IsDraw = false;
+                _newUI = null;
             }
         }
 
@@ -184,6 +189,17 @@ namespace Memories.Modules.EditBook.ViewModels
             }
             _newUI = BookUI.GetBookUI((BookUIEnum)parameter);
             IsDraw = true;
+        }
+
+        private bool CanExecuteDrawCancelCommand()
+        {
+            return IsDraw || NowPage == null;
+        }
+
+        private void ExecuteDrawCancelCommand()
+        {
+            _newUI = null;
+            IsDraw = false;
         }
 
         private void ExecuteDrawEndCommand(Rectangle rect)
@@ -209,13 +225,41 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteClearBackgroundCommand()
         {
-            Background = null;
+            if (MessageBox.Show("정말 배경사진을 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                    == MessageBoxResult.Yes)
+            {
+                Background = null;
+            }
         }
 
         private void ExecuteImageSelectCommand(MMCenterImage image)
         {
             SelectImage(image);
         }
+
+        private void ExecuteImageRemoveCommand(BookImageUI imageUI)
+        {
+            if (imageUI == null)
+            {
+                return;
+            }
+            if (MessageBox.Show("정말 사진을 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                    == MessageBoxResult.Yes)
+            {
+                imageUI.ImageSource = null;
+            }
+        }
+
+        private void ExecuteDeleteUICommand(BookUI parameter)
+        {
+            if (MessageBox.Show("정말 이 영역을 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
+                == MessageBoxResult.Yes)
+            {
+                NowPage.PageControls.Remove(parameter);
+                PageControls = NowPage.ToUIElementCollection();
+            }
+        }
+
 
         private void SelectImage(FrameworkElement element)
         {
@@ -232,7 +276,7 @@ namespace Memories.Modules.EditBook.ViewModels
                 source = Background;
             }
 
-            _dialogService.ShowSelectImageDialog(new DialogParameters { { ParameterNames.SelectedImage, source } }, 
+            _dialogService.ShowSelectImageDialog(new DialogParameters { { ParameterNames.SelectedImage, source } },
                 (result) =>
                 {
                     if (result.Result != ButtonResult.OK)
@@ -251,16 +295,6 @@ namespace Memories.Modules.EditBook.ViewModels
                     }
                 });
 
-        }
-
-        private void ExecuteDeleteUICommand(BookUI parameter)
-        {
-            if (MessageBox.Show("정말 이 영역을 지우시겠습니까?", "Memories", MessageBoxButton.YesNo, MessageBoxImage.Warning)
-                == MessageBoxResult.Yes)
-            {
-                NowPage.PageControls.Remove(parameter);
-                PageControls = NowPage.ToUIElementCollection();
-            }
         }
 
         #endregion Method
