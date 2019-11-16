@@ -6,8 +6,7 @@
              xmlns:mahapps="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:converters="clr-namespace:Memories.Core.Converters;assembly=Memories.Core"
              xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             Width="880" Height="475">
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
         <converters:InverseBooleanToVisibilityConverter x:Key="inverseBoolToVisibilityConverter"/>
@@ -35,7 +34,7 @@
 
             <mahapps:ProgressRing Grid.Row="1" Panel.ZIndex="1" IsActive="{Binding IsLoading}"/>
 
-            <controls:MMScrollListView Grid.Row="1" ItemsSource="{Binding Photos}" SelectedIndex="{Binding SelectedIndex}"
+            <controls:MMListView Grid.Row="1" ItemsSource="{Binding Photos}" SelectedIndex="{Binding SelectedIndex}"
                                        Command="{Binding LoadPhotoCommand}" BorderThickness="0"
                                        SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                        Margin="5,0,5,50">
@@ -50,7 +49,7 @@
                                Width="140" Height="90" Margin="5, 10" Stretch="Uniform"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-            </controls:MMScrollListView>
+            </controls:MMListView>
         </Grid>
     </Grid>
 </UserControl>

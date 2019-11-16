@@ -83,7 +83,7 @@
     <Compile Include="Controls\MMFontFamilySearch.cs" />
     <Compile Include="Controls\MMMessageBox.cs" />
     <Compile Include="Controls\MMRichTextBox.cs" />
-    <Compile Include="Controls\MMScrollListView.cs" />
+    <Compile Include="Controls\MMListView.cs" />
     <Compile Include="Converters\BookUIMatrixToTransformConverter.cs" />
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="Converters\EnumToIsCheckedConverter.cs" />

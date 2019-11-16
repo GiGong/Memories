@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -7,10 +8,13 @@ using System.Windows.Media;
 
 namespace Memories.Core.Controls
 {
-    public class MMScrollListView : ListView
+    public class MMListView : ListView
     {
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(MMScrollListView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(MMListView), new PropertyMetadata(null));
+
+        public static readonly DependencyProperty DoubleClickCommandProperty =
+            DependencyProperty.Register(nameof(DoubleClickCommand), typeof(ICommand), typeof(MMListView), new PropertyMetadata(null));
 
         public ICommand Command
         {
@@ -18,11 +22,35 @@ namespace Memories.Core.Controls
             set { SetValue(CommandProperty, value); }
         }
 
+        public ICommand DoubleClickCommand
+        {
+            get { return (ICommand)GetValue(DoubleClickCommandProperty); }
+            set { SetValue(DoubleClickCommandProperty, value); }
+        }
+
+        public MMListView()
+        {
+            Style itemStyle = new Style(typeof(ListViewItem));
+            EventSetter eventSetter = new EventSetter(MouseDoubleClickEvent, new MouseButtonEventHandler(ItemMouseDoubleClick));
+            itemStyle.Setters.Add(eventSetter);
+            ItemContainerStyle = itemStyle;
+        }
+
+        private void ItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!(sender is ListViewItem item))
+            {
+                return;
+            }
+
+            if (DoubleClickCommand != null && DoubleClickCommand.CanExecute(item))
+            {
+                DoubleClickCommand.Execute(item);
+            }
+        }
 
         protected override void OnPreviewMouseWheel(MouseWheelEventArgs e)
         {
-            base.OnPreviewMouseWheel(e);
-
             foreach (ScrollBar scroll in FindVisualChildren<ScrollBar>(this))
             {
                 if (scroll.Orientation == Orientation.Vertical
@@ -34,6 +62,8 @@ namespace Memories.Core.Controls
                     }
                 }
             }
+
+            base.OnPreviewMouseWheel(e);
         }
 
         private static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj)
