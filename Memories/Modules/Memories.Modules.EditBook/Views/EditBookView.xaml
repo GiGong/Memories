@@ -25,8 +25,8 @@
 
         <Grid Grid.Row="1" Grid.Column="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="240"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
             
             <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.PreviewView}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
@@ -35,7 +35,15 @@
 
         <ContentControl Grid.Row="1" Grid.Column="1" Margin ="25,50" prism:RegionManager.RegionName="{x:Static core:RegionNames.BookRegion}" prism:RegionManager.RegionContext="{Binding EditBook}"/>
 
-        <ContentControl Grid.Row="1" Grid.Column="2" prism:RegionManager.RegionName="{x:Static core:RegionNames.TextFormatRegion}"/>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="528"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static core:RegionNames.TextFormatRegion}"/>
+        </Grid>
 
         
         <Rectangle Grid.Row="0" Grid.ColumnSpan="3" VerticalAlignment="Bottom" Margin="0"

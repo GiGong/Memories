@@ -112,6 +112,11 @@ namespace Memories.Modules.EditBook.ViewModels
         public override bool CanCloseDialog()
         {
             //TODO: Check edited content. save or ignore
+            //if (CheckSaveBook() == MessageBoxResult.Cancel)
+            //{
+            //    return false;
+            //}
+
             return base.CanCloseDialog();
         }
 
@@ -126,15 +131,9 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteNewBookCommand()
         {
-            var messageBoxResult = MessageBox.Show("현재 책을 저장하시겠습니까?", "Memories", MessageBoxButton.YesNoCancel);
-
-            if (messageBoxResult == MessageBoxResult.Cancel)
+            if (CheckSaveBook() == MessageBoxResult.Cancel)
             {
                 return;
-            }
-            else if (messageBoxResult == MessageBoxResult.Yes)
-            {
-                ExecuteSaveCommand();
             }
 
             _dialogService.ShowNewBookDialog(null,
@@ -149,8 +148,13 @@ namespace Memories.Modules.EditBook.ViewModels
                 });
         }
 
-        void ExecuteLoadCommand()
+        private void ExecuteLoadCommand()
         {
+            if (CheckSaveBook() == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+
             string path = _fileService.OpenFilePath();
 
             if (path != null)
@@ -179,6 +183,19 @@ namespace Memories.Modules.EditBook.ViewModels
         private void ExecuteCloseEditBookViewCommand(DialogResult result)
         {
             RaiseRequestClose(result);
+        }
+
+        private MessageBoxResult CheckSaveBook()
+        {
+            //TODO: Check is edited
+            var messageBoxResult = MessageBox.Show("현재 책을 저장하시겠습니까?", "Memories", MessageBoxButton.YesNoCancel);
+
+            if (messageBoxResult == MessageBoxResult.Yes)
+            {
+                ExecuteSaveCommand();
+            }
+
+            return messageBoxResult;
         }
 
         #endregion Method

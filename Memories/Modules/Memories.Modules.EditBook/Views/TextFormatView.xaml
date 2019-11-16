@@ -47,13 +47,6 @@
         </Style>
     </UserControl.Resources>
     <Grid >
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="528"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="67" />
                 <RowDefinition Height="54" />
@@ -64,8 +57,8 @@
             </Grid.RowDefinitions>
 
             <Label Content="텍스트 옵션" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                   FontSize="18"
-                   Foreground="#FF7CB9D2" FontWeight="Bold"/>
+                   FontSize="20"
+                   Foreground="#FF0088B8" FontWeight="Bold"/>
 
 
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Grid.Row="1" Margin="25,-3,0,0" Padding="0"
@@ -168,7 +161,6 @@
                               Command="EditingCommands.AlignJustify" IsChecked="{Binding AlignType, ConverterParameter={x:Static TextAlignment.Justify}, Converter={StaticResource enumToIsCheckedConverter}}">
                     <iconPacks:PackIconMaterial Kind="FormatAlignJustify" />
                 </ToggleButton>
-            </Grid>
 
         </Grid>
     </Grid>

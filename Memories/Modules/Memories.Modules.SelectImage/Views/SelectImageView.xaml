@@ -16,15 +16,18 @@
     <UserControl.Resources>
         <converters:ByteArrayToImageSourceConverter x:Key="byteSourceConverter"/>
         <Style TargetType="{x:Type TabControl}"/>
+        <Style TargetType="{x:Type TabItem}"/>
     </UserControl.Resources>
     <Grid>
         <Label Content="사진 선택하기" FontSize="32" Margin="30,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Height="60" Width="500"
                VerticalContentAlignment="Center"/>
 
         <TabControl Margin="30,60,30,0" Height="475" VerticalAlignment="Top" BorderThickness="1">
-            <TabItem Header="컴퓨터에서 선택하기" prism:RegionManager.RegionName="{x:Static core:RegionNames.SelectFileView}"
+            <TabItem Header="컴퓨터에서 선택하기"
+                     prism:RegionManager.RegionName="{x:Static core:RegionNames.SelectFileView}"
                      prism:RegionManager.RegionContext="{Binding SelectedImage}"/>
-            <TabItem Header="Facebook에서 불러오기" prism:RegionManager.RegionName="{x:Static core:RegionNames.SelectFacebookView}"
+            <TabItem Header="Facebook에서 불러오기"
+                     prism:RegionManager.RegionName="{x:Static core:RegionNames.SelectFacebookView}"
                      prism:RegionManager.RegionContext="{Binding SelectedImage}"/>
         </TabControl>
 

@@ -16,8 +16,8 @@
     
     <Button Command="{Binding SelectFileCommand}">
         <StackPanel>
-            <TextBlock Text="사진을 Drag해서 놓아주세요." TextAlignment="Center"/>
-            <TextBlock Text="또는" TextAlignment="Center" Margin="0,10,0,20"/>
+            <!--<TextBlock Text="사진을 Drag해서 놓아주세요." TextAlignment="Center"/>
+            <TextBlock Text="또는" TextAlignment="Center" Margin="0,10,0,20"/>-->
             <Button Command="{Binding SelectFileCommand}"
                     Content="컴퓨터에서 사진 선택하기" Cursor="Hand" Width="200" Height="40"
                     Background="#FF009688" Foreground="White"/>
