@@ -5,6 +5,17 @@
         public const string Book = "mrbk";
         public const string BookLayoutTemplate = "mrtl";
         public const string BookPageLayoutTemplate = "mrptl";
+
+        public const string JPG = ".jpg";
+        public const string JPEG = ".jpeg";
+        public const string JPE = ".jpe";
+        public const string JFIF = ".jfif";
+        public const string PNG = ".png";
+        public const string BMP = ".bmp";
+        public const string DIB = ".dib";
+        public const string GIF = ".gif";
+
+        public static readonly string[] IMAGE_EXTENSION_NAMES = new string[] { JPG, JPEG, JPE, JFIF, PNG, BMP, DIB, GIF };
     }
 
     public static class ExtentionFilters

@@ -10,6 +10,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
@@ -36,6 +37,7 @@ namespace Memories.Modules.EditBook.ViewModels
         private DelegateCommand _clearBackgroundCommand;
         private DelegateCommand<MMRichTextBox> _textBoxGotKeyboardFocusCommand;
         private DelegateCommand<MMCenterImage> _imageSelectCommand;
+        private DelegateCommand<object[]> _imageDropCommand;
         private DelegateCommand<BookImageUI> _imageRemoveCommand;
         private DelegateCommand<object> _drawControlCommand;
         private DelegateCommand _drawCancelCommand;
@@ -113,6 +115,9 @@ namespace Memories.Modules.EditBook.ViewModels
 
         public DelegateCommand<MMCenterImage> ImageSelectCommand =>
             _imageSelectCommand ?? (_imageSelectCommand = new DelegateCommand<MMCenterImage>(ExecuteImageSelectCommand));
+
+        public DelegateCommand<object[]> ImageDropCommand =>
+            _imageDropCommand ?? (_imageDropCommand = new DelegateCommand<object[]>(ExecuteImageDropCommand, CanExecuteImageDropCommand));
 
         public DelegateCommand<BookImageUI> ImageRemoveCommand =>
             _imageRemoveCommand ?? (_imageRemoveCommand = new DelegateCommand<BookImageUI>(ExecuteImageRemoveCommand));
@@ -235,6 +240,32 @@ namespace Memories.Modules.EditBook.ViewModels
         private void ExecuteImageSelectCommand(MMCenterImage image)
         {
             SelectImage(image);
+        }
+
+        private bool CanExecuteImageDropCommand(object[] parameters)
+        {
+            if (parameters != null 
+                && parameters.Length == 2
+                && parameters[0] is MMCenterImage
+                && parameters[1] is string)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void ExecuteImageDropCommand(object[] parameters)
+        {
+            try
+            {
+                MMCenterImage image = (MMCenterImage)parameters[0];
+                string path = (string)parameters[1];
+                image.ImageSource = new BitmapImage(new Uri(path));
+            }
+            catch (NotSupportedException)
+            {
+                MessageBox.Show("지원되지 않는 파일입니다.", "Memories", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ExecuteImageRemoveCommand(BookImageUI imageUI)
