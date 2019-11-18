@@ -8,15 +8,15 @@
     </ItemsPanelTemplate>
 
     <DataTemplate x:Key="listViewBookLayoutTemplate">
-        <StackPanel Orientation="Vertical">
-            <Image Source="{Binding PreviewSource}" Height="120" Stretch="Uniform"/>
+        <StackPanel Orientation="Vertical" Width="130">
+            <Image Source="{Binding PreviewSource, IsAsync=True}" Height="130" Stretch="Uniform"/>
             <TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextAlignment="Center"/>
         </StackPanel>
     </DataTemplate>
 
     <DataTemplate x:Key="listViewPageLayoutTemplate">
-        <StackPanel Orientation="Vertical">
-            <Image Source="{Binding PreviewSource}" Height="140" Stretch="Uniform"/>
+        <StackPanel Orientation="Vertical" Width="160">
+            <Image Source="{Binding PreviewSource, IsAsync=True}" RenderOptions.BitmapScalingMode="Linear" Height="180" Stretch="Uniform"/>
             <TextBlock Text="{Binding Name}" TextWrapping="Wrap" TextAlignment="Center"/>
         </StackPanel>
     </DataTemplate>

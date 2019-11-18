@@ -5,7 +5,6 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
@@ -196,8 +195,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteFontForegroundCommand()
         {
-            // TODO: Change Color Dialog to Custom Dialog.
-            // Cause Color dialog is System.Winforms
+            // Change Color Dialog to Custom Dialog.
             var dialog = new ColorDialog();
             if (dialog.ShowDialog() == DialogResult.OK)
             {

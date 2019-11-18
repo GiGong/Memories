@@ -155,7 +155,7 @@ namespace Memories.Services
                 AppId = appSetting["App_Id"]
             };
             client.SetJsonSerializers(JsonConvert.SerializeObject, JsonConvert.DeserializeObject);
-            SortedList<DateTime, FacebookPhoto> list = new SortedList<DateTime, FacebookPhoto>(100, new RecentComparer());
+            List<FacebookPhoto> list = new List<FacebookPhoto>(100);
 
             string result = (await client.GetTaskAsync("me", new { fields = "albums.limit(10){photos.limit(10){created_time,picture,images}}" })).ToString();
             _photoUpdatedTime = DateTime.Now;
@@ -184,10 +184,7 @@ namespace Memories.Services
                                 PreviewImage = photo.Value<string>("picture"),
                                 SourceImage = photo.Value<JArray>("images")[0].Value<string>("source")
                             };
-                            if (!list.ContainsKey(fb.Created_Time))
-                            {
-                                list.Add(fb.Created_Time, fb);
-                            }
+                            list.Add(fb);
                         }
 
                         if (!photos.Value<JObject>("paging").ContainsKey("next"))
@@ -207,7 +204,8 @@ namespace Memories.Services
                 albums = JObject.Parse(result);
             }
 
-            _facebookPhotos = list.Values.ToList();
+            list.Sort((x, y) => y.Created_Time.CompareTo(x.Created_Time));
+            _facebookPhotos = list.ToList();
             return _facebookPhotos.Count > 0 ? _facebookPhotos : null;
         }
 

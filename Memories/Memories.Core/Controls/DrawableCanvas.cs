@@ -106,6 +106,7 @@ namespace Memories.Core.Controls
                 Children.Remove(_rect);
             }
             _rect = null;
+            Children.Clear();
             Visibility = Visibility.Collapsed;
         }
 

@@ -14,5 +14,8 @@
         /// <param name="paths">Names of subfolders</param>
         /// <returns></returns>
         string GetAppFolder(params string[] paths);
+
+        string GetBookTemplateFolder(string paperSize);
+        string GetPageTemplateFolder(string paperSize);
     }
 }

@@ -8,10 +8,6 @@
     </Style>
 
 
-    <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource baseControl}">
-        <Setter Property="Margin" Value="5"/>
-    </Style>
-
     <Style TargetType="{x:Type TextBlock}" x:Key="baseTextBlock">
         <Setter Property="FontFamily" Value="{StaticResource baseFontFamily}"/>
     </Style>
@@ -35,12 +31,24 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
+    <Style TargetType="{x:Type TextBox}" x:Key="baseTextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Setter Property="FontFamily" Value="{StaticResource baseFontFamily}"/>
+    </Style>
 
     <Style TargetType="{x:Type controls:MMRichTextBox}" x:Key="baseRichTextBox">
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Block.LineHeight" Value="1"/>
+    </Style>
+
+    <Style TargetType="{x:Type ComboBox}" x:Key="baseComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+        <Setter Property="FontFamily" Value="{StaticResource baseFontFamily}"/>
+    </Style>
+
+    <Style TargetType="{x:Type ListViewItem}" x:Key="baseListViewItem" BasedOn="{StaticResource baseControl}">
+        <Setter Property="Margin" Value="10"/>
     </Style>
 
 
@@ -50,9 +58,9 @@
     <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource baseTextBlock}"/>
     <Style TargetType="{x:Type controls:MMRichTextBox}" BasedOn="{StaticResource baseRichTextBox}"/>
 
-    <!-- If use these styles, TextBoxHelper.Watermark doen't work
-    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseControl}"/>
-    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource baseControl}"/>
-    -->
-    
+
+    <!-- If use this, watermark does't work.
+    <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource baseTextBox}"/>
+    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource baseComboBox}"/>-->
+
 </ResourceDictionary>

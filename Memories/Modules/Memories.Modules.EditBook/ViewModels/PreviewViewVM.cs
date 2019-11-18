@@ -94,7 +94,7 @@ namespace Memories.Modules.EditBook.ViewModels
                 Keyboard.AddPreviewKeyUpHandler(window, new KeyEventHandler(KeyUpEvent));
             }
 
-            _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1.5) };
             _timer.Tick += Timer_Tick;
         }
 

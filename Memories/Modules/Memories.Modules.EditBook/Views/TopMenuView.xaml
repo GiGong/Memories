@@ -110,9 +110,11 @@
         <Button Command="{Binding ExportToImageCommand}" ToolTip="이미지로 내보내기">
             <iconPacks:PackIconModern Kind="ImageExport" Width="36" Height="30"/>
         </Button>
+        
+        <!--
         <Button Command="{Binding ExportToPDFCommand}" ToolTip="PDF로 내보내기">
             <iconPacks:PackIconMaterial Kind="FilePdf" Width="28"/>
-        </Button>
+        </Button>-->
 
         <Button Command="{Binding ApplicationCommands.DrawCancelCommand}" ToolTip="그리기 취소">
             <Button.Resources>

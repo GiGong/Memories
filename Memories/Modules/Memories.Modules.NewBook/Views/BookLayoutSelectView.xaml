@@ -7,6 +7,12 @@
         <ListView ItemsSource="{Binding Layouts}" ItemTemplate="{StaticResource listViewBookLayoutTemplate}" ItemsPanel="{StaticResource listViewLayoutPanelTemplate}"
                   SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Background="WhiteSmoke"
-                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}"/>
+                  SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource baseControl}">
+                    <Setter Property="Margin" Value="7.5"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
     </Grid>
 </UserControl>

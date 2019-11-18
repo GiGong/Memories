@@ -15,5 +15,15 @@ namespace Memories.Services
         {
             return Path.Combine(GetInstallationFolder(), Path.Combine(paths));
         }
+
+        public string GetBookTemplateFolder(string paperSize)
+        {
+            return GetAppFolder("Templates", paperSize, "Book");
+        }
+
+        public string GetPageTemplateFolder(string paperSize)
+        {
+            return GetAppFolder("Templates", paperSize, "Page");
+        }
     }
 }

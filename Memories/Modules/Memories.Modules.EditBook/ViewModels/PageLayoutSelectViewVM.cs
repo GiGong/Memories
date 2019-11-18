@@ -67,7 +67,7 @@ namespace Memories.Modules.EditBook.ViewModels
         {
             base.OnDialogOpened(parameters);
 
-            string path = _folderService.GetAppFolder("Pages", parameters.GetValue<PaperSize>("PaperSize").ToString());
+            string path = _folderService.GetPageTemplateFolder(parameters.GetValue<PaperSize>("PaperSize").ToString());
 
             Layouts = new ObservableCollection<BookPageLayout>(_bookPageLayoutService.LoadPageLayoutsFromDirectory(path));
 

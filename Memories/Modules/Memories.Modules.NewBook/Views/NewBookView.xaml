@@ -5,7 +5,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="500" Width="700">
+             Height="550" Width="750">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="ResizeMode" Value="NoResize"/>
@@ -33,7 +33,7 @@
             <Image Source="{StaticResource Program_Logo}" Width="75" Height="75" Margin="0,20,30,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
         </Grid>
 
-        <Controls:TransitioningContentControl Margin="50,50,50,75" Grid.Row="1" 
+        <Controls:TransitioningContentControl Margin="50,50,40,75" Grid.Row="1" 
                         prism:RegionManager.RegionName="{x:Static core:RegionNames.NewBookRegion}"/>
 
         <Grid Margin="0,0,50,20" Grid.Row="1" HorizontalAlignment="Right" Width="354" Height="30" VerticalAlignment="Bottom">

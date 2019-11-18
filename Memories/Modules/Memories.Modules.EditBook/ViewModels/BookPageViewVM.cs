@@ -239,7 +239,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteImageRemoveCommand(BookImageUI imageUI)
         {
-            if (imageUI == null)
+            if (imageUI == null || imageUI.ImageSource == null)
             {
                 return;
             }

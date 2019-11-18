@@ -4,7 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Height="550" Width="600">
+             Height="600" Width="700">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="ResizeMode" Value="NoResize"/>
@@ -12,8 +12,9 @@
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid>
-        <Label Margin="50,15,50,0" Height="40" VerticalAlignment="Top" Content="레이아웃을 선택해주세요." VerticalContentAlignment="Center"/>
+        <Label Margin="50,15,50,0" Height="40" VerticalAlignment="Top" Content="템플릿을 선택해주세요." VerticalContentAlignment="Center"/>
         <controls:MMListView ItemsSource="{Binding Layouts}" ItemTemplate="{StaticResource listViewPageLayoutTemplate}" ItemsPanel="{StaticResource listViewLayoutPanelTemplate}"
+                             ItemContainerStyle="{StaticResource baseListViewItem}"
                              SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}" 
                              DoubleClickCommand="{Binding CheckCommand}"

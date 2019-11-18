@@ -182,6 +182,11 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteCloseEditBookViewCommand(DialogResult result)
         {
+            if (CheckSaveBook() == MessageBoxResult.Cancel)
+            {
+                return;
+            }
+
             RaiseRequestClose(result);
         }
 

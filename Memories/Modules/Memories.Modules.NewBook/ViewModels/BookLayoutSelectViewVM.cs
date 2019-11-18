@@ -16,6 +16,8 @@ namespace Memories.Modules.NewBook.ViewModels
 
         #region Field
 
+        private PaperSize? _paperSize;
+
         private readonly IFolderService _folderService;
         private readonly IBookLayoutService _bookLayoutService;
         private NewBookNavigationParameter _naviParam;
@@ -62,6 +64,8 @@ namespace Memories.Modules.NewBook.ViewModels
         {
             _folderService = folderService;
             _bookLayoutService = bookLayoutService;
+
+            _paperSize = null;
         }
 
         #endregion Constructor
@@ -80,12 +84,16 @@ namespace Memories.Modules.NewBook.ViewModels
             _naviParam.NowPage = VIEW_INDEX;
             _naviParam.ControlState = "템플릿 선택하기";
 
-            GetLayoutTemplates(paperSize);
+            if (_paperSize == null || _paperSize != paperSize)
+            {
+                _paperSize = paperSize;
+                GetLayoutTemplates(paperSize);
+            }
         }
 
         private void GetLayoutTemplates(PaperSize paperSize)
         {
-            string path = _folderService.GetAppFolder("Layouts", paperSize.ToString());
+            string path = _folderService.GetBookTemplateFolder(paperSize.ToString());
 
             Layouts = new ObservableCollection<BookLayout>(_bookLayoutService.LoadLayoutsFromDirectory(path));
 

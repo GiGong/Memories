@@ -9,9 +9,6 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 
 namespace Memories.Modules.EditBook.ViewModels
@@ -190,7 +187,8 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private void ExecuteExportToPDFCommand()
         {
-
+            // Note: maybe don't use
+            // replaced to Windows PDF print.
         }
 
         private void ExecutePrintCommand()

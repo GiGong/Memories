@@ -39,13 +39,16 @@ namespace Memories.Core.Extensions
             MMCenterImage image = new MMCenterImage();
 
             BookUIToFE(bookImageUI, image);
-            image.SetBinding(MMCenterImage.ImageSourceProperty,
-                new Binding("ImageSource")
-                {
-                    Mode = BindingMode.TwoWay,
-                    Converter = new ByteArrayToImageSourceConverter(),
-                    TargetNullValue = new BitmapImage(new Uri("pack://application:,,,/Resources/Img/MemoriesEmptyImage.jpg"))
-                });
+            if (!isLayout)
+            {
+                image.SetBinding(MMCenterImage.ImageSourceProperty,
+                    new Binding("ImageSource")
+                    {
+                        Mode = BindingMode.TwoWay,
+                        Converter = new ByteArrayToImageSourceConverter(),
+                        TargetNullValue = new BitmapImage(new Uri("pack://application:,,,/Resources/Img/MemoriesEmptyImage.jpg"))
+                    });
+            }
 
             return image;
         }
@@ -85,7 +88,7 @@ namespace Memories.Core.Extensions
             element.SetBinding(Panel.ZIndexProperty, "ZIndex");
 
             element.RenderTransformOrigin = new Point(0.5, 0.5);
-            element.SetBinding(UIElement.RenderTransformProperty, 
+            element.SetBinding(UIElement.RenderTransformProperty,
                 new Binding("Transform")
                 {
                     Mode = BindingMode.TwoWay,
