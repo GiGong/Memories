@@ -39,7 +39,7 @@
     
     
     <StackPanel Orientation="Horizontal" Background="White">
-        <Controls:DropDownButton ArrowVisibility="Collapsed" ToolTip="메뉴">
+        <Controls:DropDownButton Margin="5,0,0,0" ArrowVisibility="Collapsed" ToolTip="메뉴">
             <Controls:DropDownButton.Icon>
                 <Canvas Width="25" Height="24">
                     <Path Data="M10.1969 23.8756L5.4715 11.4404V23.8756H0V0H5.4715L12.4352 18.2798L19.2746 0H24.7461V24H19.2746V11.5648L14.5492 24H10.1969V23.8756Z" Fill="Black"/>

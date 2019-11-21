@@ -244,7 +244,7 @@ namespace Memories.Modules.EditBook.ViewModels
 
         private bool CanExecuteImageDropCommand(object[] parameters)
         {
-            if (parameters != null 
+            if (parameters != null
                 && parameters.Length == 2
                 && parameters[0] is MMCenterImage
                 && parameters[1] is string)
@@ -318,7 +318,7 @@ namespace Memories.Modules.EditBook.ViewModels
                     byte[] selectedImgae = result.Parameters.GetValue<byte[]>(ParameterNames.SelectedImage);
                     if (isImage)
                     {
-                        (element as MMCenterImage).ImageSource = (BitmapSource)new ImageSourceConverter().ConvertFrom(selectedImgae);
+                        (element as MMCenterImage).ImageSource = (selectedImgae == null) ? null : (BitmapSource)new ImageSourceConverter().ConvertFrom(selectedImgae);
                     }
                     else
                     {
