@@ -30,7 +30,7 @@ namespace LayoutGenerator
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        readonly List<Canvas> _canvas = new List<Canvas>();
+        readonly List<Canvas> _canvas;
 
         private string _formatText;
 
@@ -50,7 +50,15 @@ namespace LayoutGenerator
         {
             InitializeComponent();
 
-            _canvas.Add(pageCanvas1);
+            _canvas = new List<Canvas>(gridCanvas.Children.Count);
+            foreach (var item in gridCanvas.Children)
+            {
+                if (item is Canvas canvas)
+                {
+                    _canvas.Add(canvas);
+                }
+            }
+            //_canvas.Add(pageCanvas1);
             //_canvas.Add(pageCanvas2);
             //_canvas.Add(pageCanvas3);
             //_canvas.Add(pageCanvas4);
@@ -77,20 +85,43 @@ namespace LayoutGenerator
                     PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(coverCanvas2))
                 }
             };
+            SavePageLayout(bookLayout.FrontCover, coverCanvas1.Tag?.ToString());
+            SavePageLayout(bookLayout.BackCover, coverCanvas2.Tag?.ToString());
 
-            //foreach (var item in _canvas)
-            //{
-            //    bookLayout.Pages.Add(new BookPage()
-            //    {
-            //        Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
-            //        PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
-            //    });
-            //}
+            foreach (var item in _canvas)
+            {
+                var page = new BookPage()
+                {
+                    Background = item.Background is ImageBrush image ? GetSourceFromImage(image.ImageSource) : null,
+                    PageControls = new ObservableCollection<BookUI>(GetBookUIsFromCanvas(item))
+                };
+                bookLayout.Pages.Add(page);
+                SavePageLayout(page, item.Tag?.ToString());
+            }
 
             string json = JsonConvert.SerializeObject(bookLayout);
-            //string json = JsonConvert.SerializeObject(bookLayout, Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.Objects });
 
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Outputs", textBox.Text + ".mrtl");
+            string path = Path.Combine(@"W:\Data\Outputs\BookLayout", BookSize, textBox.Text + ".mrtl");
+
+            File.WriteAllText(path, json);
+        }
+        private const string BookSize = "A5";
+        private void SavePageLayout(BookPage bookPage, string name)
+        {
+            if (bookPage.Background == null || string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
+
+            BookPageLayout bookPageLayout = new BookPageLayout()
+            {
+                Name = name,
+                PreviewSource = bookPage.Background,
+                Page = bookPage
+            };
+
+            string json = JsonConvert.SerializeObject(bookPageLayout);
+            string path = Path.Combine(@"W:\Data\Outputs\PageLayout", BookSize, name + ".mrptl");
 
             File.WriteAllText(path, json);
         }
@@ -181,17 +212,6 @@ namespace LayoutGenerator
 
         private void Debug_Click(object sender, RoutedEventArgs e)
         {
-            //var rect = new System.Windows.Shapes.Rectangle();
-            //rect.Fill = Brushes.Black;
-
-            //rect.Width = imgDebug.Width;
-            //rect.Height = imgDebug.Height;
-
-            //rect.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
-            //rect.RenderTransform = new MatrixTransform(imgDebug.RenderTransform.Value);
-
-
-            //gridDebug.Children.Add(rect);
 
             _ = imgPreview.RenderTransform.Value;
         }

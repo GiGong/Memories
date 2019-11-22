@@ -1,10 +1,7 @@
 ﻿<Window x:Class="LayoutGenerator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LayoutGenerator"
-        mc:Ignorable="d"
+        xmlns:controls="clr-namespace:Memories.Core.Controls;assembly=Memories.Core"
         Title="MainWindow" Height="887" Width="1074">
     <Grid>
         <Button Content="제작" Width="85" Height="30" Click="Save_Click" Margin="10,35,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
@@ -13,44 +10,485 @@
         <Grid Width="120" Height="161" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top">
             <Image Name="imgPreview" Stretch="UniformToFill" VerticalAlignment="Center" HorizontalAlignment="Center" MouseLeftButtonDown="imgPreview_MouseLeftButtonDown" RenderTransformOrigin="0.5,0.5">
                 <Image.Source>
-                    <BitmapImage UriSource="W:/[Data]/mushroom.jfif"/>
+                    <BitmapImage UriSource="W:/Data/mushroom.jfif"/>
                 </Image.Source>
             </Image>
         </Grid>
         <TextBox Text="포트폴리오" Name="textBox" Margin="5,314,966,502"/>
 
-        <Viewbox Margin="135,35,831,680">
-            <Canvas Name="coverCanvas1" Width="14.8cm" Height="21cm">
-                <Image Height="380" Width="460" Canvas.Left="50" Canvas.Top="90"/>
+        <Viewbox Margin="135,35,828,680" Tag="표지" Panel.ZIndex="9999">
+            <Canvas Name="coverCanvas1" Width="14.8cm" Height="21cm" Tag="폴라로이드 1">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\3.jpg"/>
+                </Canvas.Background>
+
+                <Image Canvas.Left="99" Canvas.Top="248" Width="296" Height="442" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="2.227"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Width="296" Height="60" Canvas.Left="89" Canvas.Top="693" RenderTransformOrigin="0.5,0.5" >
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="2.227"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
             </Canvas>
+
         </Viewbox>
 
-        <Viewbox Margin="240,35,723,680">
+        <Viewbox Margin="135,181,828,533" Tag="뒷면">
             <Canvas Name="coverCanvas2" Width="14.8cm" Height="21cm">
-                <!-- White Back Cover -->
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\background.png"/>
+                </Canvas.Background>
             </Canvas>
         </Viewbox>
 
-        <Border BorderThickness="1" BorderBrush="Black" Margin="319,79,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Viewbox Width="420" Height="595">
-                <Canvas Name="pageCanvas1" Width="14.8cm" Height="21cm">
+        <Grid Name="gridCanvas" Panel.ZIndex="1000" Margin="285,0,171,0">
+            <Canvas Name="pageCanvas1" Width="14.8cm" Height="21cm" Tag="폴라로이드 5" Panel.ZIndex="1">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\1.jpg"/>
+                </Canvas.Background>
 
-                    <Image Canvas.Left="40" Canvas.Top="126" Width="240" Height="166"/>
-                    <Image Canvas.Left="286" Canvas.Top="126" Width="240" Height="166"/>
-                    <Image Canvas.Left="40" Canvas.Top="333" Width="240" Height="166"/>
-                    <Image Canvas.Left="286" Canvas.Top="333" Width="240" Height="166"/>
-                    <Image Canvas.Left="40" Canvas.Top="539" Width="240" Height="166"/>
-                    <Image Canvas.Left="286" Canvas.Top="539" Width="240" Height="166"/>
+                <Image Canvas.Left="39" Canvas.Top="176" Width="128" Height="118" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="1.276"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="37" Canvas.Top="295" Width="128" Height="24" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="1.276"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+                <Image Canvas.Left="217" Canvas.Top="184" Width="128" Height="118" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="4.464"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="211" Canvas.Top="304" Width="128" Height="24" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="4.464"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+                <Image Canvas.Left="393" Canvas.Top="174" Width="128" Height="118" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-7.485"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="404" Canvas.Top="293" Width="126" Height="24" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-7.485"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
 
 
-                </Canvas>
-            </Viewbox>
-        </Border>
+                <Image Canvas.Left="36" Canvas.Top="539" Width="180" Height="164" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="4.773"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="28" Canvas.Top="706" Width="180" Height="30" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="4.773"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+                <Image Canvas.Left="319" Canvas.Top="545" Width="180" Height="164" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-2.264"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="324" Canvas.Top="712" Width="178" Height="30" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-2.264"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+            </Canvas>
+            <Canvas Name="pageCanvas2" Width="14.8cm" Height="21cm" Tag="폴라로이드 2-1" Panel.ZIndex="1">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\2.jpg"/>
+                </Canvas.Background>
+
+                <Image Canvas.Left="47" Canvas.Top="147" Width="288" Height="200" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-4.991"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="60" Canvas.Top="350" Width="285" Height="55" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-4.991"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+                <Image Canvas.Left="230" Canvas.Top="475" Width="288" Height="200" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="7.361"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="213" Canvas.Top="678" Width="286" Height="55" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="7.361"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+            </Canvas>
+            <Canvas Name="pageCanvas4" Width="14.8cm" Height="21cm" Tag="폴라로이드 2-2" Panel.ZIndex="1">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\4.jpg"/>
+                </Canvas.Background>
+
+                <Image Canvas.Left="121" Canvas.Top="169" Width="288" Height="200" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-9.581"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="144" Canvas.Top="369" Width="285" Height="45" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-9.581"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+                <Image Canvas.Left="175" Canvas.Top="450" Width="288" Height="200" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="4.302"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="166" Canvas.Top="653" Width="285" Height="55" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="4.302"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+            </Canvas>
+            <Canvas Name="pageCanvas5" Width="14.8cm" Height="21cm" Tag="폴라로이드 3-1" Panel.ZIndex="1">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\5.jpg"/>
+                </Canvas.Background>
+
+                <Image Canvas.Left="277" Canvas.Top="51" Width="218" Height="216" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-3.698"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="286" Canvas.Top="270" Width="217" Height="40" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-3.698"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+                <Image Canvas.Left="57" Canvas.Top="306" Width="218" Height="216" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-3.811"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="66" Canvas.Top="525" Width="217" Height="43" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-3.811"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+                <Image Canvas.Left="310" Canvas.Top="513" Width="218" Height="216" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-3.671"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="319" Canvas.Top="730" Width="216" Height="45" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-3.671"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+            </Canvas>
+            <Canvas Name="pageCanvas6" Width="14.8cm" Height="21cm" Tag="폴라로이드 3-2" Panel.ZIndex="1">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\6.jpg"/>
+                </Canvas.Background>
+
+                <Image Canvas.Left="28" Canvas.Top="57" Width="286" Height="200" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-4.816"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+
+                <Image Canvas.Left="231" Canvas.Top="259" Width="266" Height="184" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-14.664"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="263" Canvas.Top="443" Width="264" Height="51" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-14.664"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+                <Image Canvas.Left="59" Canvas.Top="538" Width="244" Height="170" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="7.79"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <controls:MMRichTextBox Canvas.Left="44" Canvas.Top="710" Width="242" Height="50" RenderTransformOrigin="0.5,0.5">
+                    <controls:MMRichTextBox.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="7.79"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </controls:MMRichTextBox.RenderTransform>
+                </controls:MMRichTextBox>
+
+            </Canvas>
+            <Canvas Name="pageCanvas7" Width="14.8cm" Height="21cm" Tag="폴라로이드 3-3" Panel.ZIndex="1">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\7.jpg"/>
+                </Canvas.Background>
+
+                <Image Canvas.Left="47" Canvas.Top="44" Width="332" Height="194" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0.856"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+
+                <Image Canvas.Left="198" Canvas.Top="271" Width="330" Height="192" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0.315"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+
+                <Image Canvas.Left="33" Canvas.Top="493" Width="330" Height="192" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0.447"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>
+
+
+            <!--<Canvas Name="pageCanvas8" Width="14.8cm" Height="21cm">
+                <Canvas.Background>
+                    <ImageBrush ImageSource="W:\Data\Background\8.jpg"/>
+                </Canvas.Background>
+
+                <Image Canvas.Left="50" Canvas.Top="109" Width="110" Height="112" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="4.257"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+
+                <Image Canvas.Left="219" Canvas.Top="105" Width="112" Height="116" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-4.224"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+
+                <Image Canvas.Left="403" Canvas.Top="110" Width="100" Height="106" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="7.525"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Canvas.Left="48" Canvas.Top="567" Width="110" Height="112" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-6.939"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+                <Image Canvas.Left="223" Canvas.Top="563" Width="111" Height="116" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="-0.604"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+            </Canvas>-->
+        </Grid>
+
         <Button Content="페이지 제작" Width="85" Height="30" Click="SavePage_Click" Margin="10,460,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="불러오기" Width="85" Height="30" Click="LoadPage_Click" Margin="10,495,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Content="Debug" Width="85" Height="30" Click="Debug_Click" Margin="10,406,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Grid HorizontalAlignment="Left" Height="340" Margin="42,582,0,-66" VerticalAlignment="Top" Width="256"
-              Name="gridDebug"/>
 
     </Grid>
 </Window>

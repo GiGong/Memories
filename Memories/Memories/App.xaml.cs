@@ -15,10 +15,11 @@ using Prism.Modularity;
 using Prism.Mvvm;
 using Prism.Unity;
 using System;
-using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Windows;
 
 namespace Memories
@@ -31,10 +32,13 @@ namespace Memories
         public App()
         {
             //Add Custom assembly resolver
-            AppDomain.CurrentDomain.AssemblyResolve += Resolver;
+
+            //Note: If you want language of exception message is english, use follow
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-us");
 
             //Any CefSharp references have to be in another method with NonInlining
             // attribute so the assembly rolver has time to do it's thing.
+            AppDomain.CurrentDomain.AssemblyResolve += Resolver;
             InitializeCefSharp();
         }
 
@@ -46,9 +50,6 @@ namespace Memories
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-
-            Encrypt();
-
             return Container.Resolve<MainWindow>();
         }
 
@@ -118,19 +119,6 @@ namespace Memories
         }
 
         #endregion Custom Exception Handler
-
-        private void Encrypt()
-        {
-            var config = ConfigurationManager.OpenExeConfiguration
-                                (ConfigurationUserLevel.None);
-
-            if (!config.GetSection("appSettings").SectionInformation.IsProtected)
-            {
-                config.AppSettings.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
-
-                config.Save(ConfigurationSaveMode.Full, true);
-            }
-        }
 
         private void ClearFacebookToken()
         {
